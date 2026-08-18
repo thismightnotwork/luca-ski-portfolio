@@ -28,7 +28,7 @@ a { color: inherit; }
   min-height: 72vh;
   display: grid;
   align-items: end;
-  padding: 3rem 0 4rem;
+  padding: 1.5rem 0 4rem;
   background:
     linear-gradient(180deg, rgba(7,17,26,.18), rgba(7,17,26,.94)),
     radial-gradient(circle at 75% 10%, rgba(87,184,255,.35), transparent 30%),
