@@ -76,6 +76,7 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
 .preloader-gate{display:flex;gap:6px;}
 .preloader-gate span{width:5px;height:16px;border-radius:2px;background:var(--blue);}
 .preloader-gate span:nth-child(2){background:var(--red);}
+.preloader-flag{width:120px;height:80px;object-fit:cover;border:1px solid rgba(15,35,55,.18);border-radius:6px;box-shadow:0 12px 28px rgba(15,35,55,.18),0 0 0 5px rgba(255,255,255,.7);}
 @media (prefers-reduced-motion:reduce){ .preloader{transition:none;} }
 noscript .preloader{display:none;}
 
