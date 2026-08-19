@@ -246,28 +246,32 @@
     const repo = "luca-ski-portfolio";
     const branch = "main";
     const allowedExt = /\.(avif|gif|jpe?g|png|webp)$/i;
+    const excludedNames = /^(favicon|apple-touch-icon|web-app-manifest)/i;
+    const locationLabels = [
+      { pattern: /^hemel/i, label: "Hemel Hempstead" },
+      { pattern: /^mk\b/i, label: "Milton Keynes" },
+      { pattern: /^tignes/i, label: "Tignes" }
+    ];
     let items = [];
+
+    function captionFor(filename) {
+      const stem = filename.replace(/\.[^.]+$/, "");
+      const match = locationLabels.find((l) => l.pattern.test(stem));
+      const place = match ? match.label : stem.replace(/[-_]/g, " ");
+      return "Luca Finnis-Bernard — " + place;
+    }
 
     function renderGrid() {
       if (!items.length) {
-        grid.innerHTML = '<div class="gallery-tile"><div class="gallery-placeholder"><strong>Gallery loading…</strong></div></div>';
+        grid.innerHTML = '<div class="gallery-tile"><div class="gallery-placeholder"><strong>Photos coming soon</strong></div></div>';
         return;
       }
-      grid.innerHTML = items.map((item, i) => {
-        if (item.type === "image") {
-          return (
-            '<button class="gallery-tile" data-index="' + i + '" aria-label="Open photo: ' + item.caption + '">' +
-              '<img src="' + item.src + '" alt="' + item.caption + '" loading="lazy" width="640" height="800">' +
-              '<figcaption>' + item.caption + '</figcaption>' +
-            '</button>'
-          );
-        }
-        return (
-          '<div class="gallery-tile" aria-hidden="true">' +
-            '<div class="gallery-placeholder"><strong>' + item.caption + '</strong><span>' + item.note + '</span></div>' +
-          '</div>'
-        );
-      }).join("");
+      grid.innerHTML = items.map((item, i) => (
+        '<button class="gallery-tile" data-index="' + i + '" aria-label="Open photo: ' + item.caption + '">' +
+          '<img src="' + item.src + '" alt="' + item.caption + '" loading="lazy" width="640" height="800">' +
+          '<figcaption>' + item.caption + '</figcaption>' +
+        '</button>'
+      )).join("");
 
       grid.querySelectorAll("button.gallery-tile").forEach((btn) => {
         btn.addEventListener("click", () => openLightbox(Number(btn.dataset.index)));
@@ -275,28 +279,20 @@
     }
 
     async function loadPhotos() {
-      let real = [];
       try {
         const res = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/photos?ref=" + branch, {
           headers: { Accept: "application/vnd.github+json" }, cache: "no-store"
         });
         if (res.ok) {
           const files = await res.json();
-          real = files
-            .filter((f) => f.type === "file" && allowedExt.test(f.name))
+          items = files
+            .filter((f) => f.type === "file" && allowedExt.test(f.name) && !excludedNames.test(f.name) && f.name.toLowerCase() !== "image.jpeg")
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map((f) => ({
-              type: "image",
-              src: f.download_url,
-              caption: "Luca Finnis-Bernard — " + f.name.replace(/[-_]/g, " ").replace(/\.[^.]+$/, "")
-            }));
+            .map((f) => ({ type: "image", src: f.download_url, caption: captionFor(f.name) }));
         }
       } catch (e) {
-        console.warn("Gallery: could not load photos/ from GitHub, showing placeholders.", e);
+        console.warn("Gallery: could not load photos/ from GitHub.", e);
       }
-      const placeholders = (typeof GALLERY_PLACEHOLDERS !== "undefined" ? GALLERY_PLACEHOLDERS : [])
-        .map((p) => ({ type: "placeholder", caption: p.caption, note: p.note }));
-      items = real.length ? real.concat(placeholders.slice(0, Math.max(0, 6 - real.length))) : placeholders;
       renderGrid();
     }
 
@@ -394,7 +390,7 @@
 
       if (!endpoint) {
         setStatus(
-          "Direct form submission isn't connected yet. Please reach out via Instagram, TikTok or Ski Connect below — this form will send automatically once a form endpoint is configured.",
+          "Direct form submission isn't connected yet. Please reach out via Instagram, TikTok or your GB Ski profile below — this form will send automatically once a form endpoint is configured.",
           "info"
         );
         return;
@@ -428,7 +424,7 @@
       '<a href="' + s.href + '" target="_blank" rel="noopener noreferrer">' + s.label + '<span>' + s.handle + '</span></a>'
     )).join("");
     targets.forEach((t) => (t.innerHTML = html));
-    document.querySelectorAll("[data-ski-connect]").forEach((a) => (a.href = SITE_CONFIG.skiConnect));
+    document.querySelectorAll("[data-gb-ski]").forEach((a) => (a.href = SITE_CONFIG.gbSkiProfile));
   })();
 
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
