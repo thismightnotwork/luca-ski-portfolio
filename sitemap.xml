@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lucafinnisbernard.co.uk/</loc>
-    <priority>1.0</priority>
+    <lastmod>2026-08-19</lastmod>
   </url>
   <url>
     <loc>https://lucafinnisbernard.co.uk/about.html</loc>
-    <priority>0.8</priority>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/about.md</loc>
+    <lastmod>2026-08-19</lastmod>
   </url>
 </urlset>
