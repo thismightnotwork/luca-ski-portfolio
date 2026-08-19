@@ -46,7 +46,7 @@ const EQUIPMENT = [
   { part: "Ski boots", brand: "Atomic" },
   { part: "Goggles", brand: "Atomic" },
   { part: "Helmet", brand: "POC" },
-  { part: "Gloves", brand: "SnowShepard" },
+  { part: "Gloves", brand: "SnowShepherd" },
   { part: "Protection", brand: "Leki" },
   { part: "Poles", brand: "Leki" },
   { part: "Base layer", brand: "Bolger" },
@@ -98,8 +98,8 @@ const JOURNEY = [
   },
   {
     date: "Ongoing",
-    title: "SnowShepard Pro Team athlete",
+    title: "SnowShepherd Pro Team athlete",
     category: "Team",
-    description: "Representing SnowShepard as part of its Pro Team, alongside HSRC club racing and instruction work."
+    description: "Representing SnowShepherd as part of its Pro Team, alongside HSRC club racing and instruction work."
   }
 ];

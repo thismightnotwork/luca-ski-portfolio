@@ -2,7 +2,7 @@
 
 Official personal portfolio for **Luca Finnis-Bernard**: Great Britain U18 alpine ski racer,
 **BASI Ski UK Level 2** instructor, Hemel Ski Race Club (HSRC) racer, instructor at The Snow
-Centre Hemel and Knockhatch Adventure Park, and SnowShepard Pro Team athlete.
+Centre Hemel and Knockhatch Adventure Park, and SnowShepherd Pro Team athlete.
 
 Live at **https://lucafinnisbernard.co.uk**.
 
