@@ -330,4 +330,57 @@ button.gallery-tile{border:1px solid var(--line);text-align:left;padding:0;font:
 .back-to-top{border:1px solid var(--line-strong);border-radius:999px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.02);cursor:pointer;color:var(--white);}
 .back-to-top:hover{border-color:var(--red);}
 
+/* ---------- Snow theme: ambient snowfall + frost surfaces ---------- */
+.snow-layer{
+  position:fixed;inset:0;z-index:6;pointer-events:none;overflow:hidden;
+}
+.snowflake{
+  position:absolute;top:-12px;left:var(--left,50vw);
+  width:var(--size,3px);height:var(--size,3px);
+  background:#ffffff;border-radius:50%;
+  opacity:var(--opacity,.6);
+  filter:blur(.2px);
+  animation:snow-fall var(--duration,14s) linear var(--delay,0s) infinite;
+  will-change:transform,opacity;
+}
+@keyframes snow-fall{
+  0%{ transform:translate(0,-5vh) translateX(0); opacity:0; }
+  8%{ opacity:var(--opacity,.6); }
+  50%{ transform:translate(var(--drift,0px), 55vh) translateX(0); }
+  92%{ opacity:var(--opacity,.6); }
+  100%{ transform:translate(0,110vh) translateX(var(--drift,0px)); opacity:0; }
+}
+@media (prefers-reduced-motion:reduce){
+  .snow-layer{display:none;}
+}
+@media (max-width:700px){
+  .snowflake{opacity:calc(var(--opacity,.6) * .8);}
+}
+
+/* Frostier hero: snow-cap highlight + fine speckle texture */
+.hero{
+  background:
+    radial-gradient(circle at 50% 0%, rgba(246,250,253,.10), transparent 32%),
+    linear-gradient(180deg, rgba(5,9,12,.15), rgba(5,9,12,.97) 88%),
+    radial-gradient(circle at 82% 12%, rgba(87,184,255,.28), transparent 38%),
+    radial-gradient(circle at 10% 85%, rgba(255,61,61,.14), transparent 45%),
+    linear-gradient(150deg, #10222f 0%, #060a0d 65%);
+}
+.hero-topo{
+  background-image:
+    radial-gradient(rgba(255,255,255,.55) .5px, transparent .5px),
+    repeating-linear-gradient(0deg, transparent 0 38px, rgba(191,233,255,.05) 39px 40px),
+    repeating-linear-gradient(90deg, transparent 0 38px, rgba(191,233,255,.05) 39px 40px);
+  background-size:14px 14px, auto, auto;
+}
+
+/* Frosted-glass surfaces (used a little more generously for the snow theme) */
+.results-panel, .about-portrait, .equipment-grid div, .meta-list div, .gallery-tile, .stat-card{
+  backdrop-filter:blur(6px) saturate(120%);
+  -webkit-backdrop-filter:blur(6px) saturate(120%);
+}
+.results-panel, .about-portrait{
+  box-shadow:0 0 0 1px rgba(246,250,253,.04) inset, 0 20px 60px -30px rgba(87,184,255,.25);
+}
+
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
