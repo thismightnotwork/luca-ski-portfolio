@@ -16,7 +16,7 @@ custom domain.
 - `about.html` — a secondary editorial about page
 - `styles.css` — the full design system and styles
 - `data.js` — **all editable content**: race results, season stats, equipment, journey
-  timeline, gallery placeholders, social links, contact form endpoint
+  timeline, social links, contact form endpoint
 - `app.js` — behaviour: preloader, navigation, the slalom scroll animation, reveal
   animations, the gallery/lightbox, form validation
 - `photos/` — image folder, auto-discovered by the gallery
@@ -32,7 +32,8 @@ changes required.
 1. Add an image (`.jpg`, `.jpeg`, `.png`, `.webp`, `.gif` or `.avif`) to the `photos/` folder.
 2. Commit and push to `main`.
 3. The gallery reads the `photos/` directory through GitHub's public Contents API and
-   displays new images automatically, with placeholders filling any remaining slots.
+   displays new images automatically. Favicon/manifest files in `photos/` are ignored
+   automatically and never shown in the gallery.
 
 Use descriptive filenames (e.g. `tignes-slalom-2026.jpg`) — filenames become part of the alt text.
 
@@ -96,4 +97,3 @@ rather than given an invented date.
 
 - Exact dates for BASI Level 1 and Level 2 qualification (shown as "Ongoing" milestones for now).
 - A contact-form endpoint (see above) — currently disabled by design.
-- Additional gallery photography beyond the existing profile image.
