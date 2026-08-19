@@ -320,6 +320,7 @@ button.gallery-tile{border:1px solid var(--line);text-align:left;padding:0;font:
 .footer-links a{color:var(--steel);font-size:.85rem;}
 .footer-links a:hover{color:var(--white);}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:var(--sp-6);padding-top:var(--sp-4);border-top:1px solid var(--line);color:var(--steel);font-size:.82rem;}
+.privacy-note{color:var(--steel);font-size:.78rem;margin-top:1.5rem;margin-bottom:0;}
 .back-to-top{border:1px solid var(--line-strong);border-radius:999px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(15,35,55,.04);cursor:pointer;color:var(--white);}
 .back-to-top:hover{border-color:var(--red);}
 
