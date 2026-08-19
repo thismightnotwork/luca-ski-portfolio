@@ -128,12 +128,14 @@
         const frac = i / (count + 1);
         const pt = path.getPointAtLength(frac * pathLength);
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const colour = i % 2 === 0 ? "#57b8ff" : "#ff3d3d";
         g.setAttribute("class", "gate " + (i % 2 === 0 ? "blue" : "red"));
         g.setAttribute("transform", "translate(" + (pt.x - 1.5) + ", " + (pt.y - 6) + ")");
         const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         rect.setAttribute("width", "3");
         rect.setAttribute("height", "12");
         rect.setAttribute("rx", "1.5");
+        rect.setAttribute("fill", colour);
         g.appendChild(rect);
         gateLayer.appendChild(g);
       }
@@ -158,8 +160,17 @@
     }
 
     if (path) {
-      window.addEventListener("load", () => { buildGates(); updateMarker(); });
+      const revealRail = () => {
+        buildGates();
+        updateMarker();
+        if (rail) rail.classList.add("is-ready");
+      };
+      window.addEventListener("load", revealRail);
       window.addEventListener("resize", () => { buildGates(); updateMarker(); });
+      // Fallback: reveal even if the load event is delayed or already fired.
+      setTimeout(revealRail, 400);
+    } else if (rail) {
+      rail.classList.add("is-ready");
     }
     document.addEventListener("scroll", onScroll, { passive: true });
     updateMarker();
