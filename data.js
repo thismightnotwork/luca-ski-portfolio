@@ -1,8 +1,9 @@
 /**
  * data.js — Editable content for Luca Finnis-Bernard's portfolio.
  * All figures below are drawn from the site's own published race log.
- * Update this file to add races, timeline entries, gallery images or
- * to wire up a contact-form endpoint. No other file needs to change.
+ * Update this file to add races, timeline entries, or to wire up a
+ * contact-form endpoint. Gallery photos are auto-discovered from the
+ * photos/ folder — no entries needed here. No other file needs to change.
  */
 
 const SITE_CONFIG = {
@@ -14,7 +15,7 @@ const SITE_CONFIG = {
     { label: "Facebook", handle: "@luca.fb_ski", href: "https://facebook.com/luca.fb_ski" },
     { label: "Strava", handle: "@luca.fb_ski", href: "https://strava.com/athletes/luca.fb_ski" }
   ],
-  skiConnect: "https://skiconnect.co/member/17bab077-37c3-4a1a-86d1-960d32ef6b17"
+  gbSkiProfile: "https://gbski.com/biography.php?id=42382"
 };
 
 const RACE_RESULTS = [
@@ -101,12 +102,4 @@ const JOURNEY = [
     category: "Team",
     description: "Representing SnowShepard as part of its Pro Team, alongside HSRC club racing and instruction work."
   }
-];
-
-const GALLERY_PLACEHOLDERS = [
-  { caption: "Slalom training, Tignes", note: "Add a photo to photos/ to replace this placeholder" },
-  { caption: "Giant slalom, Milton Keynes", note: "Add a photo to photos/ to replace this placeholder" },
-  { caption: "Dry-slope session, The Snow Centre", note: "Add a photo to photos/ to replace this placeholder" },
-  { caption: "Instructing at Knockhatch Adventure Park", note: "Add a photo to photos/ to replace this placeholder" },
-  { caption: "Race-day equipment", note: "Add a photo to photos/ to replace this placeholder" }
 ];
