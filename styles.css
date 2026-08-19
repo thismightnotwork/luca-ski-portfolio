@@ -145,9 +145,12 @@ noscript .preloader{display:none;}
 .slalom-rail{
   position:fixed;top:0;bottom:0;left:0;width:var(--rail-w);z-index:40;
   pointer-events:none;display:flex;justify-content:center;
+  opacity:0;transition:opacity .5s ease;
 }
+.slalom-rail.is-ready{opacity:1;}
 .slalom-rail svg{height:100%;width:100%;overflow:visible;}
-.slalom-rail .course-path{fill:none;stroke:rgba(191,233,255,.22);stroke-width:2;stroke-dasharray:1 7;}
+.slalom-rail .course-path{fill:none !important;stroke:rgba(191,233,255,.22);stroke-width:2;stroke-dasharray:1 7;}
+.slalom-rail svg path, .slalom-rail svg circle{fill-rule:nonzero;}
 .slalom-rail .gate{transform-origin:center;}
 .slalom-rail .gate.red rect{fill:var(--red);}
 .slalom-rail .gate.blue rect{fill:var(--blue);}
