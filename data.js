@@ -7,7 +7,7 @@
  */
 
 const SITE_CONFIG = {
-  formEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxxx"
+  formEndpoint: "https://formspree.io/f/xjybjbrb",
   socials: [
     { label: "Instagram", handle: "@luca.fb_ski", href: "https://instagram.com/luca.fb_ski" },
     { label: "TikTok", handle: "@luca.fb_ski", href: "https://tiktok.com/@luca.fb_ski" },
