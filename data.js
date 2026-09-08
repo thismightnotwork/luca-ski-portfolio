@@ -19,17 +19,18 @@ const SITE_CONFIG = {
 };
 
 const RACE_RESULTS = [
-  { place: "4th", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Milton Keynes", date: "2026-06-07", display: "7 Jun 2026" },
-  { place: "4th", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2026-06-07", display: "7 Jun 2026" },
-  { place: "2nd", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Hemel Hempstead", date: "2026-06-06", display: "6 Jun 2026" },
-  { place: "4th", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Hemel Hempstead", date: "2026-06-06", display: "6 Jun 2026" },
-  { place: "4th", event: "ERSA Championship", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-09-14", display: "14 Sep 2025" },
-  { place: "3rd", event: "Hemel Championships", discipline: "SL", tier: "Club", venue: "Hemel Hempstead", date: "2025-09-06", display: "6 Sep 2025" },
-  { place: "2nd", event: "ERSA CN", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-07-13", display: "13 Jul 2025" },
-  { place: "3rd", event: "Hemel CN", discipline: "SL", tier: "Club", venue: "Hemel Hempstead", date: "2025-07-12", display: "12 Jul 2025" },
-  { place: "1st", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Milton Keynes", date: "2025-06-08", display: "8 Jun 2025" },
-  { place: "2nd", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-06-08", display: "8 Jun 2025" },
-  { place: "3rd", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Hemel Hempstead", date: "2025-06-07", display: "7 Jun 2025" }
+  { place: "13th (Mens)", event: "Hemel Championships", discipline: "SL+GS", tier: "Club", venue: "Hemel Hempstead", date: "2026-09-05", display: "5 Sep 2026" },
+  { place: "8th (Mens)", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Milton Keynes", date: "2026-06-07", display: "7 Jun 2026" },
+  { place: "4th (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2026-06-07", display: "7 Jun 2026" },
+  { place: "5th (Mens)", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Hemel Hempstead", date: "2026-06-06", display: "6 Jun 2026" },
+  { place: "4th (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Hemel Hempstead", date: "2026-06-06", display: "6 Jun 2026" },
+  { place: "4th (U18)", event: "ERSA Championship", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-09-14", display: "14 Sep 2025" },
+  { place: "3rd (U18)", event: "Hemel Championships", discipline: "SL", tier: "Club", venue: "Hemel Hempstead", date: "2025-09-06", display: "6 Sep 2025" },
+  { place: "2nd (U18)", event: "ERSA CN", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-07-13", display: "13 Jul 2025" },
+  { place: "3rd (U18)", event: "Hemel CN", discipline: "SL", tier: "Club", venue: "Hemel Hempstead", date: "2025-07-12", display: "12 Jul 2025" },
+  { place: "1st (U18)", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Milton Keynes", date: "2025-06-08", display: "8 Jun 2025" },
+  { place: "2nd (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-06-08", display: "8 Jun 2025" },
+  { place: "3rd (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Hemel Hempstead", date: "2025-06-07", display: "7 Jun 2025" }
 ];
 
 const SEASON_STATS = [
@@ -38,7 +39,7 @@ const SEASON_STATS = [
   { value: "1", label: "Training camp" },
   { value: "1", label: "Dry-slope session" },
   { value: "2", label: "Countries" },
-  { value: "13", label: "Competitions" }
+  { value: "15", label: "Competitions" }
 ];
 
 const EQUIPMENT = [
