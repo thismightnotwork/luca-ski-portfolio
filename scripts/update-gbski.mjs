@@ -35,7 +35,7 @@ function isValidRaceRow(cells) {
   const validDate = /\b\d{1,2}-[A-Za-z]{3}-\d{2,4}\b|\b\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/.test(date);
   const validDiscipline = ["SL", "GS", "SG", "DH", "AC"].includes(discipline);
   const validStatus = ["QLF", "DNF", "DNS", "DSQ", "NPS"].includes(status);
-  const validPlace = /\b\d{1,3}\s*\(\d{1,3}\)\b/.test(place);
+  const validPlace = /^\d{1,3}\s*\(\d{1,3}\)$/.test(place);
 
   return validDate && validDiscipline && validStatus && validPlace;
 }
