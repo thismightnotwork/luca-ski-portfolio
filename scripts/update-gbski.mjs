@@ -2,6 +2,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 
 const GBSKI_URL = "https://gbski.com/biography.php?id=42382";
 const OUTPUT = "data/gbski.json";
+const DEBUG_OUTPUT = "gbski-debug.html";
 
 const entityMap = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": "\"", "&#39;": "'", "&nbsp;": " " };
 
@@ -88,6 +89,7 @@ function parseHtmlRaces(text) {
   const races = [];
   const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
   let rowMatch;
+  let rowCount = 0;
 
   while ((rowMatch = rowRegex.exec(text)) !== null) {
     const cells = [];
@@ -98,9 +100,13 @@ function parseHtmlRaces(text) {
       cells.push(stripTags(cellMatch[1]));
     }
 
+    if (rowCount < 20) console.log("Row " + rowCount + ":", JSON.stringify(cells));
+    rowCount++;
+
     if (isValidRaceRow(cells)) races.push(buildRace(cells));
   }
 
+  console.log("Total table rows found:", rowCount);
   return races;
 }
 
@@ -117,6 +123,9 @@ async function main() {
   }
 
   const text = await response.text();
+  await writeFile(DEBUG_OUTPUT, text);
+  console.log("GBSki HTML length:", text.length);
+
   const races = parseHtmlRaces(text);
 
   if (!races.length) {
