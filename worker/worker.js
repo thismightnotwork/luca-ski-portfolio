@@ -1,6 +1,12 @@
 /* Cloudflare Worker: live GBSki race feed for Luca Finnis-Bernard. */
-const DEFAULT_GBSKI_URL = "https://gbski.com/biography.php?id=42382";
+const GBSKI_URL = "https://gbski.com/biography.php?id=42382";
 const CACHE_TTL = 600;
+
+const SOURCES = [
+  GBSKI_URL,
+  "https://r.jina.ai/" + GBSKI_URL,
+  "https://api.allorigins.win/raw?url=" + encodeURIComponent(GBSKI_URL)
+];
 
 const entityMap = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": "\"", "&#39;": "'", "&nbsp;": " " };
 
@@ -15,12 +21,12 @@ function stripTags(value) {
   return decodeEntities(String(value || "").replace(/<[^>]*>/g, " "));
 }
 
-function parseRaceRows(html) {
+function parseRaceRows(text) {
   const races = [];
   const rowRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
   let rowMatch;
 
-  while ((rowMatch = rowRegex.exec(html)) !== null) {
+  while ((rowMatch = rowRegex.exec(text)) !== null) {
     const cells = [];
     const cellRegex = /<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi;
     let cellMatch;
@@ -66,6 +72,39 @@ function jsonResponse(data, status = 200) {
   });
 }
 
+async function fetchFirstAvailable() {
+  const errors = [];
+
+  for (const source of SOURCES) {
+    try {
+      const response = await fetch(source, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; LucaFinnisBernardPortfolio/1.0)",
+          "Accept": "text/html,application/xhtml+xml,text/plain"
+        },
+        cf: { cacheTtl: CACHE_TTL, cacheEverything: true }
+      });
+
+      if (!response.ok) {
+        errors.push(source + " -> HTTP " + response.status);
+        continue;
+      }
+
+      const text = await response.text();
+      if (!text || text.length < 100) {
+        errors.push(source + " -> empty response");
+        continue;
+      }
+
+      return { text, source };
+    } catch (error) {
+      errors.push(source + " -> " + String(error));
+    }
+  }
+
+  throw new Error(errors.join("; "));
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -84,7 +123,6 @@ export default {
       return jsonResponse({ error: "Not found" }, 404);
     }
 
-    const sourceUrl = env.GBSKI_URL || DEFAULT_GBSKI_URL;
     const cache = caches.default;
     const cacheKey = new Request(url.origin + "/api/gbski", request);
 
@@ -94,22 +132,10 @@ export default {
     }
 
     try {
-      const upstream = await fetch(sourceUrl, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (compatible; LucaFinnisBernardPortfolio/1.0)",
-          "Accept": "text/html,application/xhtml+xml"
-        },
-        cf: { cacheTtl: CACHE_TTL, cacheEverything: true }
-      });
-
-      if (!upstream.ok) {
-        return jsonResponse({ error: "GBSki request failed", status: upstream.status }, 502);
-      }
-
-      const html = await upstream.text();
-      const races = parseRaceRows(html);
+      const result = await fetchFirstAvailable();
+      const races = parseRaceRows(result.text);
       const payload = {
-        source: sourceUrl,
+        source: result.source,
         updated: new Date().toISOString(),
         count: races.length,
         races
