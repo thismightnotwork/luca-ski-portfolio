@@ -1,0 +1,251 @@
+{
+  "source": "https://gbski.com/biography.php?id=42382",
+  "updated": "2026-10-16T15:06:35.346Z",
+  "count": 10,
+  "races": [
+    {
+      "date": "",
+      "event": "Name",
+      "venue": "Date",
+      "discipline": "SL",
+      "place": "",
+      "times": [],
+      "points": "",
+      "raw": [
+        "List",
+        "Name",
+        "Date",
+        "SL",
+        "GS",
+        "SG",
+        "DH"
+      ]
+    },
+    {
+      "date": "07-Oct-26",
+      "event": "2026.7",
+      "venue": "07-Oct-26",
+      "discipline": "",
+      "place": "7",
+      "times": [],
+      "points": "130.53",
+      "raw": [
+        "IBARTS",
+        "2026.7",
+        "07-Oct-26",
+        "130.53",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "date": "12-Jul-2026",
+      "event": "Snozone MK",
+      "venue": "ERSA Club National",
+      "discipline": "SL",
+      "place": "12",
+      "times": [
+        "15.05",
+        "22.57"
+      ],
+      "points": "143.58",
+      "raw": [
+        "12-Jul-2026",
+        "Snozone MK",
+        "ERSA Club National",
+        "8317",
+        "SL",
+        "QLF",
+        "13 (4)",
+        "15.05",
+        "121.01",
+        "22.57",
+        "143.58",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "12-Jul-2026",
+      "event": "Snozone MK",
+      "venue": "ERSA Club National",
+      "discipline": "SL",
+      "place": "12",
+      "times": [
+        "17.17",
+        "16.81"
+      ],
+      "points": "149.45",
+      "raw": [
+        "12-Jul-2026",
+        "Snozone MK",
+        "ERSA Club National",
+        "8316",
+        "SL",
+        "QLF",
+        "15 (4)",
+        "17.17",
+        "132.64",
+        "16.81",
+        "149.45",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "11-Jul-2026",
+      "event": "Snow Centre Hemel",
+      "venue": "Hemel Club National",
+      "discipline": "SL",
+      "place": "11",
+      "times": [
+        "13.15",
+        "13.75"
+      ],
+      "points": "132.51",
+      "raw": [
+        "11-Jul-2026",
+        "Snow Centre Hemel",
+        "Hemel Club National",
+        "8314",
+        "SL",
+        "QLF",
+        "21 (6)",
+        "13.15",
+        "118.76",
+        "13.75",
+        "132.51",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "11-Jul-2026",
+      "event": "Snow Centre Hemel",
+      "venue": "Hemel Club National",
+      "discipline": "SL",
+      "place": "11",
+      "times": [
+        "13.05",
+        "21.42"
+      ],
+      "points": "128.55",
+      "raw": [
+        "11-Jul-2026",
+        "Snow Centre Hemel",
+        "Hemel Club National",
+        "8313",
+        "SL",
+        "QLF",
+        "17 (5)",
+        "13.05",
+        "107.13",
+        "21.42",
+        "128.55",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "13-Jul-2025",
+      "event": "Snozone MK",
+      "venue": "ERSA Club National",
+      "discipline": "SL",
+      "place": "13",
+      "times": [
+        "18.51",
+        "24.06"
+      ],
+      "points": "231.76",
+      "raw": [
+        "13-Jul-2025",
+        "Snozone MK",
+        "ERSA Club National",
+        "8386",
+        "SL",
+        "QLF",
+        "36 (2)",
+        "18.51",
+        "207.70",
+        "24.06",
+        "231.76",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "13-Jul-2025",
+      "event": "Snozone MK",
+      "venue": "ERSA Club National",
+      "discipline": "SL",
+      "place": "13",
+      "times": [
+        "17.60",
+        "27.79"
+      ],
+      "points": "264.53",
+      "raw": [
+        "13-Jul-2025",
+        "Snozone MK",
+        "ERSA Club National",
+        "8385",
+        "SL",
+        "QLF",
+        "39 (4)",
+        "17.60",
+        "236.74",
+        "27.79",
+        "264.53",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "12-Jul-2025",
+      "event": "Snow Centre Hemel",
+      "venue": "Hemel Club National",
+      "discipline": "SL",
+      "place": "12",
+      "times": [
+        "14.66",
+        "30.30"
+      ],
+      "points": "218.12",
+      "raw": [
+        "12-Jul-2025",
+        "Snow Centre Hemel",
+        "Hemel Club National",
+        "8302",
+        "SL",
+        "QLF",
+        "38 (4)",
+        "14.66",
+        "187.82",
+        "30.30",
+        "218.12",
+        "IBARTS"
+      ]
+    },
+    {
+      "date": "12-Jul-2025",
+      "event": "Snow Centre Hemel",
+      "venue": "Hemel Club National",
+      "discipline": "SL",
+      "place": "12",
+      "times": [
+        "15.13",
+        "21.97"
+      ],
+      "points": "298.80",
+      "raw": [
+        "12-Jul-2025",
+        "Snow Centre Hemel",
+        "Hemel Club National",
+        "8301",
+        "SL",
+        "QLF",
+        "40 (5)",
+        "15.13",
+        "276.83",
+        "21.97",
+        "298.80",
+        "IBARTS"
+      ]
+    }
+  ]
+}
