@@ -124,8 +124,8 @@
         <span class="meta-pill"><b>HSRC</b> Race club</span>
         <span class="meta-pill"><b>BASI UK Level 2</b> Ski instructor</span>
         <span class="meta-pill"><b>Snow Shepherd</b> Pro Deal — 50% off</span>
-        <span class="meta-pill"><b>1st</b> Best result</span>
-        <span class="meta-pill"><b>7</b> Podiums</span>
+        <span class="meta-pill" data-best-result><b>—</b> Best result</span>
+        <span class="meta-pill" data-podiums><b>—</b> Podiums</span>
       </div>
     </div>
   </section>
@@ -309,5 +309,31 @@
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+<script>
+(function () {
+  function ordinal(n) {
+    const s = ["th", "st", "nd", "rd"];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  }
+  fetch("data/gbski.json?cache=" + Date.now(), { cache: "no-store" })
+    .then((r) => r.ok ? r.json() : Promise.reject(r.status))
+    .then((data) => {
+      const races = Array.isArray(data.races) ? data.races : [];
+      if (!races.length) return;
+      const places = races.map((race) => {
+        const match = String(race.place || "").match(/^(\d+)/);
+        return match ? Number(match[1]) : Infinity;
+      });
+      const best = Math.min.apply(null, places);
+      const podiums = places.filter((p) => p <= 3).length;
+      const bestEl = document.querySelector("[data-best-result] b");
+      const podiumEl = document.querySelector("[data-podiums] b");
+      if (bestEl && isFinite(best)) bestEl.textContent = ordinal(best);
+      if (podiumEl) podiumEl.textContent = podiums;
+    })
+    .catch(() => {});
+})();
+</script>
 </body>
 </html>
