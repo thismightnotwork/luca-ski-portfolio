@@ -1,55 +1,26 @@
 {
   "source": "https://gbski.com/biography.php?id=42382",
-  "updated": "2026-10-16T15:06:35.346Z",
-  "count": 10,
+  "updated": "2026-10-16T15:24:17.625Z",
+  "count": 8,
   "races": [
     {
-      "date": "",
-      "event": "Name",
-      "venue": "Date",
-      "discipline": "SL",
-      "place": "",
-      "times": [],
-      "points": "",
-      "raw": [
-        "List",
-        "Name",
-        "Date",
-        "SL",
-        "GS",
-        "SG",
-        "DH"
-      ]
-    },
-    {
-      "date": "07-Oct-26",
-      "event": "2026.7",
-      "venue": "07-Oct-26",
-      "discipline": "",
-      "place": "7",
-      "times": [],
-      "points": "130.53",
-      "raw": [
-        "IBARTS",
-        "2026.7",
-        "07-Oct-26",
-        "130.53",
-        "",
-        "",
-        ""
-      ]
-    },
-    {
       "date": "12-Jul-2026",
-      "event": "Snozone MK",
-      "venue": "ERSA Club National",
+      "event": "ERSA Club National",
+      "venue": "Snozone MK",
+      "codex": "8317",
       "discipline": "SL",
-      "place": "12",
+      "status": "QLF",
+      "place": "13th (4th)",
+      "category": "4th",
+      "time": "15.05",
       "times": [
-        "15.05",
-        "22.57"
+        "15.05"
       ],
+      "racePoints": "121.01",
+      "penalty": "22.57",
       "points": "143.58",
+      "list": "IBARTS",
+      "details": "Snozone MK · ERSA Club National · SL · 13th overall, 4th in category · Time: 15.05 · Race points: 121.01 · Penalty: 22.57 · Result points: 143.58",
       "raw": [
         "12-Jul-2026",
         "Snozone MK",
@@ -67,15 +38,22 @@
     },
     {
       "date": "12-Jul-2026",
-      "event": "Snozone MK",
-      "venue": "ERSA Club National",
+      "event": "ERSA Club National",
+      "venue": "Snozone MK",
+      "codex": "8316",
       "discipline": "SL",
-      "place": "12",
+      "status": "QLF",
+      "place": "15th (4th)",
+      "category": "4th",
+      "time": "17.17",
       "times": [
-        "17.17",
-        "16.81"
+        "17.17"
       ],
+      "racePoints": "132.64",
+      "penalty": "16.81",
       "points": "149.45",
+      "list": "IBARTS",
+      "details": "Snozone MK · ERSA Club National · SL · 15th overall, 4th in category · Time: 17.17 · Race points: 132.64 · Penalty: 16.81 · Result points: 149.45",
       "raw": [
         "12-Jul-2026",
         "Snozone MK",
@@ -93,15 +71,22 @@
     },
     {
       "date": "11-Jul-2026",
-      "event": "Snow Centre Hemel",
-      "venue": "Hemel Club National",
+      "event": "Hemel Club National",
+      "venue": "Snow Centre Hemel",
+      "codex": "8314",
       "discipline": "SL",
-      "place": "11",
+      "status": "QLF",
+      "place": "21st (6th)",
+      "category": "6th",
+      "time": "13.15",
       "times": [
-        "13.15",
-        "13.75"
+        "13.15"
       ],
+      "racePoints": "118.76",
+      "penalty": "13.75",
       "points": "132.51",
+      "list": "IBARTS",
+      "details": "Snow Centre Hemel · Hemel Club National · SL · 21st overall, 6th in category · Time: 13.15 · Race points: 118.76 · Penalty: 13.75 · Result points: 132.51",
       "raw": [
         "11-Jul-2026",
         "Snow Centre Hemel",
@@ -119,15 +104,22 @@
     },
     {
       "date": "11-Jul-2026",
-      "event": "Snow Centre Hemel",
-      "venue": "Hemel Club National",
+      "event": "Hemel Club National",
+      "venue": "Snow Centre Hemel",
+      "codex": "8313",
       "discipline": "SL",
-      "place": "11",
+      "status": "QLF",
+      "place": "17th (5th)",
+      "category": "5th",
+      "time": "13.05",
       "times": [
-        "13.05",
-        "21.42"
+        "13.05"
       ],
+      "racePoints": "107.13",
+      "penalty": "21.42",
       "points": "128.55",
+      "list": "IBARTS",
+      "details": "Snow Centre Hemel · Hemel Club National · SL · 17th overall, 5th in category · Time: 13.05 · Race points: 107.13 · Penalty: 21.42 · Result points: 128.55",
       "raw": [
         "11-Jul-2026",
         "Snow Centre Hemel",
@@ -145,15 +137,22 @@
     },
     {
       "date": "13-Jul-2025",
-      "event": "Snozone MK",
-      "venue": "ERSA Club National",
+      "event": "ERSA Club National",
+      "venue": "Snozone MK",
+      "codex": "8386",
       "discipline": "SL",
-      "place": "13",
+      "status": "QLF",
+      "place": "36th (2nd)",
+      "category": "2nd",
+      "time": "18.51",
       "times": [
-        "18.51",
-        "24.06"
+        "18.51"
       ],
+      "racePoints": "207.70",
+      "penalty": "24.06",
       "points": "231.76",
+      "list": "IBARTS",
+      "details": "Snozone MK · ERSA Club National · SL · 36th overall, 2nd in category · Time: 18.51 · Race points: 207.70 · Penalty: 24.06 · Result points: 231.76",
       "raw": [
         "13-Jul-2025",
         "Snozone MK",
@@ -171,15 +170,22 @@
     },
     {
       "date": "13-Jul-2025",
-      "event": "Snozone MK",
-      "venue": "ERSA Club National",
+      "event": "ERSA Club National",
+      "venue": "Snozone MK",
+      "codex": "8385",
       "discipline": "SL",
-      "place": "13",
+      "status": "QLF",
+      "place": "39th (4th)",
+      "category": "4th",
+      "time": "17.60",
       "times": [
-        "17.60",
-        "27.79"
+        "17.60"
       ],
+      "racePoints": "236.74",
+      "penalty": "27.79",
       "points": "264.53",
+      "list": "IBARTS",
+      "details": "Snozone MK · ERSA Club National · SL · 39th overall, 4th in category · Time: 17.60 · Race points: 236.74 · Penalty: 27.79 · Result points: 264.53",
       "raw": [
         "13-Jul-2025",
         "Snozone MK",
@@ -197,15 +203,22 @@
     },
     {
       "date": "12-Jul-2025",
-      "event": "Snow Centre Hemel",
-      "venue": "Hemel Club National",
+      "event": "Hemel Club National",
+      "venue": "Snow Centre Hemel",
+      "codex": "8302",
       "discipline": "SL",
-      "place": "12",
+      "status": "QLF",
+      "place": "38th (4th)",
+      "category": "4th",
+      "time": "14.66",
       "times": [
-        "14.66",
-        "30.30"
+        "14.66"
       ],
+      "racePoints": "187.82",
+      "penalty": "30.30",
       "points": "218.12",
+      "list": "IBARTS",
+      "details": "Snow Centre Hemel · Hemel Club National · SL · 38th overall, 4th in category · Time: 14.66 · Race points: 187.82 · Penalty: 30.30 · Result points: 218.12",
       "raw": [
         "12-Jul-2025",
         "Snow Centre Hemel",
@@ -223,15 +236,22 @@
     },
     {
       "date": "12-Jul-2025",
-      "event": "Snow Centre Hemel",
-      "venue": "Hemel Club National",
+      "event": "Hemel Club National",
+      "venue": "Snow Centre Hemel",
+      "codex": "8301",
       "discipline": "SL",
-      "place": "12",
+      "status": "QLF",
+      "place": "40th (5th)",
+      "category": "5th",
+      "time": "15.13",
       "times": [
-        "15.13",
-        "21.97"
+        "15.13"
       ],
+      "racePoints": "276.83",
+      "penalty": "21.97",
       "points": "298.80",
+      "list": "IBARTS",
+      "details": "Snow Centre Hemel · Hemel Club National · SL · 40th overall, 5th in category · Time: 15.13 · Race points: 276.83 · Penalty: 21.97 · Result points: 298.80",
       "raw": [
         "12-Jul-2025",
         "Snow Centre Hemel",
