@@ -1,4 +1,4 @@
-/* Full portfolio behaviour restored, with live GBSki results. */
+/* Full portfolio behaviour with race stats calculated from live GBSki data. */
 (function () {
   "use strict";
 
@@ -162,13 +162,14 @@
     updateMarker();
   })();
 
-  (function renderResults() {
+  (function resultsAndStats() {
     const list = document.getElementById("results-list");
     const summary = document.getElementById("results-toggle");
+    const statGrid = document.getElementById("season-stats");
     if (!list || typeof RACE_RESULTS === "undefined") return;
 
     let currentRaces = RACE_RESULTS.slice();
-    let isLive = false;
+    let usingLiveData = false;
 
     function escapeHtml(value) {
       return String(value == null ? "" : value)
@@ -188,7 +189,6 @@
 
     function normaliseLiveRace(race) {
       const raw = Array.isArray(race.raw) ? race.raw : [];
-      const times = Array.isArray(race.times) ? race.times : [];
       const details = [];
 
       if (race.venue) details.push(race.venue);
@@ -205,7 +205,7 @@
         date: race.date || "",
         display: formatDate(race.date),
         details: details.join(" · "),
-        times: race.time ? [race.time] : times,
+        times: race.time ? [race.time] : [],
         points: race.points || ""
       };
     }
@@ -223,9 +223,33 @@
           '<span class="discipline-tag ' + escapeHtml(race.discipline || "") + '">' + escapeHtml(race.discipline || "Race") + '</span>' +
           '</div>';
       }).join("");
+    }
 
-      const status = document.getElementById("gbski-status");
-      if (status) status.textContent = isLive ? "Live from GBSki" : "Showing saved race record";
+    function updateRaceStats() {
+      if (!statGrid || !usingLiveData) return;
+
+      const overallPlace = (race) => {
+        const match = String(race.place || "").match(/^(\d+)/);
+        return match ? Number(match[1]) : Infinity;
+      };
+
+      const races = currentRaces.length;
+      const wins = currentRaces.filter((race) => overallPlace(race) === 1).length;
+      const podiums = currentRaces.filter((race) => overallPlace(race) <= 3).length;
+      const topTens = currentRaces.filter((race) => overallPlace(race) <= 10).length;
+      const slalom = currentRaces.filter((race) => race.discipline === "SL").length;
+      const giantSlalom = currentRaces.filter((race) => race.discipline === "GS").length;
+
+      statGrid.innerHTML = [
+        { value: races, label: "Races" },
+        { value: wins, label: "Wins" },
+        { value: podiums, label: "Podiums" },
+        { value: topTens, label: "Top-10s" },
+        { value: slalom, label: "Slalom races" },
+        { value: giantSlalom, label: "GS races" }
+      ].map((stat) => (
+        '<div class="stat-card"><strong>' + stat.value + '</strong><span>' + stat.label + '</span></div>'
+      )).join("");
     }
 
     async function loadLiveResults() {
@@ -236,12 +260,13 @@
         if (!data || !Array.isArray(data.races) || !data.races.length) throw new Error("No live races");
 
         currentRaces = data.races.map(normaliseLiveRace);
-        isLive = true;
+        usingLiveData = true;
       } catch (error) {
         console.warn("Live GBSki data unavailable; using saved results.", error);
-        isLive = false;
+        usingLiveData = false;
       }
       render();
+      updateRaceStats();
     }
 
     if (summary) {
@@ -252,25 +277,16 @@
       });
     }
 
-    const panel = document.querySelector("#skiing .results-panel");
-    if (panel && !document.getElementById("gbski-status")) {
-      const status = document.createElement("p");
-      status.id = "gbski-status";
-      status.className = "gbski-status";
-      panel.insertBefore(status, panel.firstChild);
-    }
-
     render();
-    loadLiveResults();
-  })();
-
-  (function renderStatsAndEquipment() {
-    const statGrid = document.getElementById("season-stats");
     if (statGrid && typeof SEASON_STATS !== "undefined") {
       statGrid.innerHTML = SEASON_STATS.map((s) => (
         '<div class="stat-card"><strong>' + s.value + '</strong><span>' + s.label + '</span></div>'
       )).join("");
     }
+    loadLiveResults();
+  })();
+
+  (function renderEquipment() {
     const equipGrid = document.getElementById("equipment-grid");
     if (equipGrid && typeof EQUIPMENT !== "undefined") {
       equipGrid.innerHTML = EQUIPMENT.map((e) => (
