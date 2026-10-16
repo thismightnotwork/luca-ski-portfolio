@@ -11,16 +11,17 @@
     const el = document.querySelector(".preloader");
     const bar = document.querySelector(".preloader-bar");
     if (!el) return;
-    let pct = 0;
+    const pct = 0;
     const finish = () => {
       el.classList.add("is-hidden");
       setTimeout(() => el.remove(), 500);
     };
     if (reduceMotion) { finish(); return; }
+    let progress = pct;
     const tick = () => {
-      pct = Math.min(100, pct + Math.random() * 18 + 6);
-      if (bar) bar.style.width = pct + "%";
-      if (pct >= 100) { finish(); return; }
+      progress = Math.min(100, progress + Math.random() * 18 + 6);
+      if (bar) bar.style.width = progress + "%";
+      if (progress >= 100) { finish(); return; }
       setTimeout(tick, 90);
     };
     tick();
@@ -53,6 +54,8 @@
       menu.classList.remove("is-open");
       overlay.classList.remove("is-open");
       toggle.setAttribute("aria-expanded", "false");
+      const first = menu.querySelector("a");
+      if (first) first.focus();
     }
     if (toggle) {
       toggle.addEventListener("click", () => {
@@ -61,10 +64,7 @@
     }
     if (overlay) overlay.addEventListener("click", closeMenu);
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && menu && menu.classList.contains("is-open")) {
-        closeMenu();
-        toggle.focus();
-      }
+      if (e.key === "Escape") closeMenu();
     });
     links.forEach((a) => a.addEventListener("click", closeMenu));
 
@@ -74,14 +74,12 @@
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              navAnchors.forEach((a) => {
-                a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
-              });
-            }
+            navAnchors.forEach((a) => {
+              a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
+            });
           });
         },
-        { rootMargin: "-45% 0px -45% 0px" }
+        { rootMargin: "-45% 0% -45% 0%" }
       );
       sections.forEach((s) => io.observe(s));
     }
@@ -167,7 +165,6 @@
       };
       window.addEventListener("load", revealRail);
       window.addEventListener("resize", () => { buildGates(); updateMarker(); });
-      // Fallback: reveal even if the load event is delayed or already fired.
       setTimeout(revealRail, 400);
     } else if (rail) {
       rail.classList.add("is-ready");
@@ -181,14 +178,93 @@
     const summary = document.getElementById("results-toggle");
     if (!list || typeof RACE_RESULTS === "undefined") return;
 
-    list.innerHTML = RACE_RESULTS.map((r) => (
-      '<div class="result-row">' +
-        '<span class="result-place">' + r.place + '</span>' +
-        '<div><strong>' + r.event + '</strong><span>' + r.tier + ' · ' + r.venue + '</span></div>' +
-        '<time datetime="' + r.date + '">' + r.display + '</time>' +
-        '<span class="discipline-tag ' + r.discipline + '">' + r.discipline + '</span>' +
-      '</div>'
-    )).join("");
+    const apiUrl = (typeof SITE_CONFIG !== "undefined" && SITE_CONFIG.gbskiApi) || "";
+    let currentRaces = RACE_RESULTS.slice();
+    let isLive = false;
+
+    function escapeHtml(value) {
+      return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const parsed = new Date(value);
+      if (isNaN(parsed)) return value;
+      return parsed.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    }
+
+    function normaliseLiveRace(race) {
+      const raw = Array.isArray(race.raw) ? race.raw : [];
+      const times = Array.isArray(race.times) ? race.times : [];
+      const details = [];
+
+      if (race.venue) details.push(race.venue);
+      if (race.discipline) details.push(race.discipline);
+      if (race.place) details.push(race.place + (race.category ? " (" + race.category + ")" : ""));
+      if (times.length) details.push("Times: " + times.join(" / "));
+      if (race.points) details.push("Points: " + race.points);
+
+      return {
+        place: race.place ? race.place + (race.category ? " (" + race.category + ")" : "") : (raw[0] || "Result"),
+        event: race.event || raw[1] || "GBSki race",
+        venue: race.venue || raw[2] || "",
+        discipline: race.discipline || "",
+        date: race.date || "",
+        display: formatDate(race.date),
+        details: details.join(" · "),
+        times,
+        points: race.points || ""
+      };
+    }
+
+    function render() {
+      list.innerHTML = currentRaces.map((race) => {
+        const detail = race.details || [race.tier, race.venue].filter(Boolean).join(" · ");
+        const timeInfo = race.times && race.times.length ? '<span class="result-times">' + escapeHtml(race.times.join(" / ")) + '</span>' : "";
+        const pointInfo = race.points ? '<span class="result-points">' + escapeHtml(race.points) + ' pts</span>' : "";
+
+        return '<div class="result-row">' +
+          '<span class="result-place">' + escapeHtml(race.place) + '</span>' +
+          '<div><strong>' + escapeHtml(race.event) + '</strong><span>' + escapeHtml(detail) + '</span>' + timeInfo + pointInfo + '</div>' +
+          '<time datetime="' + escapeHtml(race.date) + '">' + escapeHtml(race.display || formatDate(race.date)) + '</time>' +
+          '<span class="discipline-tag ' + escapeHtml(race.discipline || "") + '">' + escapeHtml(race.discipline || "Race") + '</span>' +
+          '</div>';
+      }).join("");
+
+      const status = document.getElementById("gbski-status");
+      if (status) {
+        status.textContent = isLive
+          ? "Live from GBSki · updated " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })
+          : "Showing saved race record";
+      }
+    }
+
+    async function loadLiveResults() {
+      if (!apiUrl) {
+        render();
+        return;
+      }
+
+      try {
+        const response = await fetch(apiUrl, { cache: "no-store" });
+        if (!response.ok) throw new Error("GBSki API returned " + response.status);
+        const data = await response.json();
+        if (!data || !Array.isArray(data.races) || !data.races.length) throw new Error("No GBSki races returned");
+
+        currentRaces = data.races.map(normaliseLiveRace);
+        isLive = true;
+      } catch (error) {
+        console.warn("GBSki live results unavailable; using saved results.", error);
+        isLive = false;
+      }
+
+      render();
+    }
 
     if (summary) {
       summary.addEventListener("click", () => {
@@ -197,6 +273,17 @@
         list.classList.toggle("is-open", !open);
       });
     }
+
+    const heading = document.querySelector("#skiing .results-panel");
+    if (heading && apiUrl && !document.getElementById("gbski-status")) {
+      const status = document.createElement("p");
+      status.id = "gbski-status";
+      status.className = "gbski-status";
+      heading.insertBefore(status, heading.firstChild);
+    }
+
+    render();
+    loadLiveResults();
   })();
 
   (function renderStatsAndEquipment() {
@@ -342,13 +429,6 @@
         if (e.key === "Escape") closeLightbox();
         if (e.key === "ArrowRight") step(1);
         if (e.key === "ArrowLeft") step(-1);
-        if (e.key === "Tab") {
-          const focusables = lb.querySelectorAll("button");
-          const list = Array.from(focusables);
-          const first = list[0], last = list[list.length - 1];
-          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-        }
       });
     }
 
@@ -389,10 +469,7 @@
       if (!allValid) { setStatus("Please fix the highlighted fields.", "error"); return; }
 
       if (!endpoint) {
-        setStatus(
-          "Direct form submission isn't connected yet. Please reach out via Instagram, TikTok or your GB Ski profile below — this form will send automatically once a form endpoint is configured.",
-          "info"
-        );
+        setStatus("Direct form submission isn't connected yet. Please reach out via Instagram, TikTok or your GB Ski profile below.", "info");
         return;
       }
 

@@ -1,13 +1,11 @@
 /**
  * data.js — Editable content for Luca Finnis-Bernard's portfolio.
- * All figures below are drawn from the site's own published race log.
- * Update this file to add races, timeline entries, or to wire up a
- * contact-form endpoint. Gallery photos are auto-discovered from the
- * photos/ folder — no entries needed here. No other file needs to change.
+ * Set gbskiApi to your deployed Cloudflare Worker URL to enable live GBSki results.
  */
 
 const SITE_CONFIG = {
   formEndpoint: "https://formspree.io/f/xjybjbrb",
+  gbskiApi: "",
   socials: [
     { label: "Instagram", handle: "@luca.fb_ski", href: "https://instagram.com/luca.fb_ski" },
     { label: "TikTok", handle: "@luca.fb_ski", href: "https://tiktok.com/@luca.fb_ski" },
@@ -99,8 +97,8 @@ const JOURNEY = [
   },
   {
     date: "Ongoing",
-    title: "SnowShepherd Pro Team athlete",
-    category: "Team",
-    description: "Representing SnowShepherd as part of its Pro Team, alongside HSRC club racing and instruction work."
+    title: "Snow Shepherd Pro Deal",
+    category: "Support",
+    description: "On a Snow Shepherd Pro Deal, receiving 50% off Snow Shepherd products for training, racing and instructing."
   }
 ];
