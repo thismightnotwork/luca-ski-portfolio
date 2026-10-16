@@ -16,30 +16,56 @@ function stripTags(value) {
   return decodeEntities(String(value || "").replace(/<[^>]*>/g, " "));
 }
 
-function looksLikeRaceRow(cells) {
-  const text = cells.join(" | ");
-  const hasDate = /\b(\d{1,2}[\/-][A-Za-z]{3}[\/-]\d{2,4}|\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4})\b/.test(text);
-  const hasDiscipline = /\b(SL|GS|SG|DH|AC)\b/i.test(text);
-  const hasTime = /\b\d{1,2}:\d{2}\.\d{1,3}\b|\b\d{1,2}\.\d{1,3}\b/.test(text);
-  return cells.length >= 3 && (hasDate || hasDiscipline || hasTime);
+function ordinal(number) {
+  const n = Number(number);
+  if (!Number.isFinite(n)) return String(number);
+  const suffix = n % 100 >= 11 && n % 100 <= 13 ? "th" : n % 10 === 1 ? "st" : n % 10 === 2 ? "nd" : n % 10 === 3 ? "rd" : "th";
+  return n + suffix;
+}
+
+function isValidRaceRow(cells) {
+  if (!Array.isArray(cells) || cells.length < 11) return false;
+
+  const date = cells[0] || "";
+  const discipline = (cells[4] || "").toUpperCase();
+  const validDiscipline = ["SL", "GS", "SG", "DH", "AC"].includes(discipline);
+  const validDate = /\b\d{1,2}[\/-][A-Za-z]{3}[\/-]\d{2,4}\b|\b\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/.test(date);
+  const validPlace = /\b\d{1,3}\s*\(\d{1,3}\)\b/.test(cells[6] || "");
+
+  return validDate && validDiscipline && validPlace;
 }
 
 function buildRace(cells) {
-  const text = cells.join(" | ");
-  const dateMatch = text.match(/\b(\d{1,2}[\/-][A-Za-z]{3}[\/-]\d{2,4}|\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4})\b/);
-  const disciplineMatch = text.match(/\b(SL|GS|SG|DH|AC)\b/i);
-  const placeMatch = text.match(/\b(\d{1,3})(?:st|nd|rd|th)\b/i) || text.match(/\b(\d{1,3})\b/);
-  const timeMatches = text.match(/\b\d{1,2}:\d{2}\.\d{1,3}\b|\b\d{1,2}\.\d{1,3}\b/g) || [];
-  const pointsMatch = text.match(/\b\d{1,3}\.\d{1,2}\b/g);
+  const date = cells[0] || "";
+  const venue = cells[1] || "";
+  const event = cells[2] || "";
+  const discipline = (cells[4] || "").toUpperCase();
+  const placeMatch = (cells[6] || "").match(/(\d{1,3})\s*\((\d{1,3})\)/);
+  const overall = placeMatch ? ordinal(placeMatch[1]) : "";
+  const category = placeMatch ? ordinal(placeMatch[2]) : "";
+  const runTime = cells[7] || "";
+  const racePoints = cells[8] || "";
+  const secondValue = cells[9] || "";
+  const totalPoints = cells[10] || "";
+
+  const details = [venue, discipline];
+  if (overall && category) details.push(overall + " overall, " + category + " in category");
+  if (runTime) details.push("Time: " + runTime);
+  if (racePoints) details.push("Race points: " + racePoints);
+  if (totalPoints) details.push("Total points: " + totalPoints);
 
   return {
-    date: dateMatch ? dateMatch[1] : "",
-    event: cells[1] || "",
-    venue: cells[2] || "",
-    discipline: disciplineMatch ? disciplineMatch[1].toUpperCase() : "",
-    place: placeMatch ? placeMatch[1] : "",
-    times: timeMatches,
-    points: pointsMatch ? pointsMatch[pointsMatch.length - 1] : "",
+    date,
+    event,
+    venue,
+    discipline,
+    place: overall && category ? overall + " (" + category + ")" : overall,
+    category,
+    time: runTime,
+    times: [runTime, secondValue].filter(Boolean),
+    racePoints,
+    points: totalPoints,
+    details: details.join(" · "),
     raw: cells
   };
 }
@@ -58,7 +84,7 @@ function parseHtmlRaces(text) {
       cells.push(stripTags(cellMatch[1]));
     }
 
-    if (looksLikeRaceRow(cells)) races.push(buildRace(cells));
+    if (isValidRaceRow(cells)) races.push(buildRace(cells));
   }
 
   return races;
@@ -75,10 +101,7 @@ function parseMarkdownRaces(text) {
       .map((cell) => decodeEntities(cell.replace(/^\s*[-:]+\s*$/, "").trim()))
       .filter((cell) => cell !== "");
 
-    if (!looksLikeRaceRow(cells)) continue;
-
-    const race = buildRace(cells);
-    if (race.date || race.discipline || race.times.length) races.push(race);
+    if (isValidRaceRow(cells)) races.push(buildRace(cells));
   }
 
   return races;
@@ -101,7 +124,7 @@ async function main() {
   const races = htmlRaces.length ? htmlRaces : parseMarkdownRaces(text);
 
   if (!races.length) {
-    throw new Error("No GBSki race rows could be parsed");
+    throw new Error("No valid GBSki race rows could be parsed");
   }
 
   await mkdir("data", { recursive: true });
@@ -112,7 +135,7 @@ async function main() {
     races
   }, null, 2) + "\n");
 
-  console.log("Wrote " + races.length + " races to " + OUTPUT);
+  console.log("Wrote " + races.length + " valid races to " + OUTPUT);
 }
 
 main().catch((error) => {
