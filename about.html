@@ -57,7 +57,7 @@
         <li>Team: SnowShepherd Pro Team.</li>
         <li>Qualification: BASI Ski UK Level 2.</li>
       </ul>
-      <p>The recorded race record contains 11 races, with 1 win, 7 podiums, 11 top-ten finishes, 8 slalom starts and 3 giant slalom starts.</p>
+      <p id="race-record-summary">The recorded race record contains 11 races, with 1 win, 7 podiums, 11 top-ten finishes, 8 slalom starts and 3 giant slalom starts.</p>
     </section>
     <section>
       <h2>Official profiles</h2>
@@ -76,5 +76,34 @@
     </section>
   </article>
 </main>
+<script>
+(function () {
+  fetch("data/gbski.json?cache=" + Date.now(), { cache: "no-store" })
+    .then((r) => r.ok ? r.json() : Promise.reject(r.status))
+    .then((data) => {
+      const races = Array.isArray(data.races) ? data.races : [];
+      if (!races.length) return;
+      const places = races.map((race) => {
+        const match = String(race.place || "").match(/^(\d+)/);
+        return match ? Number(match[1]) : Infinity;
+      });
+      const stats = {
+        races: races.length,
+        wins: places.filter((p) => p === 1).length,
+        podiums: places.filter((p) => p <= 3).length,
+        topTens: places.filter((p) => p <= 10).length,
+        slalom: races.filter((race) => race.discipline === "SL").length,
+        gs: races.filter((race) => race.discipline === "GS").length
+      };
+      const el = document.getElementById("race-record-summary");
+      if (el) {
+        el.textContent = "The recorded race record contains " + stats.races + " races, with " + stats.wins +
+          " win" + (stats.wins === 1 ? "" : "s") + ", " + stats.podiums + " podiums, " + stats.topTens +
+          " top-ten finishes, " + stats.slalom + " slalom starts and " + stats.gs + " giant slalom starts.";
+      }
+    })
+    .catch(() => {});
+})();
+</script>
 </body>
 </html>
