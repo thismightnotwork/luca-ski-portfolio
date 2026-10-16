@@ -1,4 +1,4 @@
-/* Full portfolio behaviour with race stats calculated from live GBSki data. */
+/* Full portfolio behaviour; results, summary and race stats calculated from live GBSki data. */
 (function () {
   "use strict";
 
@@ -166,6 +166,7 @@
     const list = document.getElementById("results-list");
     const summary = document.getElementById("results-toggle");
     const statGrid = document.getElementById("season-stats");
+    const intro = document.querySelector("#skiing .section-inner > p.lede");
     if (!list || typeof RACE_RESULTS === "undefined") return;
 
     let currentRaces = RACE_RESULTS.slice();
@@ -225,31 +226,47 @@
       }).join("");
     }
 
-    function updateRaceStats() {
-      if (!statGrid || !usingLiveData) return;
-
+    function calculateStats() {
       const overallPlace = (race) => {
         const match = String(race.place || "").match(/^(\d+)/);
         return match ? Number(match[1]) : Infinity;
       };
 
-      const races = currentRaces.length;
-      const wins = currentRaces.filter((race) => overallPlace(race) === 1).length;
-      const podiums = currentRaces.filter((race) => overallPlace(race) <= 3).length;
-      const topTens = currentRaces.filter((race) => overallPlace(race) <= 10).length;
-      const slalom = currentRaces.filter((race) => race.discipline === "SL").length;
-      const giantSlalom = currentRaces.filter((race) => race.discipline === "GS").length;
+      return {
+        races: currentRaces.length,
+        wins: currentRaces.filter((race) => overallPlace(race) === 1).length,
+        podiums: currentRaces.filter((race) => overallPlace(race) <= 3).length,
+        topTens: currentRaces.filter((race) => overallPlace(race) <= 10).length,
+        slalom: currentRaces.filter((race) => race.discipline === "SL").length,
+        giantSlalom: currentRaces.filter((race) => race.discipline === "GS").length
+      };
+    }
+
+    function updateRaceStats() {
+      if (!statGrid || !usingLiveData) return;
+      const stats = calculateStats();
 
       statGrid.innerHTML = [
-        { value: races, label: "Races" },
-        { value: wins, label: "Wins" },
-        { value: podiums, label: "Podiums" },
-        { value: topTens, label: "Top-10s" },
-        { value: slalom, label: "Slalom races" },
-        { value: giantSlalom, label: "GS races" }
+        { value: stats.races, label: "Races" },
+        { value: stats.wins, label: "Win" + (stats.wins === 1 ? "" : "s") },
+        { value: stats.podiums, label: "Podiums" },
+        { value: stats.topTens, label: "Top-10s" },
+        { value: stats.slalom, label: "Slalom races" },
+        { value: stats.giantSlalom, label: "GS races" }
       ].map((stat) => (
         '<div class="stat-card"><strong>' + stat.value + '</strong><span>' + stat.label + '</span></div>'
       )).join("");
+
+      if (intro) {
+        intro.textContent = "I’ve recorded " + stats.races + " races across slalom and giant slalom, with " +
+          stats.wins + " win" + (stats.wins === 1 ? "" : "s") + ", " + stats.podiums + " podiums and " +
+          stats.topTens + " top-ten finishes — " + stats.slalom + " slalom starts and " +
+          stats.giantSlalom + " giant slalom starts.";
+      }
+
+      if (summary) {
+        summary.innerHTML = "View all " + stats.races + " race results <span class=\"plus\">+</span>";
+      }
     }
 
     async function loadLiveResults() {
