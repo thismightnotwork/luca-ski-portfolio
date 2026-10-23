@@ -165,8 +165,9 @@
   (function resultsAndStats() {
     const list = document.getElementById("results-list");
     const summary = document.getElementById("results-toggle");
-    const statGrid = document.getElementById("season-stats");
-    const intro = document.querySelector("#skiing .section-inner > p.lede");
+    const careerGrid = document.querySelector("[data-career-stats]");
+    const seasonGrid = document.getElementById("season-stats");
+    const intro = document.querySelector("#skiing .section-head > p.lede");
     if (!list) return;
 
     let currentRaces = [];
@@ -213,22 +214,28 @@
 
     function render() {
       if (!currentRaces.length) {
-        list.innerHTML = '<div class="result-row"><span class="result-place">—</span><div><strong>Loading GBSki results</strong><span>Fetching the latest race data</span></div><time></time><span class="discipline-tag">GBSki</span></div>';
+        list.innerHTML = '<div class="results-state" role="status"><strong>Loading GBSki results</strong><span>Fetching the latest race data</span></div>';
         return;
       }
 
-      list.innerHTML = currentRaces.map((race) => {
+      const rows = currentRaces.map((race) => {
         const detail = race.details || [race.tier, race.venue].filter(Boolean).join(" · ");
         const timeInfo = race.times && race.times.length ? '<span class="result-times">' + escapeHtml(race.times.join(" / ")) + '</span>' : "";
         const pointInfo = race.points ? '<span class="result-points">' + escapeHtml(race.points) + ' pts</span>' : "";
+        const disc = String(race.discipline || "");
+        const discClass = disc.includes("SL") && disc.includes("GS") ? "mixed" : (disc.includes("SL") ? "SL" : disc.includes("GS") ? "GS" : "");
 
-        return '<div class="result-row">' +
-          '<span class="result-place">' + escapeHtml(race.place) + '</span>' +
-          '<div><strong>' + escapeHtml(race.event) + '</strong><span>' + escapeHtml(detail) + '</span>' + timeInfo + pointInfo + '</div>' +
-          '<time datetime="' + escapeHtml(race.date) + '">' + escapeHtml(race.display || formatDate(race.date)) + '</time>' +
-          '<span class="discipline-tag ' + escapeHtml(race.discipline || "") + '">' + escapeHtml(race.discipline || "Race") + '</span>' +
-          '</div>';
+        return '<tr>' +
+          '<td class="result-place" data-label="Place">' + escapeHtml(race.place) + '</td>' +
+          '<td class="result-event" data-label="Event"><strong>' + escapeHtml(race.event) + '</strong><span>' + escapeHtml(detail) + '</span>' + timeInfo + pointInfo + '</td>' +
+          '<td data-label="Date"><time datetime="' + escapeHtml(race.date) + '">' + escapeHtml(race.display || formatDate(race.date)) + '</time></td>' +
+          '<td data-label="Discipline"><span class="discipline-tag ' + discClass + '">' + escapeHtml(race.discipline || "Race") + '</span></td>' +
+          '</tr>';
       }).join("");
+
+      list.innerHTML = '<table class="results-table">' +
+        '<thead><tr><th scope="col">Place</th><th scope="col">Event</th><th scope="col">Date</th><th scope="col">Discipline</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody></table>';
     }
 
     function categoryPlace(race) {
@@ -253,18 +260,18 @@
     }
 
     function updateRaceStats() {
-      if (!statGrid || !currentRaces.length) return;
+      if (!careerGrid || !currentRaces.length) return;
       const stats = calculateStats();
 
-      statGrid.innerHTML = [
+      careerGrid.innerHTML = [
         { value: stats.races, label: "Races" },
         { value: stats.wins, label: "Win" + (stats.wins === 1 ? "" : "s") },
         { value: stats.podiums, label: "Podiums" },
         { value: stats.topTens, label: "Top-10s" },
-        { value: stats.slalom, label: "Slalom races" },
-        { value: stats.giantSlalom, label: "GS races" }
+        { value: stats.slalom, label: "Slalom races", mod: " is-sl" },
+        { value: stats.giantSlalom, label: "GS races", mod: " is-gs" }
       ].map((stat) => (
-        '<div class="stat-card"><strong>' + stat.value + '</strong><span>' + stat.label + '</span></div>'
+        '<div class="stat-card' + (stat.mod || "") + '"><strong>' + stat.value + '</strong><span>' + stat.label + '</span></div>'
       )).join("");
 
       if (intro) {
@@ -296,7 +303,7 @@
         usingLiveData = true;
       } catch (error) {
         console.warn("GBSki race data unavailable.", error);
-        list.innerHTML = '<div class="result-row"><span class="result-place">—</span><div><strong>GBSki results unavailable</strong><span>Please check back shortly</span></div><time></time><span class="discipline-tag">GBSki</span></div>';
+        list.innerHTML = '<div class="results-state is-error" role="alert"><strong>GBSki results unavailable</strong><span>Please check back shortly</span></div>';
       }
       render();
       updateRaceStats();
@@ -311,8 +318,8 @@
     }
 
     render();
-    if (statGrid && typeof SEASON_STATS !== "undefined") {
-      statGrid.innerHTML = SEASON_STATS.map((s) => (
+    if (seasonGrid && typeof SEASON_STATS !== "undefined") {
+      seasonGrid.innerHTML = SEASON_STATS.map((s) => (
         '<div class="stat-card"><strong>' + s.value + '</strong><span>' + s.label + '</span></div>'
       )).join("");
     }
@@ -332,7 +339,7 @@
     const el = document.getElementById("journey-timeline");
     if (!el || typeof JOURNEY === "undefined") return;
     el.innerHTML = JOURNEY.map((j) => (
-      '<li class="timeline-item" data-reveal>' +
+      '<li class="timeline-item" data-cat="' + String(j.category || "").toLowerCase() + '" data-reveal>' +
         '<p class="timeline-date">' + j.date + '</p>' +
         '<span class="timeline-tag">' + j.category + '</span>' +
         '<h3>' + j.title + '</h3>' +
@@ -375,9 +382,30 @@
       return "Luca Finnis-Bernard — " + place;
     }
 
+    function renderLoading() {
+      const skeleton = '<div class="gallery-tile" aria-hidden="true"><div class="gallery-skeleton"></div></div>';
+      grid.innerHTML = '<p class="gallery-status" role="status">Loading photos…</p>' + skeleton.repeat(6);
+    }
+
+    function renderEmpty() {
+      grid.innerHTML = '<div class="gallery-message"><strong>Photos coming soon</strong>' +
+        '<span>New shots from training and race days will appear here.</span></div>';
+    }
+
+    function renderError() {
+      grid.innerHTML = '<div class="gallery-error" role="alert">' +
+        '<strong>Photos couldn’t be loaded.</strong>' +
+        '<p>The photo service didn’t respond. Try again, or see the latest photos on ' +
+        '<a href="https://instagram.com/luca.fb_ski" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>' +
+        '<button class="btn btn-secondary" type="button" data-gallery-retry>Try again</button>' +
+        '</div>';
+      const retry = grid.querySelector("[data-gallery-retry]");
+      if (retry) retry.addEventListener("click", loadPhotos);
+    }
+
     function renderGrid() {
       if (!items.length) {
-        grid.innerHTML = '<div class="gallery-tile"><div class="gallery-placeholder"><strong>Photos coming soon</strong></div></div>';
+        renderEmpty();
         return;
       }
       grid.innerHTML = items.map((item, i) => (
@@ -392,20 +420,47 @@
       });
     }
 
+    // Primary source: the checked-in manifest, generated by scripts/build-photo-manifest.mjs.
+    async function loadFromManifest() {
+      const res = await fetch("photos/manifest.json?cache=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error("Manifest returned " + res.status);
+      const data = await res.json();
+      if (!data || !Array.isArray(data.photos)) throw new Error("Manifest has no photos array");
+      return data.photos.map((p) => ({
+        type: "image",
+        src: p.src || "photos/" + p.file,
+        caption: p.caption || captionFor(p.file)
+      }));
+    }
+
+    // Fallback: the GitHub Contents API, for local edits made before the manifest is regenerated.
+    async function loadFromGitHub() {
+      const res = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/photos?ref=" + branch, {
+        headers: { Accept: "application/vnd.github+json" }, cache: "no-store"
+      });
+      if (!res.ok) throw new Error("GitHub returned " + res.status);
+      const files = await res.json();
+      if (!Array.isArray(files)) throw new Error("Unexpected GitHub response");
+      return files
+        .filter((f) => f.type === "file" && allowedExt.test(f.name) && !excludedNames.test(f.name) && f.name.toLowerCase() !== "image.jpeg")
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((f) => ({ type: "image", src: f.download_url, caption: captionFor(f.name) }));
+    }
+
     async function loadPhotos() {
+      renderLoading();
       try {
-        const res = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/photos?ref=" + branch, {
-          headers: { Accept: "application/vnd.github+json" }, cache: "no-store"
-        });
-        if (res.ok) {
-          const files = await res.json();
-          items = files
-            .filter((f) => f.type === "file" && allowedExt.test(f.name) && !excludedNames.test(f.name) && f.name.toLowerCase() !== "image.jpeg")
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((f) => ({ type: "image", src: f.download_url, caption: captionFor(f.name) }));
+        try {
+          items = await loadFromManifest();
+        } catch (manifestError) {
+          console.warn("Gallery: manifest unavailable, falling back to GitHub.", manifestError);
+          items = await loadFromGitHub();
         }
-      } catch (e) {
-        console.warn("Gallery: could not load photos/ from GitHub.", e);
+      } catch (error) {
+        console.warn("Gallery: could not load photos.", error);
+        items = [];
+        renderError();
+        return;
       }
       renderGrid();
     }
