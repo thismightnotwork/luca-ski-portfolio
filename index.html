@@ -60,7 +60,12 @@
   <div class="preloader-track"><div class="preloader-bar"></div></div>
 </div>
 
-<noscript><style>.preloader{display:none}[data-reveal]{opacity:1;transform:none}</style></noscript>
+<noscript><style>
+.preloader{display:none}[data-reveal]{opacity:1;transform:none}
+.results-summary{display:none}.results-list{max-height:none;overflow:visible}
+.stat-grid>noscript,.equipment-grid>noscript,.gallery-grid>noscript{grid-column:1/-1}
+.equipment-grid>noscript{background:#fff;padding:.9rem 1rem}
+</style></noscript>
 
 <div class="progress-bar" aria-hidden="true"><div class="progress-bar-fill"></div></div>
 
