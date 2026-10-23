@@ -108,24 +108,16 @@
     const VB_W = 100, VB_H = 900;
     let pathLength = 0;
 
-    // Gate positions sit inside the curve of the course path in index.html:
-    // the line crosses each pole above it, swings out beyond the apex and
-    // crosses back below, so every pole ends up inside the turn and the line
-    // visibly goes around the gate. Tight combinations cluster on one side
-    // and the line hooks around the whole group; an open gate is two poles
-    // across the hill with the line passing straight between them.
-    const GATES = [
-      { y: 100, open: [30, 70], color: "red" },
-      { y: 195, x: 66, color: "blue" },
-      { y: 303, x: 36, color: "red" },
-      { y: 417, x: 60, color: "blue" },
-      { y: 451, x: 52, color: "red" },
-      { y: 575, x: 38, color: "blue" },
-      { y: 601, x: 46, color: "red" },
-      { y: 627, x: 38, color: "blue" },
-      { y: 743, x: 64, color: "red" },
-      { y: 836, open: [30, 70], color: "blue" }
-    ];
+    // Every gate and the racing line itself come from course.js: each
+    // combination (delay, hairpin, flush) is laid out as one coordinated
+    // unit of two-pole vertical gates, and the path is derived from that
+    // gate sequence, so the line is the route through the gates. The
+    // static path in index.html is the no-JS fallback; scripts/check-course.mjs
+    // keeps it in sync with the generated one.
+    const course = window.SlalomCourse ? window.SlalomCourse.build() : null;
+    if (course && course.issues.length && window.console) {
+      console.warn("slalom course layout issues:", course.issues);
+    }
 
     function svgScales() {
       const rect = svg.getBoundingClientRect();
@@ -138,25 +130,29 @@
     function buildGates() {
       if (!gateLayer) return;
       gateLayer.innerHTML = "";
+      if (!course) return; // keep the static fallback path
       const ns = "http://www.w3.org/2000/svg";
 
-      // Poles: thin vertical strokes beside the line, red and blue alternating
-      // down the course, exactly as a course diagram draws them. Open gates
-      // get both poles of the gate, straddling the line.
-      GATES.forEach((gate) => {
-        const poles = gate.open || [gate.x];
-        poles.forEach((x) => {
+      // Poles: thin vertical strokes beside the line, red and blue
+      // alternating down the course, exactly as a course diagram draws
+      // them. Open gates get both poles straddling the line; combination
+      // gates get both poles of their throat, in race order.
+      course.gates.forEach((gate) => {
+        gate.poles.forEach((p) => {
           const pole = document.createElementNS(ns, "line");
-          pole.setAttribute("class", "pole " + gate.color);
-          pole.setAttribute("x1", String(x));
-          pole.setAttribute("x2", String(x));
-          pole.setAttribute("y1", String(gate.y - 20));
-          pole.setAttribute("y2", String(gate.y + 20));
+          pole.setAttribute("class", "pole " + p.color);
+          pole.setAttribute("x1", String(p.x));
+          pole.setAttribute("x2", String(p.x));
+          pole.setAttribute("y1", String(p.y1));
+          pole.setAttribute("y2", String(p.y2));
           gateLayer.appendChild(pole);
         });
       });
 
-      if (path) pathLength = path.getTotalLength();
+      if (path) {
+        path.setAttribute("d", course.pathD);
+        pathLength = path.getTotalLength();
+      }
     }
 
     function updateMarker() {
