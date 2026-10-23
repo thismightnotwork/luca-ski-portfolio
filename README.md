@@ -1,4 +1,4 @@
-# Luca Finnis-Bernard — Alpine Skiing Portfolio
+# Luca Finnis-Bernard, Alpine Skiing Portfolio
 
 Official personal portfolio for **Luca Finnis-Bernard**: Great Britain U18 alpine ski racer,
 **BASI Ski UK Level 2** instructor, Hemel Ski Race Club (HSRC) racer, instructor at The Snow
@@ -8,23 +8,24 @@ Live at **https://lucafinnisbernard.co.uk**.
 
 ## Tech stack
 
-Static HTML, CSS and vanilla JavaScript — no build step, no framework, no dependencies to
+Static HTML, CSS and vanilla JavaScript: no build step, no framework, no dependencies to
 install. This keeps the site fast, easy to edit, and simple to deploy on GitHub Pages with a
 custom domain.
 
-- `index.html` — the single-page site (hero, about, skiing/performance, journey, gallery, contact)
-- `about.html` — a secondary editorial about page
-- `styles.css` — the full design system and styles
-- `data.js` — **all editable content**: race results, season stats, equipment, journey
+- `index.html`: the single-page site (hero, about, skiing/performance, journey, gallery, contact)
+- `about.html`: a secondary editorial about page
+- `404.html`: branded not-found page, served automatically by GitHub Pages
+- `styles.css`: the full design system and styles
+- `data.js`: **all editable content**: race results, season stats, equipment, journey
   timeline, social links, contact form endpoint
-- `app.js` — behaviour: preloader, navigation, the slalom scroll animation, reveal
+- `app.js`: behaviour: preloader, navigation, the slalom scroll animation, reveal
   animations, the gallery/lightbox, form validation
-- `photos/` — image folder, auto-discovered by the gallery
+- `photos/`: image folder, auto-discovered by the gallery
 
 ## Editing content
 
 Everything factual lives in **`data.js`**. To update race results, season stats, equipment,
-timeline entries or social links, edit the arrays at the top of that file — no HTML or CSS
+timeline entries or social links, edit the arrays at the top of that file. No HTML or CSS
 changes required.
 
 ### Adding gallery photos
@@ -44,7 +45,7 @@ To regenerate the manifest locally (e.g. after adding photos, before committing)
 node scripts/build-photo-manifest.mjs
 ```
 
-Use descriptive filenames (e.g. `tignes-slalom-2026.jpg`) — filenames become part of the alt text.
+Use descriptive filenames (e.g. `tignes-slalom-2026.jpg`), as filenames become part of the alt text.
 
 ### Connecting the contact form
 
@@ -55,17 +56,23 @@ submissions:
 1. Create a form endpoint with [Formspree](https://formspree.io), [Web3Forms](https://web3forms.com)
    or a Cloudflare Worker.
 2. Set `SITE_CONFIG.formEndpoint` in `data.js` to that URL.
-3. Never commit private API keys — Formspree/Web3Forms endpoint IDs are safe to expose
+3. Never commit private API keys. Formspree/Web3Forms endpoint IDs are safe to expose
    client-side by design; a Worker should validate/rate-limit server-side instead.
 
 ## The slalom scroll course
 
-A thin SVG rail runs down the left edge of the page. A marker moves along a winding path using
-`getPointAtLength()`, mapped to scroll progress, with alternating red/blue gate markers placed
-along the course. On mobile the rail narrows and shows fewer gates; a slim progress bar at the
-top of the viewport mirrors scroll progress everywhere. The moving marker is disabled under
+A thin SVG rail runs down the left edge of the page, drawn as a real slalom set rather than a
+plain wave. The course path mixes open turns with true course-setting combinations: a **hairpin**
+(two gates in tight succession with a sharp reversal), a **delay** (an offset pair) and a **vertical**
+(three quick gates), each pair or triple linked by a dashed bracket like a course-setter's plan.
+A faint dashed fall line runs behind the course. Red and blue poles alternate down the hill,
+matching the real sport, where red encodes slalom and blue encodes giant slalom across the site.
+A skier-shaped marker rides the course line, tipping into each turn along the path tangent, its
+shape counter-scaled so it stays crisp at any rail width or viewport height. On mobile the rail
+narrows and the poles widen to stay visible; a slim progress bar at the top of the viewport
+mirrors scroll progress everywhere. The moving marker is disabled under
 `prefers-reduced-motion: reduce`, leaving the static course line and gates visible. The
-animation never hijacks scrolling — it only reads `window.scrollY`.
+animation never hijacks scrolling: it only reads `window.scrollY`.
 
 ## Local development
 
@@ -82,7 +89,7 @@ python3 -m http.server 8080
 Deployment is automated by `.github/workflows/deploy.yml`:
 
 - Runs on every push to `main`.
-- Uploads the repository as a Pages artifact (no build step — the site is already static).
+- Uploads the repository as a Pages artifact (no build step, since the site is already static).
 - Deploys via `actions/deploy-pages`.
 
 In **Settings → Pages**, the source should be set to **GitHub Actions**. The `CNAME` file
@@ -105,4 +112,4 @@ rather than given an invented date.
 ## Still to confirm
 
 - Exact dates for BASI Level 1 and Level 2 qualification (shown as "Ongoing" milestones for now).
-- A contact-form endpoint (see above) — currently disabled by design.
+- A contact-form endpoint (see above). Currently disabled by design.

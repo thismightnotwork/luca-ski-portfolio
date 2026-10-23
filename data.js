@@ -1,5 +1,5 @@
 /**
- * data.js — Editable content for Luca Finnis-Bernard's portfolio.
+ * data.js: Editable content for Luca Finnis-Bernard's portfolio.
  * Race results and race statistics are loaded exclusively from data/gbski.json
  * (or SITE_CONFIG.gbskiApi when a deployed GBSki Worker URL is provided).
  */
@@ -53,7 +53,7 @@ const JOURNEY = [
   },
   {
     date: "Jun 2025",
-    title: "Season opener — first win",
+    title: "Season opener, first win",
     category: "Racing",
     description: "Opened the 2025/26 record with a 1st place giant slalom finish and back-to-back podiums at the ERSA Summer League in Milton Keynes and Hemel Hempstead."
   },
@@ -76,7 +76,7 @@ const JOURNEY = [
     description: "A dedicated snow-training camp in Tignes, adding mountain-racing mileage to a season built mostly on UK dry slope and indoor snow."
   },
   {
-    date: "Jun–Jul 2026",
+    date: "Jun to Jul 2026",
     title: "Strong summer racing block",
     category: "Racing",
     description: "Multiple U18 podiums and top-four finishes at the ERSA Summer League, followed by the ERSA and Hemel Club Nationals."

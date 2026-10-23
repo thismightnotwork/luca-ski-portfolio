@@ -101,31 +101,84 @@
     const progressFill = document.querySelector(".progress-bar-fill");
     if (!rail && !progressFill) return;
 
+    const svg = rail ? rail.querySelector("svg") : null;
     const path = rail ? rail.querySelector(".course-path") : null;
     const marker = rail ? rail.querySelector(".marker") : null;
     const gateLayer = rail ? rail.querySelector(".gate-layer") : null;
+    const VB_W = 100, VB_H = 900;
     let pathLength = 0;
 
+    // Gate positions sit on the turn apexes of the course path in index.html.
+    // Gates in one combination share a combo key; the pairs/triples get a
+    // dashed bracket like a course-setter's plan: hairpin = two gates in tight
+    // succession, delay = offset pair, vertical = three quick gates.
+    const GATES = [
+      { y: 120, x: 26 },
+      { y: 210, x: 74, combo: "hairpin" },
+      { y: 262, x: 20, combo: "hairpin" },
+      { y: 322, x: 78, combo: "delay" },
+      { y: 420, x: 30, combo: "delay" },
+      { y: 505, x: 70, combo: "vertical" },
+      { y: 548, x: 36, combo: "vertical" },
+      { y: 592, x: 66, combo: "vertical" },
+      { y: 688, x: 24 }
+    ];
+
+    function svgScales() {
+      const rect = svg.getBoundingClientRect();
+      return {
+        sx: (rect.width / VB_W) || 1,
+        sy: (rect.height / VB_H) || 1
+      };
+    }
+
     function buildGates() {
-      if (!path || !gateLayer) return;
+      if (!gateLayer) return;
       gateLayer.innerHTML = "";
-      pathLength = path.getTotalLength();
-      const count = window.innerWidth <= 900 ? 6 : 12;
-      for (let i = 1; i <= count; i++) {
-        const frac = i / (count + 1);
-        const pt = path.getPointAtLength(frac * pathLength);
-        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        const colour = i % 2 === 0 ? "#57b8ff" : "#ff3d3d";
-        g.setAttribute("class", "gate " + (i % 2 === 0 ? "blue" : "red"));
-        g.setAttribute("transform", "translate(" + (pt.x - 1.5) + ", " + (pt.y - 6) + ")");
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        rect.setAttribute("width", "3");
-        rect.setAttribute("height", "12");
-        rect.setAttribute("rx", "1.5");
-        rect.setAttribute("fill", colour);
+      const ns = "http://www.w3.org/2000/svg";
+
+      // Combination brackets, drawn behind the poles.
+      let group = [];
+      const flushGroup = () => {
+        if (group.length > 1) {
+          const line = document.createElementNS(ns, "polyline");
+          const points = group.map((g) => {
+            const out = g.x >= 50 ? 9 : -9;
+            return (g.x + out) + "," + (g.y + 7);
+          }).join(" ");
+          line.setAttribute("class", "combo-bracket");
+          line.setAttribute("points", points);
+          gateLayer.appendChild(line);
+        }
+        group = [];
+      };
+      GATES.forEach((gate) => {
+        if (!gate.combo) { flushGroup(); return; }
+        if (group.length && group[group.length - 1].combo !== gate.combo) flushGroup();
+        group.push(gate);
+      });
+      flushGroup();
+
+      // Poles: red and blue alternate down the course, just outside the line.
+      // The rail's viewBox is squeezed horizontally, so widen the poles on
+      // narrow rails to keep them visible.
+      const w = window.innerWidth <= 900 ? 8 : 5;
+      GATES.forEach((gate, i) => {
+        const out = gate.x >= 50 ? 3 : -3;
+        const g = document.createElementNS(ns, "g");
+        g.setAttribute("class", "gate " + (i % 2 === 0 ? "red" : "blue"));
+        g.setAttribute("transform", "translate(" + (gate.x + out) + ", " + gate.y + ")");
+        const rect = document.createElementNS(ns, "rect");
+        rect.setAttribute("x", String(-w / 2));
+        rect.setAttribute("y", "-7");
+        rect.setAttribute("width", String(w));
+        rect.setAttribute("height", "14");
+        rect.setAttribute("rx", "2");
         g.appendChild(rect);
         gateLayer.appendChild(g);
-      }
+      });
+
+      if (path) pathLength = path.getTotalLength();
     }
 
     function updateMarker() {
@@ -133,9 +186,17 @@
       const max = doc.scrollHeight - window.innerHeight;
       const frac = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       if (progressFill) progressFill.style.width = frac * 100 + "%";
-      if (marker && path && !reduceMotion) {
+      if (marker && path && !reduceMotion && pathLength) {
         const pt = path.getPointAtLength(frac * pathLength);
-        marker.setAttribute("transform", "translate(" + pt.x + ", " + pt.y + ")");
+        const ahead = path.getPointAtLength(Math.min(pathLength, frac * pathLength + 8));
+        const { sx, sy } = svgScales();
+        // Rotate in screen space so the skier tips into the turn correctly,
+        // and counter-scale so the marker keeps its shape in the stretched
+        // viewBox at any rail width or viewport height.
+        const ang = Math.atan2((ahead.y - pt.y) * sy, (ahead.x - pt.x) * sx) + Math.PI / 2;
+        const c = Math.cos(ang), s = Math.sin(ang);
+        marker.setAttribute("transform",
+          "matrix(" + (c / sx) + "," + (s / sy) + "," + (-s / sx) + "," + (c / sy) + "," + pt.x + "," + pt.y + ")");
       }
     }
 
@@ -277,7 +338,7 @@
       if (intro) {
         intro.textContent = "I’ve recorded " + stats.races + " races across slalom and giant slalom, with " +
           stats.wins + " win" + (stats.wins === 1 ? "" : "s") + ", " + stats.podiums + " podiums and " +
-          stats.topTens + " top-ten finishes — " + stats.slalom + " slalom starts and " +
+          stats.topTens + " top-ten finishes, across " + stats.slalom + " slalom starts and " +
           stats.giantSlalom + " giant slalom starts. All results are sourced from GBSki.";
       }
 
@@ -379,7 +440,7 @@
       const stem = filename.replace(/\.[^.]+$/, "");
       const match = locationLabels.find((l) => l.pattern.test(stem));
       const place = match ? match.label : stem.replace(/[-_]/g, " ");
-      return "Luca Finnis-Bernard — " + place;
+      return "Luca Finnis-Bernard, " + place;
     }
 
     function renderLoading() {
@@ -565,7 +626,7 @@
           body: JSON.stringify(Object.fromEntries(new FormData(form)))
         });
         if (!res.ok) throw new Error("Request failed");
-        setStatus("Message sent — thanks for getting in touch.", "success");
+        setStatus("Message sent. Thanks for getting in touch.", "success");
         form.reset();
       } catch (err) {
         setStatus("Something went wrong sending your message. Please try again or use a social channel below.", "error");

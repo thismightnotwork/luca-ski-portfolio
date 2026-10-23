@@ -24,7 +24,7 @@ function captionFor(filename) {
   const stem = filename.replace(/\.[^.]+$/, "");
   const match = locationLabels.find((l) => l.pattern.test(stem));
   const place = match ? match.label : stem.replace(/[-_]/g, " ");
-  return "Luca Finnis-Bernard — " + place;
+  return "Luca Finnis-Bernard, " + place;
 }
 
 async function main() {

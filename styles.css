@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap");
 
 /* ============================================================
-   Tokens — palette taken from the sport itself:
+   Tokens: palette taken from the sport itself:
    snow, ink (race suit navy-black), gate red, gate blue.
    Red encodes slalom, blue encodes giant slalom.
    ============================================================ */
@@ -93,6 +93,29 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
 
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 
+.js-note{color:var(--muted);font-size:.92rem;margin:0;}
+
+/* ---------- Editorial page (about.html) ---------- */
+.page-about{background:var(--snow);}
+.page-about main{padding:5rem 0 6rem;}
+.editorial{max-width:720px;}
+.editorial header{margin-bottom:var(--sp-7);border-bottom:1px solid var(--line);padding-bottom:var(--sp-6);}
+.editorial h1{margin-bottom:var(--sp-4);}
+.editorial h2{font-size:1.5rem;margin-top:var(--sp-7);margin-bottom:var(--sp-3);}
+.editorial ul{padding-left:1.2rem;color:var(--muted);margin:0 0 var(--sp-4);}
+.editorial li{margin-bottom:.35rem;}
+.editorial a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:3px;}
+.editorial-back{margin:var(--sp-5) 0 0;font-weight:600;}
+.editorial-back a{color:var(--ink);text-decoration-color:var(--red);text-decoration-thickness:2px;}
+#race-record-summary{border-left:3px solid var(--red);padding-left:var(--sp-4);color:var(--ink);font-weight:600;}
+@media (max-width:560px){ .page-about main{padding-top:3rem;} }
+
+/* ---------- 404 ---------- */
+.page-404 main{min-height:100vh;display:flex;align-items:center;}
+.error-shell{width:min(640px, calc(100% - 2.5rem));margin-inline:auto;padding:5rem 0;}
+.error-shell h1{font-size:clamp(2.4rem,6vw,4.5rem);margin-bottom:var(--sp-4);}
+.error-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:var(--sp-6);}
+
 /* Gate-pair glyph: the site's structural ornament. Two uprights, red then blue,
    like a gate on course. Encodes "section marker", not decoration. */
 .gate-pair{display:inline-flex;gap:3px;align-items:flex-end;height:.9em;margin-right:.55rem;}
@@ -113,7 +136,6 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
 .preloader-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--red));transition:width .2s linear;}
 .preloader-flag{width:120px;height:80px;object-fit:cover;border:1px solid var(--line);}
 @media (prefers-reduced-motion:reduce){ .preloader{transition:none;} }
-noscript .preloader{display:none;}
 
 /* ---------- Nav ---------- */
 .nav{
@@ -189,21 +211,23 @@ noscript .preloader{display:none;}
 }
 .slalom-rail.is-ready{opacity:1;}
 .slalom-rail svg{height:100%;width:100%;overflow:visible;}
-.slalom-rail .course-path{fill:none !important;stroke:rgba(13,22,32,.22);stroke-width:2;stroke-dasharray:1 7;}
-.slalom-rail svg path, .slalom-rail svg circle{fill-rule:nonzero;}
+.slalom-rail .fall-line{stroke:rgba(13,22,32,.10);stroke-width:1;stroke-dasharray:1 7;}
+.slalom-rail .course-path{fill:none !important;stroke:rgba(13,22,32,.30);stroke-width:1.5;}
+.slalom-rail .fall-line,.slalom-rail .course-path,.slalom-rail .combo-bracket{vector-effect:non-scaling-stroke;}
+.slalom-rail .combo-bracket{fill:none;stroke:rgba(13,22,32,.22);stroke-width:1;stroke-dasharray:3 3;}
 .slalom-rail .gate{transform-origin:center;}
 .slalom-rail .gate.red rect{fill:var(--red);}
 .slalom-rail .gate.blue rect{fill:var(--blue);}
 .slalom-rail .marker{transition:transform .06s linear;}
-.slalom-rail .marker circle{fill:var(--ink);}
-.slalom-rail .marker path{fill:var(--red);}
+.slalom-rail .marker .skier{fill:var(--ink);}
+.slalom-rail .marker .accent{fill:var(--red);}
 @media (max-width:900px){ .slalom-rail{width:34px;} }
 @media (prefers-reduced-motion:reduce){ .slalom-rail .marker{display:none;} }
 
 .progress-bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:110;background:transparent;}
 .progress-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--red));transition:width .05s linear;}
 
-/* ---------- Hero: split — type left, Tignes photo right ---------- */
+/* ---------- Hero: split, type left, Tignes photo right ---------- */
 .hero{position:relative;border-bottom:1px solid var(--line);}
 .hero-inner{
   display:grid;grid-template-columns:1.05fr .95fr;gap:var(--sp-8);
@@ -245,7 +269,7 @@ noscript .preloader{display:none;}
 .start-row dd b{font-weight:800;}
 
 .hero-photo{margin:0;position:relative;align-self:stretch;min-height:520px;}
-.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 30%;}
+.hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%;}
 .hero-photo figcaption{
   position:absolute;left:0;bottom:0;
   background:var(--ink);color:var(--snow);
@@ -255,6 +279,11 @@ noscript .preloader{display:none;}
   .hero-inner{grid-template-columns:1fr;gap:var(--sp-6);padding-top:7.5rem;}
   .hero-photo{order:-1;min-height:0;aspect-ratio:4/3;}
   .hero-copy{padding-bottom:var(--sp-7);}
+}
+@media (max-width:560px){
+  .start-row{grid-template-columns:1fr;gap:.1rem;padding:.55rem 0;}
+  .meta-list{grid-template-columns:1fr;}
+  .board{padding:2rem 1.25rem;}
 }
 
 /* ---------- Sections ---------- */
@@ -427,6 +456,7 @@ main{position:relative;z-index:2;}
 
 /* ---------- Contact ---------- */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-8);margin-top:var(--sp-6);}
+@media (max-width:800px){ .contact-grid{grid-template-columns:1fr;gap:var(--sp-7);} }
 .contact-sub{font-weight:700;font-size:1.05rem;margin:0 0 var(--sp-3);}
 .social-list{display:grid;gap:.5rem;margin-top:var(--sp-4);}
 .social-list a{
