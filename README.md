@@ -61,16 +61,18 @@ submissions:
 
 ## The slalom scroll course
 
-A thin SVG rail runs down the left edge of the page, drawn as a real slalom set rather than a
-plain wave. The course path mixes open turns with true course-setting combinations: a **hairpin**
-(two gates in tight succession with a sharp reversal), a **delay** (an offset pair) and a **vertical**
-(three quick gates), each pair or triple linked by a dashed bracket like a course-setter's plan.
-A faint dashed fall line runs behind the course. Red and blue poles alternate down the hill,
-matching the real sport, where red encodes slalom and blue encodes giant slalom across the site.
-A skier-shaped marker rides the course line, tipping into each turn along the path tangent, its
-shape counter-scaled so it stays crisp at any rail width or viewport height. On mobile the rail
-narrows and the poles widen to stay visible; a slim progress bar at the top of the viewport
-mirrors scroll progress everywhere. The moving marker is disabled under
+A thin SVG rail runs down the left edge of the page, drawn like a course-setter's diagram: thin
+red and blue **pole strokes** beside a solid racing line that finishes in an arrow, with small
+annotated side labels and leader lines. The course uses all four slalom combination types from
+those diagrams: an **open gate** (two poles across the hill with the line passing between them),
+a **delay** (an offset pair), a **hairpin** (two gates in tight succession) and a **flush**
+(three quick gates), separated by bare turning poles. A faint dashed fall line runs behind the
+course. Red and blue poles alternate down the hill, matching the real sport, where red encodes
+slalom and blue encodes giant slalom across the site. A skier-shaped marker rides the course
+line, tipping into each turn along the path tangent, its shape counter-scaled so it stays crisp
+at any rail width or viewport height. On mobile the rail narrows and the diagram labels hide, so
+the poles and line stay legible; a slim progress bar at the top of the viewport mirrors scroll
+progress everywhere. The moving marker is disabled under
 `prefers-reduced-motion: reduce`, leaving the static course line and gates visible. The
 animation never hijacks scrolling: it only reads `window.scrollY`.
 

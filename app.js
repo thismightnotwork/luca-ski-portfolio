@@ -108,20 +108,33 @@
     const VB_W = 100, VB_H = 900;
     let pathLength = 0;
 
-    // Gate positions sit on the turn apexes of the course path in index.html.
-    // Gates in one combination share a combo key; the pairs/triples get a
-    // dashed bracket like a course-setter's plan: hairpin = two gates in tight
-    // succession, delay = offset pair, vertical = three quick gates.
+    // Gate positions sit on the turn apexes of the course path in index.html,
+    // drawn like a course-setter's diagram: every gate is one turning pole,
+    // except an open gate, which is two poles across the hill with the racing
+    // line passing between them. Consecutive gates sharing a combo key are one
+    // combination: delay (offset pair), hairpin (two gates in tight succession)
+    // or flush (three quick gates), each annotated with a side label.
     const GATES = [
-      { y: 120, x: 26 },
-      { y: 210, x: 74, combo: "hairpin" },
-      { y: 262, x: 20, combo: "hairpin" },
-      { y: 322, x: 78, combo: "delay" },
-      { y: 420, x: 30, combo: "delay" },
-      { y: 505, x: 70, combo: "vertical" },
-      { y: 548, x: 36, combo: "vertical" },
-      { y: 592, x: 66, combo: "vertical" },
-      { y: 688, x: 24 }
+      { y: 100, open: [32, 68], color: "red" },
+      { y: 195, x: 74, color: "blue", combo: "delay" },
+      { y: 285, x: 26, color: "red", combo: "delay" },
+      { y: 375, x: 75, color: "blue", combo: "hairpin" },
+      { y: 422, x: 27, color: "red", combo: "hairpin" },
+      { y: 515, x: 71, color: "blue", combo: "flush" },
+      { y: 560, x: 31, color: "red", combo: "flush" },
+      { y: 605, x: 69, color: "blue", combo: "flush" },
+      { y: 695, x: 25, color: "red" },
+      { y: 785, open: [30, 70], color: "blue" }
+    ];
+
+    // Side annotations, centred on each feature, like the labels in a
+    // course-setting guide: open, delay, hairpin, flush.
+    const LABELS = [
+      { text: "OPEN", y: 100 },
+      { text: "DELAY", y: 240 },
+      { text: "HAIRPIN", y: 398 },
+      { text: "FLUSH", y: 560 },
+      { text: "OPEN", y: 785 }
     ];
 
     function svgScales() {
@@ -135,47 +148,38 @@
     function buildGates() {
       if (!gateLayer) return;
       gateLayer.innerHTML = "";
+      rail.querySelectorAll(".course-label, .course-leader").forEach((el) => el.remove());
       const ns = "http://www.w3.org/2000/svg";
 
-      // Combination brackets, drawn behind the poles.
-      let group = [];
-      const flushGroup = () => {
-        if (group.length > 1) {
-          const line = document.createElementNS(ns, "polyline");
-          const points = group.map((g) => {
-            const out = g.x >= 50 ? 9 : -9;
-            return (g.x + out) + "," + (g.y + 7);
-          }).join(" ");
-          line.setAttribute("class", "combo-bracket");
-          line.setAttribute("points", points);
-          gateLayer.appendChild(line);
-        }
-        group = [];
-      };
+      // Poles: thin vertical strokes beside the line, red and blue alternating
+      // down the course, exactly as a course diagram draws them. Open gates
+      // get both poles of the gate, straddling the line.
       GATES.forEach((gate) => {
-        if (!gate.combo) { flushGroup(); return; }
-        if (group.length && group[group.length - 1].combo !== gate.combo) flushGroup();
-        group.push(gate);
+        const poles = gate.open || [gate.x + (gate.x >= 50 ? 3 : -3)];
+        poles.forEach((x) => {
+          const pole = document.createElementNS(ns, "line");
+          pole.setAttribute("class", "pole " + gate.color);
+          pole.setAttribute("x1", String(x));
+          pole.setAttribute("x2", String(x));
+          pole.setAttribute("y1", String(gate.y - 20));
+          pole.setAttribute("y2", String(gate.y + 20));
+          gateLayer.appendChild(pole);
+        });
       });
-      flushGroup();
 
-      // Poles: red and blue alternate down the course, just outside the line.
-      // The rail's viewBox is squeezed horizontally, so widen the poles on
-      // narrow rails to keep them visible.
-      const w = window.innerWidth <= 900 ? 8 : 5;
-      GATES.forEach((gate, i) => {
-        const out = gate.x >= 50 ? 3 : -3;
-        const g = document.createElementNS(ns, "g");
-        g.setAttribute("class", "gate " + (i % 2 === 0 ? "red" : "blue"));
-        g.setAttribute("transform", "translate(" + (gate.x + out) + ", " + gate.y + ")");
-        const rect = document.createElementNS(ns, "rect");
-        rect.setAttribute("x", String(-w / 2));
-        rect.setAttribute("y", "-7");
-        rect.setAttribute("width", String(w));
-        rect.setAttribute("height", "14");
-        rect.setAttribute("rx", "2");
-        g.appendChild(rect);
-        gateLayer.appendChild(g);
+      // Side labels with leader lines, positioned as percentages of the rail
+      // so they stay aligned with the viewBox at any viewport height.
+      LABELS.forEach((label) => {
+        const top = (label.y / VB_H) * 100 + "%";
+        const leader = document.createElement("span");
+        leader.className = "course-leader";
+        leader.style.top = top;
+        rail.appendChild(leader);
+        const text = document.createElement("span");
+        text.className = "course-label";
+        text.style.top = top;
+        text.textContent = label.text;
+        rail.appendChild(text);
       });
 
       if (path) pathLength = path.getTotalLength();

@@ -212,16 +212,30 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
 .slalom-rail.is-ready{opacity:1;}
 .slalom-rail svg{height:100%;width:100%;overflow:visible;}
 .slalom-rail .fall-line{stroke:rgba(13,22,32,.10);stroke-width:1;stroke-dasharray:1 7;}
-.slalom-rail .course-path{fill:none !important;stroke:rgba(13,22,32,.30);stroke-width:1.5;}
-.slalom-rail .fall-line,.slalom-rail .course-path,.slalom-rail .combo-bracket{vector-effect:non-scaling-stroke;}
-.slalom-rail .combo-bracket{fill:none;stroke:rgba(13,22,32,.22);stroke-width:1;stroke-dasharray:3 3;}
-.slalom-rail .gate{transform-origin:center;}
-.slalom-rail .gate.red rect{fill:var(--red);}
-.slalom-rail .gate.blue rect{fill:var(--blue);}
+.slalom-rail .course-path{fill:none !important;stroke:rgba(13,22,32,.5);stroke-width:1.75;}
+.slalom-rail .fall-line,.slalom-rail .course-path{vector-effect:non-scaling-stroke;}
+.slalom-rail .route-arrow{fill:rgba(13,22,32,.5);}
+.slalom-rail .pole{stroke-width:3;vector-effect:non-scaling-stroke;}
+.slalom-rail .pole.red{stroke:var(--red);}
+.slalom-rail .pole.blue{stroke:var(--blue);}
 .slalom-rail .marker{transition:transform .06s linear;}
 .slalom-rail .marker .skier{fill:var(--ink);}
 .slalom-rail .marker .accent{fill:var(--red);}
-@media (max-width:900px){ .slalom-rail{width:34px;} }
+/* Diagram-style annotations: a vertical label with a thin leader line. */
+.course-label{
+  position:absolute;right:3px;writing-mode:vertical-rl;
+  transform:translateY(-50%);
+  font-size:7px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(13,22,32,.55);
+}
+.course-leader{
+  position:absolute;right:11px;width:13px;height:0;
+  border-top:1px solid rgba(13,22,32,.3);transform:translateY(-50%);
+}
+@media (max-width:900px){
+  .slalom-rail{width:34px;}
+  .course-label,.course-leader{display:none;}
+}
 @media (prefers-reduced-motion:reduce){ .slalom-rail .marker{display:none;} }
 
 .progress-bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:110;background:transparent;}
