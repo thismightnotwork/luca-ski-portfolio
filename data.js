@@ -1,6 +1,7 @@
 /**
  * data.js — Editable content for Luca Finnis-Bernard's portfolio.
- * Set gbskiApi to your deployed Cloudflare Worker URL to enable live GBSki results.
+ * Race results and race statistics are loaded exclusively from data/gbski.json
+ * (or SITE_CONFIG.gbskiApi when a deployed GBSki Worker URL is provided).
  */
 
 const SITE_CONFIG = {
@@ -15,21 +16,6 @@ const SITE_CONFIG = {
   ],
   gbSkiProfile: "https://gbski.com/biography.php?id=42382"
 };
-
-const RACE_RESULTS = [
-  { place: "13th (Mens)", event: "Hemel Championships", discipline: "SL+GS", tier: "Club", venue: "Hemel Hempstead", date: "2026-09-05", display: "5 Sep 2026" },
-  { place: "8th (Mens)", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Milton Keynes", date: "2026-06-07", display: "7 Jun 2026" },
-  { place: "4th (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2026-06-07", display: "7 Jun 2026" },
-  { place: "5th (Mens)", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Hemel Hempstead", date: "2026-06-06", display: "6 Jun 2026" },
-  { place: "4th (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Hemel Hempstead", date: "2026-06-06", display: "6 Jun 2026" },
-  { place: "4th (U18)", event: "ERSA Championship", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-09-14", display: "14 Sep 2025" },
-  { place: "3rd (U18)", event: "Hemel Championships", discipline: "SL", tier: "Club", venue: "Hemel Hempstead", date: "2025-09-06", display: "6 Sep 2025" },
-  { place: "2nd (U18)", event: "ERSA CN", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-07-13", display: "13 Jul 2025" },
-  { place: "3rd (U18)", event: "Hemel CN", discipline: "SL", tier: "Club", venue: "Hemel Hempstead", date: "2025-07-12", display: "12 Jul 2025" },
-  { place: "1st (U18)", event: "ERSA Summer League", discipline: "GS", tier: "Regional", venue: "Milton Keynes", date: "2025-06-08", display: "8 Jun 2025" },
-  { place: "2nd (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Milton Keynes", date: "2025-06-08", display: "8 Jun 2025" },
-  { place: "3rd (U18)", event: "ERSA Summer League", discipline: "SL", tier: "Regional", venue: "Hemel Hempstead", date: "2025-06-07", display: "7 Jun 2025" }
-];
 
 const SEASON_STATS = [
   { value: "21", label: "Days on snow" },
@@ -73,15 +59,15 @@ const JOURNEY = [
   },
   {
     date: "Jul 2025",
-    title: "Slalom podiums at club and regional level",
+    title: "Club National racing",
     category: "Racing",
-    description: "Third at the Hemel CN and second at the ERSA CN, consolidating slalom form heading into the autumn championships."
+    description: "Raced the ERSA and Hemel Club Nationals, with a 2nd-place category result at Snozone MK and further top-five category finishes at Hemel."
   },
   {
     date: "Sep 2025",
     title: "Championship season",
     category: "Racing",
-    description: "Third place at the Hemel Championships and a strong finish at the ERSA Championship in Milton Keynes."
+    description: "Third place at the Hemel Championships and fourth in U18 at the ERSA Championship in Milton Keynes."
   },
   {
     date: "2025/26",
@@ -90,10 +76,10 @@ const JOURNEY = [
     description: "A dedicated snow-training camp in Tignes, adding mountain-racing mileage to a season built mostly on UK dry slope and indoor snow."
   },
   {
-    date: "Jun 2026",
-    title: "Latest results",
+    date: "Jun–Jul 2026",
+    title: "Strong summer racing block",
     category: "Racing",
-    description: "Two podiums and consistent top-four finishes across GS and SL at the ERSA Summer League, taking the season record to 11 races, 1 win and 7 podiums."
+    description: "Multiple U18 podiums and top-four finishes at the ERSA Summer League, followed by the ERSA and Hemel Club Nationals."
   },
   {
     date: "Ongoing",

@@ -1,4 +1,4 @@
-/* Full portfolio behaviour; results, summary and race stats calculated from live GBSki data. */
+/* Full portfolio behaviour; all race results and race statistics come from GBSki data. */
 (function () {
   "use strict";
 
@@ -167,9 +167,9 @@
     const summary = document.getElementById("results-toggle");
     const statGrid = document.getElementById("season-stats");
     const intro = document.querySelector("#skiing .section-inner > p.lede");
-    if (!list || typeof RACE_RESULTS === "undefined") return;
+    if (!list) return;
 
-    let currentRaces = RACE_RESULTS.slice();
+    let currentRaces = [];
     let usingLiveData = false;
 
     function escapeHtml(value) {
@@ -205,13 +205,18 @@
         discipline: race.discipline || "",
         date: race.date || "",
         display: formatDate(race.date),
-        details: details.join(" · "),
-        times: race.time ? [race.time] : [],
+        details: race.details || details.join(" · "),
+        times: race.times && race.times.length ? race.times : (race.time ? [race.time] : []),
         points: race.points || ""
       };
     }
 
     function render() {
+      if (!currentRaces.length) {
+        list.innerHTML = '<div class="result-row"><span class="result-place">—</span><div><strong>Loading GBSki results</strong><span>Fetching the latest race data</span></div><time></time><span class="discipline-tag">GBSki</span></div>';
+        return;
+      }
+
       list.innerHTML = currentRaces.map((race) => {
         const detail = race.details || [race.tier, race.venue].filter(Boolean).join(" · ");
         const timeInfo = race.times && race.times.length ? '<span class="result-times">' + escapeHtml(race.times.join(" / ")) + '</span>' : "";
@@ -226,24 +231,29 @@
       }).join("");
     }
 
+    function categoryPlace(race) {
+      const bracket = String(race.place || "").match(/\(([^)]+)\)/);
+      if (bracket && /^\d+$/.test(bracket[1].trim())) return Number(bracket[1].trim());
+      const overall = String(race.place || "").match(/^(\d+)/);
+      return overall ? Number(overall[1]) : Infinity;
+    }
+
     function calculateStats() {
-      const overallPlace = (race) => {
-        const match = String(race.place || "").match(/^(\d+)/);
-        return match ? Number(match[1]) : Infinity;
-      };
+      const slalom = currentRaces.filter((race) => String(race.discipline).includes("SL"));
+      const giantSlalom = currentRaces.filter((race) => String(race.discipline).includes("GS"));
 
       return {
         races: currentRaces.length,
-        wins: currentRaces.filter((race) => overallPlace(race) === 1).length,
-        podiums: currentRaces.filter((race) => overallPlace(race) <= 3).length,
-        topTens: currentRaces.filter((race) => overallPlace(race) <= 10).length,
-        slalom: currentRaces.filter((race) => race.discipline === "SL").length,
-        giantSlalom: currentRaces.filter((race) => race.discipline === "GS").length
+        wins: currentRaces.filter((race) => categoryPlace(race) === 1).length,
+        podiums: currentRaces.filter((race) => categoryPlace(race) <= 3).length,
+        topTens: currentRaces.filter((race) => categoryPlace(race) <= 10).length,
+        slalom: slalom.length,
+        giantSlalom: giantSlalom.length
       };
     }
 
     function updateRaceStats() {
-      if (!statGrid || !usingLiveData) return;
+      if (!statGrid || !currentRaces.length) return;
       const stats = calculateStats();
 
       statGrid.innerHTML = [
@@ -261,7 +271,7 @@
         intro.textContent = "I’ve recorded " + stats.races + " races across slalom and giant slalom, with " +
           stats.wins + " win" + (stats.wins === 1 ? "" : "s") + ", " + stats.podiums + " podiums and " +
           stats.topTens + " top-ten finishes — " + stats.slalom + " slalom starts and " +
-          stats.giantSlalom + " giant slalom starts.";
+          stats.giantSlalom + " giant slalom starts. All results are sourced from GBSki.";
       }
 
       if (summary) {
@@ -270,17 +280,23 @@
     }
 
     async function loadLiveResults() {
+      const endpoint = (typeof SITE_CONFIG !== "undefined" && SITE_CONFIG.gbskiApi)
+        ? SITE_CONFIG.gbskiApi
+        : "data/gbski.json?cache=" + Date.now();
+
       try {
-        const response = await fetch("data/gbski.json?cache=" + Date.now(), { cache: "no-store" });
+        const response = await fetch(endpoint, { cache: "no-store" });
         if (!response.ok) throw new Error("Race data returned " + response.status);
         const data = await response.json();
         if (!data || !Array.isArray(data.races) || !data.races.length) throw new Error("No live races");
 
-        currentRaces = data.races.map(normaliseLiveRace);
+        currentRaces = data.races
+          .map(normaliseLiveRace)
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
         usingLiveData = true;
       } catch (error) {
-        console.warn("Live GBSki data unavailable; using saved results.", error);
-        usingLiveData = false;
+        console.warn("GBSki race data unavailable.", error);
+        list.innerHTML = '<div class="result-row"><span class="result-place">—</span><div><strong>GBSki results unavailable</strong><span>Please check back shortly</span></div><time></time><span class="discipline-tag">GBSki</span></div>';
       }
       render();
       updateRaceStats();
