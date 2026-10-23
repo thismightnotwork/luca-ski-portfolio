@@ -115,16 +115,16 @@
     // and the line hooks around the whole group; an open gate is two poles
     // across the hill with the line passing straight between them.
     const GATES = [
-      { y: 100, open: [32, 68], color: "red" },
+      { y: 100, open: [30, 70], color: "red" },
       { y: 195, x: 66, color: "blue" },
       { y: 303, x: 36, color: "red" },
-      { y: 411, x: 64, color: "blue" },
-      { y: 451, x: 55, color: "red" },
-      { y: 559, x: 36, color: "blue" },
-      { y: 597, x: 44, color: "red" },
-      { y: 635, x: 36, color: "blue" },
-      { y: 743, x: 66, color: "red" },
-      { y: 830, open: [32, 68], color: "blue" }
+      { y: 417, x: 60, color: "blue" },
+      { y: 451, x: 52, color: "red" },
+      { y: 575, x: 38, color: "blue" },
+      { y: 601, x: 46, color: "red" },
+      { y: 627, x: 38, color: "blue" },
+      { y: 743, x: 64, color: "red" },
+      { y: 836, open: [30, 70], color: "blue" }
     ];
 
     function svgScales() {
