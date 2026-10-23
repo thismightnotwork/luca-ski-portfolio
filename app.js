@@ -101,30 +101,57 @@
     const progressFill = document.querySelector(".progress-bar-fill");
     if (!rail && !progressFill) return;
 
+    const svg = rail ? rail.querySelector("svg") : null;
     const path = rail ? rail.querySelector(".course-path") : null;
     const marker = rail ? rail.querySelector(".marker") : null;
     const gateLayer = rail ? rail.querySelector(".gate-layer") : null;
+    const VB_W = 100, VB_H = 900;
     let pathLength = 0;
 
+    // Every gate and the racing line itself come from course.js: each
+    // combination (delay, hairpin, flush) is laid out as one coordinated
+    // unit of two-pole vertical gates, and the path is derived from that
+    // gate sequence, so the line is the route through the gates. The
+    // static path in index.html is the no-JS fallback; scripts/check-course.mjs
+    // keeps it in sync with the generated one.
+    const course = window.SlalomCourse ? window.SlalomCourse.build() : null;
+    if (course && course.issues.length && window.console) {
+      console.warn("slalom course layout issues:", course.issues);
+    }
+
+    function svgScales() {
+      const rect = svg.getBoundingClientRect();
+      return {
+        sx: (rect.width / VB_W) || 1,
+        sy: (rect.height / VB_H) || 1
+      };
+    }
+
     function buildGates() {
-      if (!path || !gateLayer) return;
+      if (!gateLayer) return;
       gateLayer.innerHTML = "";
-      pathLength = path.getTotalLength();
-      const count = window.innerWidth <= 900 ? 6 : 12;
-      for (let i = 1; i <= count; i++) {
-        const frac = i / (count + 1);
-        const pt = path.getPointAtLength(frac * pathLength);
-        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-        const colour = i % 2 === 0 ? "#57b8ff" : "#ff3d3d";
-        g.setAttribute("class", "gate " + (i % 2 === 0 ? "blue" : "red"));
-        g.setAttribute("transform", "translate(" + (pt.x - 1.5) + ", " + (pt.y - 6) + ")");
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        rect.setAttribute("width", "3");
-        rect.setAttribute("height", "12");
-        rect.setAttribute("rx", "1.5");
-        rect.setAttribute("fill", colour);
-        g.appendChild(rect);
-        gateLayer.appendChild(g);
+      if (!course) return; // keep the static fallback path
+      const ns = "http://www.w3.org/2000/svg";
+
+      // Poles: thin vertical strokes beside the line, red and blue
+      // alternating down the course, exactly as a course diagram draws
+      // them. Open gates get both poles straddling the line; combination
+      // gates get both poles of their throat, in race order.
+      course.gates.forEach((gate) => {
+        gate.poles.forEach((p) => {
+          const pole = document.createElementNS(ns, "line");
+          pole.setAttribute("class", "pole " + p.color);
+          pole.setAttribute("x1", String(p.x));
+          pole.setAttribute("x2", String(p.x));
+          pole.setAttribute("y1", String(p.y1));
+          pole.setAttribute("y2", String(p.y2));
+          gateLayer.appendChild(pole);
+        });
+      });
+
+      if (path) {
+        path.setAttribute("d", course.pathD);
+        pathLength = path.getTotalLength();
       }
     }
 
@@ -133,9 +160,17 @@
       const max = doc.scrollHeight - window.innerHeight;
       const frac = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       if (progressFill) progressFill.style.width = frac * 100 + "%";
-      if (marker && path && !reduceMotion) {
+      if (marker && path && !reduceMotion && pathLength) {
         const pt = path.getPointAtLength(frac * pathLength);
-        marker.setAttribute("transform", "translate(" + pt.x + ", " + pt.y + ")");
+        const ahead = path.getPointAtLength(Math.min(pathLength, frac * pathLength + 8));
+        const { sx, sy } = svgScales();
+        // Rotate in screen space so the skier tips into the turn correctly,
+        // and counter-scale so the marker keeps its shape in the stretched
+        // viewBox at any rail width or viewport height.
+        const ang = Math.atan2((ahead.y - pt.y) * sy, (ahead.x - pt.x) * sx) + Math.PI / 2;
+        const c = Math.cos(ang), s = Math.sin(ang);
+        marker.setAttribute("transform",
+          "matrix(" + (c / sx) + "," + (s / sy) + "," + (-s / sx) + "," + (c / sy) + "," + pt.x + "," + pt.y + ")");
       }
     }
 
@@ -277,7 +312,7 @@
       if (intro) {
         intro.textContent = "I’ve recorded " + stats.races + " races across slalom and giant slalom, with " +
           stats.wins + " win" + (stats.wins === 1 ? "" : "s") + ", " + stats.podiums + " podiums and " +
-          stats.topTens + " top-ten finishes — " + stats.slalom + " slalom starts and " +
+          stats.topTens + " top-ten finishes, across " + stats.slalom + " slalom starts and " +
           stats.giantSlalom + " giant slalom starts. All results are sourced from GBSki.";
       }
 
@@ -379,7 +414,7 @@
       const stem = filename.replace(/\.[^.]+$/, "");
       const match = locationLabels.find((l) => l.pattern.test(stem));
       const place = match ? match.label : stem.replace(/[-_]/g, " ");
-      return "Luca Finnis-Bernard — " + place;
+      return "Luca Finnis-Bernard, " + place;
     }
 
     function renderLoading() {
@@ -565,7 +600,7 @@
           body: JSON.stringify(Object.fromEntries(new FormData(form)))
         });
         if (!res.ok) throw new Error("Request failed");
-        setStatus("Message sent — thanks for getting in touch.", "success");
+        setStatus("Message sent. Thanks for getting in touch.", "success");
         form.reset();
       } catch (err) {
         setStatus("Something went wrong sending your message. Please try again or use a social channel below.", "error");
