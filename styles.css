@@ -219,7 +219,7 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
   border-right:1px solid var(--line);
 }
 .slalom-rail.is-ready{opacity:1;}
-.slalom-rail svg{height:100%;width:100%;overflow:visible;}
+.slalom-rail svg{height:100%;width:100%;overflow:visible;padding-top:70px;}
 .slalom-rail .course-path{fill:none !important;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 3px #000);mix-blend-mode:overlay;}
 .slalom-rail .course-path,.slalom-rail .fall-line{vector-effect:non-scaling-stroke;}
 .slalom-rail .fall-line{display:none;}
