@@ -208,13 +208,21 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
   position:fixed;top:0;bottom:0;left:0;width:var(--rail-w);z-index:40;
   pointer-events:none;display:flex;justify-content:center;
   opacity:0;transition:opacity .5s ease;
+  /* Match nav background when scrolled */
+  background:transparent;
+  transition:opacity .5s ease, background var(--t-med) var(--ease);
+}
+.nav.is-scrolled ~ .slalom-rail{
+  background:rgba(250,251,253,.88);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-right:1px solid var(--line);
 }
 .slalom-rail.is-ready{opacity:1;}
 .slalom-rail svg{height:100%;width:100%;overflow:visible;}
-.slalom-rail .fall-line{stroke:rgba(13,22,32,.10);stroke-width:1;stroke-dasharray:1 7;}
 .slalom-rail .course-path{fill:none !important;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 3px #000);mix-blend-mode:overlay;}
-.slalom-rail .fall-line,.slalom-rail .course-path{vector-effect:non-scaling-stroke;}
-.slalom-rail .fall-line{stroke:#fff;stroke-width:1.5;stroke-dasharray:2 10;mix-blend-mode:overlay;filter:drop-shadow(0 0 1px #000);}
+.slalom-rail .course-path,.slalom-rail .fall-line{vector-effect:non-scaling-stroke;}
+.slalom-rail .fall-line{display:none;}
 .slalom-rail .route-arrow{fill:#fff;filter:drop-shadow(0 0 1px #000);}
 .slalom-rail .pole{stroke-width:4;vector-effect:non-scaling-stroke;}
 .slalom-rail .pole.red{stroke:var(--red);}
