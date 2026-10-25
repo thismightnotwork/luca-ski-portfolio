@@ -1,7 +1,6 @@
 /* course.js: single source of truth for the slalom rail.
- * Simple straight corridor down the middle with turning gates.
- * Each gate is a SINGLE TURNING POLE at its x position.
- * Racing line weaves through the poles.
+ * Simple straight corridor with 15 turning gates.
+ * Racing line passes at a consistent offset down from the pole top.
  */
 (function (root, factory) {
   "use strict";
@@ -23,6 +22,7 @@
     open2Y: 836,
     startY: 30,
     endY: 868,
+    raceOffsetY: 12,  // racing line passes 12 units down from pole top (half pole height)
     clearDesk: 0.7,
     clearMob: -0.2,
   };
@@ -101,7 +101,8 @@
     pts.push({ x: 50, y: R.startY, role: "start" });
     features.forEach(function (f) {
       var g = f.gates[0];
-      pts.push({ x: g.x, y: g.y, role: "throat" });
+      // Racing line passes at pole top + raceOffsetY (mid-pole)
+      pts.push({ x: g.x, y: g.y + R.raceOffsetY, role: "throat" });
     });
     pts.push({ x: 50, y: R.endY, role: "end" });
     return pts;
