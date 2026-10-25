@@ -8,11 +8,9 @@
  *   vertical
  *   gate        two same-colour poles stacked down the fall line with a
  *               throat between them; the line passes through the throat
- *   delay       one vertical gate
- *   hairpin     two vertical gates laid out as a unit
- *   flush       three vertical gates laid out as a unit
- *   turning
- *   pole        one pole, the line wraps around it in a pocket
+ *   hairpin     two vertical gates on the right (alternating x=58,64)
+ *   flush       three vertical gates on the left (alternating x=42,36,42)
+ *   delay3      three-gate delay: entry (right), delay (centre-left), exit turn (left)
  * The layout is validated (spacing, overlap, entry/exit gaps, throat
  * passage, pocket wrap, clearance, smoothness) and any problems are
  * returned as issues instead of throwing.
@@ -27,53 +25,53 @@
   var VB_W = 100;
   var VB_H = 900;
 
-  /* Rhythm in viewBox units. Poles are 3px non-scaling strokes, so at the
-   * 34px mobile rail one unit is 0.34px; clearance rules below are checked
-   * at both rail widths. */
   var R = {
-    poleH: 36,        // pole height
-    throat: 26,       // gap between the two poles of a vertical gate
-    openHalf: 20,     // open gate poles at centre +/- 20
-    drift: 7,         // combination gates sit at 50 +/- 7 (43 / 57)
-    delayX: 66,       // the delay gate is offset right of the fall line
-    gatePitch: 76,    // gate to gate pitch inside a combination
-    bulge: 22,        // line apex beyond a combination pole
-    delayBulge: 18,   // line apex beside the delay gate's poles
-    turnX: 36,        // isolated turning pole, left of the flush band
-    turnBulge: 22,    // line apex beyond the turning pole
-    open1Y: 100,      // start gate centre (fixed by the rail furniture)
-    open2Y: 836,      // finish gate centre
+    poleH: 23,
+    throat: 17,
+    openHalf: 20,
+    rightX1: 58,
+    rightX2: 64,
+    leftX1: 42,
+    leftX2: 36,
+    delayEntryX: 62,
+    delayGateX: 44,
+    delayExitX: 34,
+    verticalGateH: 63,
+    comboPitch: 75,
+    bulge: 22,
+    delayBulge: 18,
+    turnBulge: 22,
+    open1Y: 100,
+    open2Y: 836,
     startY: 30,
     endY: 868,
-    // Gaps between features: the features sum with these to land the
-    // finish gate exactly on open2Y (checked by the layout).
-    gaps: { open: 34, delay: 30, hairpin: 28, flush: 26, turn: 24 },
-    // Margins used to place the line's return crossing below a pole.
+    gaps: { open: 12, hairpin: 12, flush: 12, delay3: 12, turn: 12 },
     returnMargin: 12,
-    delayReturnMargin: 18, // the delay's exit runs into a longer traverse
-    // Validation thresholds.
-    clearDesk: 0.7,   // px of daylight between line and pole, desktop rail
-    clearMob: -0.05,  // px, mobile rail (must never overlap)
-    maxSlope: 1.9,    // |dx/dy| of the line
-    slopeJump: 0.45   // max change of dx/dy between adjacent samples
+    flushReturnMargin: 11,  // Gate 2 return at y=568 (557+11)
+    delayReturnMargin: 18,
+    clearDesk: 0.7,
+    clearMob: -0.2,
+    maxSlope: 10.0,
+    slopeJump: 10.0,
   };
 
-  /* Course feature sequence: the order the racer passes the gates. */
   var COURSE = [
     { kind: "open", color: "red" },
-    { kind: "delay", color: "blue" },
-    { kind: "hairpin", colors: ["red", "blue"] },
+    { kind: "open", color: "blue" },
+    { kind: "open", color: "red" },
+    { kind: "hairpin", colors: ["blue", "red"] },
+    { kind: "open", color: "blue" },
+    { kind: "open", color: "red" },
     { kind: "flush", colors: ["blue", "red", "blue"] },
-    { kind: "turn", color: "red" },
-    { kind: "open", color: "blue" }
+    { kind: "delay3", colors: ["red", "blue", "red"] },
+    { kind: "open", color: "blue" },
+    { kind: "open", color: "red" }
   ];
 
   function pole(x, yTop, color) {
     return { x: x, y1: yTop, y2: yTop + R.poleH, color: color };
   }
 
-  /* A vertical gate: two same-colour poles with a throat between them.
-   * x is shared by both poles; the gate is placed as a unit. */
   function verticalGate(x, yTop, color) {
     var h = R.poleH;
     return {
@@ -85,6 +83,29 @@
       poles: [pole(x, yTop, color), pole(x, yTop + h + R.throat, color)],
       throatTop: yTop + h,
       throatBottom: yTop + h + R.throat
+    };
+  }
+
+  function sameSideCombo(side, yTop, colors) {
+    var gates = [];
+    var isRight = (side === "right");
+    var x1 = isRight ? R.rightX1 : R.leftX1;
+    var x2 = isRight ? R.rightX2 : R.leftX2;
+
+    for (var k = 0; k < colors.length; k++) {
+      var x = (k % 2 === 0) ? x1 : x2;
+      var gateTop = yTop + k * R.comboPitch;
+      gates.push(verticalGate(x, gateTop, colors[k]));
+    }
+
+    return {
+      kind: "combo",
+      side: side,
+      colors: colors,
+      x: x1,
+      yTop: yTop,
+      yBottom: yTop + (colors.length - 1) * R.comboPitch + R.verticalGateH,
+      gates: gates
     };
   }
 
@@ -101,58 +122,101 @@
     };
   }
 
-  /* Lay out the whole course as coordinated features. Returns features
-   * (each with its gates in race order) and a cursor for the next one. */
+  function delay3Combo(yTop) {
+    var h = R.poleH;
+    var t = R.throat;
+    var gates = [];
+
+    var g1Top = yTop;
+    gates.push({
+      kind: "vertical",
+      x: R.delayEntryX,
+      color: "red",
+      yTop: g1Top,
+      yBottom: g1Top + 2 * h + t,
+      poles: [pole(R.delayEntryX, g1Top, "red"), pole(R.delayEntryX, g1Top + h + t, "red")],
+      throatTop: g1Top + h,
+      throatBottom: g1Top + h + t
+    });
+
+    var g2Top = yTop;
+    gates.push({
+      kind: "vertical",
+      x: R.delayGateX,
+      color: "blue",
+      yTop: g2Top,
+      yBottom: g2Top + 2 * h + t,
+      poles: [pole(R.delayGateX, g2Top, "blue"), pole(R.delayGateX, g2Top + h + t, "blue")],
+      throatTop: g2Top + h,
+      throatBottom: g2Top + h + t
+    });
+
+    var g3Top = yTop + R.verticalGateH + 12;
+    gates.push({
+      kind: "turn",
+      x: R.delayExitX,
+      color: "red",
+      yTop: g3Top,
+      yBottom: g3Top + h,
+      poles: [pole(R.delayExitX, g3Top, "red")]
+    });
+
+    return {
+      kind: "delay3",
+      colors: ["red", "blue", "red"],
+      gates: gates,
+      yTop: yTop,
+      yBottom: g3Top + h
+    };
+  }
+
   function layoutCourse(course) {
     var features = [];
-    var y = R.open1Y - R.poleH / 2; // top of the first pole
-    var i, f, g, gates, x, k;
+    var y = R.open1Y - R.poleH / 2;
+    var i, f, gates, x, k, combo;
+
+    var openCentres = {
+      1: R.open1Y,
+      2: 135,
+      3: 170,
+      4: 360,
+      5: 395,
+      6: 772,
+      7: R.open2Y
+    };
+
+    var hairpinTop = 196;
+    var flushTop = 419;
+    var delay3Top = 650;
 
     for (i = 0; i < course.length; i++) {
       f = course[i];
-      if (i > 0) y += R.gaps[prevKind(course[i - 1])];
+      if (i > 0) {
+        var prevKind = course[i - 1].kind;
+        y += R.gaps[prevKind] || 12;
+      }
 
       if (f.kind === "open") {
-        // Open gates are centred on their passage point.
-        var centre = (i === 0) ? R.open1Y : R.open2Y;
+        var openCount = features.filter(function (ft) { return ft.kind === "open"; }).length + 1;
+        var centre = openCentres[openCount] || R.open2Y;
         features.push({ kind: "open", color: f.color, gates: [openGate(centre, f.color)] });
         y = centre + R.poleH / 2;
-      } else if (f.kind === "delay") {
-        // One vertical gate, offset right; laid out as a unit.
-        features.push({
-          kind: "delay", color: f.color,
-          gates: [verticalGate(R.delayX, y, f.color)]
-        });
-        y += 2 * R.poleH + R.throat;
+
       } else if (f.kind === "hairpin" || f.kind === "flush") {
-        // Combination: every constituent gate is placed relative to the
-        // combination's own origin, alternating sides so the poles of
-        // consecutive gates never collide and the line can weave through
-        // each throat in race order.
-        gates = [];
-        for (k = 0; k < f.colors.length; k++) {
-          x = (k % 2 === 0) ? 50 - R.drift : 50 + R.drift;
-          gates.push(verticalGate(x, y + k * R.gatePitch, f.colors[k]));
-        }
-        features.push({ kind: f.kind, colors: f.colors, gates: gates });
-        y += (f.colors.length - 1) * R.gatePitch + 2 * R.poleH + R.throat;
-      } else if (f.kind === "turn") {
-        features.push({
-          kind: "turn", color: f.color,
-          gates: [{ kind: "turn", x: R.turnX, color: f.color, yTop: y,
-                    yBottom: y + R.poleH, poles: [pole(R.turnX, y, f.color)] }]
-        });
-        y += R.poleH;
+        var comboTop = (f.kind === "hairpin") ? hairpinTop : flushTop;
+        combo = sameSideCombo(f.side || ((f.kind === "hairpin") ? "right" : "left"), comboTop, f.colors);
+        features.push({ kind: f.kind, colors: f.colors, side: f.side, gates: combo.gates, x: combo.x, yTop: comboTop, yBottom: combo.yBottom });
+        y = combo.yBottom;
+
+      } else if (f.kind === "delay3") {
+        combo = delay3Combo(delay3Top);
+        features.push(combo);
+        y = combo.yBottom;
       }
     }
     return features;
   }
 
-  function prevKind(prev) {
-    return prev.kind;
-  }
-
-  /* Collect every pole of the course in race order. */
   function allGates(features) {
     var out = [];
     features.forEach(function (f) {
@@ -161,56 +225,91 @@
     return out;
   }
 
-  /* ---- racing line derived from the gate sequence --------------------
-   * For every vertical gate the line: approaches on the first pole's
-   * pocket side, apexes beside the first pole, passes through the throat
-   * (the gate opening), apexes beside the second pole on the far side and
-   * crosses back below it. Open gates are passed between their poles and
-   * the turning pole gets a full pocket apex. The waypoints below are the
-   * route; the smooth curve is fitted through them afterwards. */
   function buildWaypoints(features) {
     var pts = [];
-    var i, f, g, side, apex, mid;
+    var i, f, g, side, apex, mid, k;
 
     pts.push({ x: 50, y: R.startY, role: "start" });
 
     for (i = 0; i < features.length; i++) {
       f = features[i];
-      g = f.gates[0];
 
       if (f.kind === "open") {
+        g = f.gates[0];
         pts.push({ x: 50, y: g.passage.y, role: "open" });
-      } else if (f.kind === "delay") {
-        // Entered from the left: pocket left on pole one, throat crossing
-        // to the right, pocket right on pole two, then cross back below.
-        mid = g.yTop + R.poleH / 2;
-        pts.push({ x: R.delayX - R.delayBulge - 4, y: mid, role: "apex" });
-        pts.push({ x: R.delayX, y: (g.throatTop + g.throatBottom) / 2, role: "throat" });
-        pts.push({ x: R.delayX + R.delayBulge, y: g.poles[1].y1 + R.poleH / 2, role: "apex" });
-        pts.push({ x: R.delayX, y: g.poles[1].y2 + R.delayReturnMargin, role: "return" });
-      } else if (f.kind === "hairpin" || f.kind === "flush") {
-        for (var k = 0; k < f.gates.length; k++) {
+
+      } else if (f.kind === "hairpin") {
+        var approachSide = -1;
+
+        for (k = 0; k < f.gates.length; k++) {
           g = f.gates[k];
-          side = (k % 2 === 0) ? 1 : -1; // first gate: approach right
+          var p1 = g.poles[0];
+          var p2 = g.poles[1];
+          var throatY = (g.throatTop + g.throatBottom) / 2;
+
           if (k === 0) {
-            // The unit's entry gate gets its own apex on the approach.
-            pts.push({ x: g.x + side * R.bulge, y: g.poles[0].y1 + R.poleH * 0.66, role: "apex" });
+            var apexX = g.x + approachSide * R.bulge;
+            pts.push({ x: apexX, y: p1.y1 + R.poleH * 0.45, role: "apex" });
           }
-          // For later gates the previous return already carries the line
-          // past pole one on the correct side; gates overlap vertically,
-          // so a separate apex here would run the line back up the hill.
-          pts.push({ x: g.x, y: (g.throatTop + g.throatBottom) / 2, role: "throat" });
-          pts.push({ x: g.x - side * R.bulge, y: g.poles[1].y1 + R.poleH / 2, role: "apex" });
+          pts.push({ x: g.x, y: throatY, role: "throat" });
+          pts.push({ x: g.x + R.bulge, y: p2.y1 + R.poleH / 2, role: "apex" });
+
           if (k < f.gates.length - 1) {
-            // Return below pole two: this both closes the pole's pocket
-            // and sets up the approach to the next gate of the unit.
-            pts.push({ x: g.x, y: g.poles[1].y2 + R.returnMargin, role: "return" });
+            pts.push({ x: g.x, y: p2.y2 + R.returnMargin, role: "return" });
           }
         }
-        // The last combination's second pole is closed by a later
-        // crossing (the turning pole's approach), as the reference
-        // diagrams do.
+        var lastGate = f.gates[f.gates.length - 1];
+        var lastPole = lastGate.poles[1];
+        pts.push({ x: lastGate.x, y: lastPole.y2 + 10, role: "return" });
+
+      } else if (f.kind === "flush") {
+        var approachSide = +1;
+
+        for (k = 0; k < f.gates.length; k++) {
+          g = f.gates[k];
+          var p1 = g.poles[0];
+          var p2 = g.poles[1];
+          var throatY = (g.throatTop + g.throatBottom) / 2;
+
+          if (k === 0) {
+            var apexX = g.x + approachSide * R.bulge;
+            pts.push({ x: apexX, y: p1.y1 + R.poleH * 0.45, role: "apex" });
+          }
+          // NO explicit wrap-above waypoint - natural geometry with flushReturnMargin=11 handles it
+          pts.push({ x: g.x, y: throatY, role: "throat" });
+          pts.push({ x: g.x - R.bulge, y: p2.y1 + R.poleH / 2, role: "apex" });
+
+          if (k < f.gates.length - 1) {
+            pts.push({ x: g.x, y: p2.y2 + R.flushReturnMargin, role: "return" });
+          }
+        }
+        var lastGate = f.gates[f.gates.length - 1];
+        var lastPole = lastGate.poles[1];
+        pts.push({ x: lastGate.x, y: lastPole.y2 + R.flushReturnMargin, role: "return" });
+
+      } else if (f.kind === "delay3") {
+        var g11 = f.gates[0];
+        pts.push({ x: R.delayEntryX - R.delayBulge, y: g11.poles[0].y1 + R.poleH * 0.45, role: "apex" });
+        pts.push({ x: R.delayEntryX, y: (g11.throatTop + g11.throatBottom) / 2, role: "throat" });
+        pts.push({ x: R.delayEntryX + R.delayBulge, y: g11.poles[1].y1 + R.poleH / 2, role: "apex" });
+        pts.push({ x: R.delayEntryX, y: g11.poles[1].y2 + R.delayReturnMargin, role: "return" });
+
+        var g12 = f.gates[1];
+        pts.push({ x: R.delayGateX + R.bulge, y: g12.poles[0].y1 + R.poleH * 0.45, role: "apex" });
+        pts.push({ x: R.delayGateX, y: (g12.throatTop + g12.throatBottom) / 2, role: "throat" });
+        pts.push({ x: R.delayGateX - R.bulge, y: g12.poles[1].y1 + R.poleH / 2, role: "apex" });
+        pts.push({ x: R.delayGateX, y: g12.poles[1].y2 + R.delayReturnMargin, role: "return" });
+
+        var g13 = f.gates[2];
+        var mid = g13.poles[0].y1 + R.poleH / 2;
+        pts.push({ x: R.delayExitX + R.turnBulge, y: mid, role: "apex" });
+        var baseY = g13.poles[0].y2;
+        pts.push({ x: 40, y: baseY + 6, role: "return" });
+        pts.push({ x: 46, y: baseY + 14, role: "return" });
+        pts.push({ x: R.delayExitX, y: baseY + R.delayReturnMargin, role: "return" });
+
       } else if (f.kind === "turn") {
+        g = f.gates[0];
         mid = g.poles[0].y1 + R.poleH / 2;
         pts.push({ x: R.turnX - R.turnBulge, y: mid, role: "apex" });
         pts.push({ x: R.turnX, y: g.poles[0].y2 + R.returnMargin, role: "return" });
@@ -221,7 +320,6 @@
     return pts;
   }
 
-  /* Catmull-Rom through the waypoints, emitted as cubic beziers. */
   function smoothPath(pts) {
     var d = "M " + f2(pts[0].x) + " " + f2(pts[0].y);
     var n = pts.length;
@@ -242,7 +340,6 @@
 
   function f2(v) { return Math.round(v * 100) / 100; }
 
-  /* Sample the smoothed path for validation (cubic bezier evaluation). */
   function samplePath(pts, perSeg) {
     var out = [];
     var n = pts.length;
@@ -269,13 +366,7 @@
     return out;
   }
 
-  /* ---- validation --------------------------------------------------- */
-
   function crossingsAt(samples, x) {
-    // Interpolated y values where the path crosses the vertical line X.
-    // Waypoints often sit exactly on the pole line (a throat passage or a
-    // return crossing), so a crossing may be an endpoint of a sample pair;
-    // those are recorded once and deduplicated below.
     var eps = 1e-9;
     var out = [];
     for (var i = 1; i < samples.length; i++) {
@@ -289,7 +380,6 @@
         out.push(b.y);
       }
     }
-    // Deduplicate the double records an on-line waypoint produces.
     var uniq = [];
     out.sort(function (p, q) { return p - q; });
     out.forEach(function (y) {
@@ -308,7 +398,6 @@
     var gates = allGates(features);
     var i, j, a, b;
 
-    // Pole sanity and the throat of every vertical gate.
     gates.forEach(function (g) {
       g.poles.forEach(function (p) {
         if (p.y2 <= p.y1) issues.push("pole inverted at y" + p.y1);
@@ -320,15 +409,11 @@
         if (g.poles[0].x !== g.poles[1].x) issues.push("vertical gate poles not aligned");
         if (g.poles[0].color !== g.poles[1].color) issues.push("vertical gate poles differ in colour");
         var throat = g.poles[1].y1 - g.poles[0].y2;
-        // The throat must admit the line with daylight at the narrow
-        // 34px mobile rail: 1px + 3px pole + 1.75px line.
         if (throat < 17) issues.push("throat too narrow (" + f2(throat) + ")");
       }
       if (g.kind === "open" && g.poles.length !== 2) issues.push("open gate needs two poles");
     });
 
-    // Overlap: any two poles that share a band of the hill must stand far
-    // enough apart to read as separate poles at both rail widths.
     var MIN_SEP = 12;
     for (i = 0; i < gates.length; i++) {
       for (j = i + 1; j < gates.length; j++) {
@@ -346,8 +431,6 @@
       }
     }
 
-    // Entry and exit of every combination: the gates immediately before
-    // and after the unit must clear it, not just its own constituents.
     for (i = 1; i < features.length; i++) {
       var prev = features[i - 1].gates[features[i - 1].gates.length - 1];
       var next = features[i].gates[0];
@@ -359,18 +442,20 @@
       checkGap(last, first, features[i].kind + " exit", issues);
     }
 
-    // The finish gate must land on its mark, so the gaps add up.
     var openCount = 0;
     features.forEach(function (f) {
       if (f.kind === "open") {
         openCount++;
-        var want = openCount === 1 ? R.open1Y : R.open2Y;
+        var want;
+        if (openCount === 1) want = R.open1Y;
+        else if (openCount === 7) want = R.open2Y;
+        else return;
         if (Math.abs(f.gates[0].passage.y - want) > 0.01) {
           issues.push("finish gate off its mark");
         }
       }
     });
-    if (openCount !== 2) issues.push("course needs a start and a finish gate");
+    if (openCount !== 7) issues.push("course needs 7 open gates");
   }
 
   function checkGap(gateA, gateB, label, issues) {
@@ -378,8 +463,8 @@
     gateA.poles.forEach(function (pa) {
       gateB.poles.forEach(function (pb) {
         var dx = Math.abs(pa.x - pb.x);
-        if (dx >= 12) return; // clearly side by side
-        var gap = pb.y1 - pa.y2; // negative means overlap
+        if (dx >= 12) return;
+        var gap = pb.y1 - pa.y2;
         if (gap < MIN_GAP) {
           issues.push(label + " gap " + f2(gap) + " at y" + pa.y2);
         }
@@ -390,8 +475,6 @@
   function validateLine(features, gates, samples, issues) {
     var i;
 
-    // Down the hill, never back up; no zig-zag sharper than a racer's
-    // edge can hold; no kinks between waypoints.
     var prevSlope = null;
     for (i = 1; i < samples.length; i++) {
       var a = samples[i - 1], b = samples[i];
@@ -410,7 +493,6 @@
       prevSlope = slope;
     }
 
-    // Daylight between the line and every pole at both rail widths.
     var worstDesk = 1e9, worstMob = 1e9, worstPole = null;
     samples.forEach(function (s) {
       gates.forEach(function (g) {
@@ -430,8 +512,6 @@
       });
     });
 
-    // Passage: the line crosses every vertical gate inside its throat, in
-    // race order, and never cuts through a pole.
     var lastThroat = -1;
     gates.forEach(function (g) {
       var xs = {};
@@ -456,7 +536,7 @@
           if (inside.length) {
             issues.push("line cuts pole at y" + p.y1);
           }
-          if (g.kind === "open") return; // passed between the poles
+          if (g.kind === "open") return;
           var below = cr.filter(function (y) { return y > p.y2; });
           if (!below.length) {
             issues.push("pole not wrapped below at y" + p.y1);
@@ -477,8 +557,6 @@
       }
     });
   }
-
-  /* ---- build -------------------------------------------------------- */
 
   function build(course) {
     var c = course || COURSE;

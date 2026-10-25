@@ -42,9 +42,10 @@ check("no layout or line issues", course.issues.length === 0,
 
 const features = course.features;
 const kinds = features.map((f) => f.kind);
+// New course has: open, hairpin, flush, delay3 (4 combination types)
 check("all four combinations present",
-  kinds.includes("open") && kinds.includes("delay") &&
-  kinds.includes("hairpin") && kinds.includes("flush"),
+  kinds.includes("open") && kinds.includes("hairpin") &&
+  kinds.includes("flush") && kinds.includes("delay3"),
   kinds.join(","));
 
 // ------------------------------------------------- the flush regression
@@ -117,7 +118,7 @@ if (flush) {
   check("flush gates run in race order down the hill", order);
 
   // Entry and exit gates: the complete combination must clear the gates
-  // immediately before and after it (hairpin's last gate, turning pole).
+  // immediately before and after it (open gate 7, delay3 entry).
   const idx = features.indexOf(flush);
   const entryPole = features[idx - 1].gates.slice(-1)[0].poles.slice(-1)[0];
   const exitPole = features[idx + 1].gates[0].poles[0];
@@ -153,13 +154,16 @@ if (flush) {
   });
 }
 
-// ------------------------------------------------- delay and hairpin too
-section("delay and hairpin are coordinated units");
-const delay = features.find((f) => f.kind === "delay");
-check("delay is one vertical gate with a throat",
-  delay && delay.gates.length === 1 && delay.gates[0].kind === "vertical" &&
-  delay.gates[0].poles.length === 2 &&
-  delay.gates[0].poles[1].y1 - delay.gates[0].poles[0].y2 >= 17);
+// ------------------------------------------------- delay3 and hairpin are coordinated units
+section("delay3 and hairpin are coordinated units");
+const delay3 = features.find((f) => f.kind === "delay3");
+check("delay3 is three coordinated gates (entry vertical, delay vertical, exit turn)",
+  delay3 && delay3.gates.length === 3 &&
+  delay3.gates[0].kind === "vertical" && delay3.gates[0].poles.length === 2 &&
+  delay3.gates[1].kind === "vertical" && delay3.gates[1].poles.length === 2 &&
+  delay3.gates[2].kind === "turn" && delay3.gates[2].poles.length === 1 &&
+  delay3.gates[0].poles[1].y1 - delay3.gates[0].poles[0].y2 >= 17 &&
+  delay3.gates[1].poles[1].y1 - delay3.gates[1].poles[0].y2 >= 17);
 
 const hairpin = features.find((f) => f.kind === "hairpin");
 check("hairpin is two coordinated vertical gates",
