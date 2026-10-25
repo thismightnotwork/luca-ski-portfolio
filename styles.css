@@ -212,14 +212,15 @@ a:focus-visible, button:focus-visible{outline-offset:4px;}
 .slalom-rail.is-ready{opacity:1;}
 .slalom-rail svg{height:100%;width:100%;overflow:visible;}
 .slalom-rail .fall-line{stroke:rgba(13,22,32,.10);stroke-width:1;stroke-dasharray:1 7;}
-.slalom-rail .course-path{fill:none !important;stroke:rgba(13,22,32,.5);stroke-width:1.75;}
+.slalom-rail .course-path{fill:none !important;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1px #000) drop-shadow(0 0 3px #000);mix-blend-mode:overlay;}
 .slalom-rail .fall-line,.slalom-rail .course-path{vector-effect:non-scaling-stroke;}
-.slalom-rail .route-arrow{fill:rgba(13,22,32,.5);}
-.slalom-rail .pole{stroke-width:3;vector-effect:non-scaling-stroke;}
+.slalom-rail .fall-line{stroke:#fff;stroke-width:1.5;stroke-dasharray:2 10;mix-blend-mode:overlay;filter:drop-shadow(0 0 1px #000);}
+.slalom-rail .route-arrow{fill:#fff;filter:drop-shadow(0 0 1px #000);}
+.slalom-rail .pole{stroke-width:4;vector-effect:non-scaling-stroke;}
 .slalom-rail .pole.red{stroke:var(--red);}
 .slalom-rail .pole.blue{stroke:var(--blue);}
 .slalom-rail .marker{transition:transform .06s linear;}
-.slalom-rail .marker .skier{fill:var(--ink);}
+.slalom-rail .marker .skier{fill:#fff;filter:drop-shadow(0 0 2px #000) drop-shadow(0 0 4px #000);}
 .slalom-rail .marker .accent{fill:var(--red);}
 @media (max-width:900px){ .slalom-rail{width:34px;} }
 @media (prefers-reduced-motion:reduce){ .slalom-rail .marker{display:none;} }
