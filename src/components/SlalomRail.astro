@@ -1,0 +1,52 @@
+<div class="fixed left-0 top-0 h-screen w-[72px] z-50 pointer-events-none hidden xl:block mix-blend-screen" id="slalom-rail">
+  <svg viewBox="0 0 100 900" preserveAspectRatio="none" class="w-full h-full">
+    <line x1="50" y1="0" x2="50" y2="900" stroke="rgba(154,165,181,0.12)" stroke-width="1.5" stroke-dasharray="4 8"/>
+    <path id="course-path" fill="none" d="M 50 30 C 47.67 41.67, 33.67 79.17, 36 100 C 38.33 120.83, 64 136.67, 64 155 C 64 173.33, 36 191.67, 36 210 C 36 228.33, 59.33 246.67, 64 265 C 68.67 283.33, 68.67 301.67, 64 320 C 59.33 338.33, 36 356.67, 36 375 C 36 393.33, 64 411.67, 64 430 C 64 448.33, 40.67 466.67, 36 485 C 31.33 503.33, 36 521.67, 36 540 C 36 558.33, 31.33 576.67, 36 595 C 40.67 613.33, 61.67 631.67, 64 650 C 66.33 668.33, 54.67 686.67, 50 705 C 45.33 723.33, 33.67 743.33, 36 760 C 38.33 776.67, 64 792.33, 64 805 C 64 817.67, 38.33 825.5, 36 836 C 33.67 846.5, 47.67 862.67, 50 868" stroke="rgba(215,221,230,0.9)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M41.5,861 L58.5,861 L50,875 Z" fill="#0a84ff" style="filter:drop-shadow(0 0 12px rgba(10,132,255,0.6))"/>
+    <g id="gate-layer"></g>
+    <g id="skier-marker">
+      <path d="M0,-9 L4.5,7 L0,3 L-4.5,7 Z" fill="#f7f9fc" style="filter:drop-shadow(0 0 12px rgba(247,249,252,0.6))"/>
+      <circle r="2" cx="0" cy="-2" fill="#ff3b30"/>
+    </g>
+  </svg>
+</div>
+<script is:inline src="/course.js"></script>
+<script is:inline>
+(function(){
+  const svg = document.getElementById('slalom-rail');
+  if(!svg) return;
+  const marker = document.getElementById('skier-marker');
+  const path = document.getElementById('course-path');
+  const gateLayer = document.getElementById('gate-layer');
+  if(!marker || !path) return;
+  if(typeof SlalomCourse === 'undefined') return;
+  try {
+    const course = SlalomCourse.getCourse();
+    const gates = course.gates || [];
+    gateLayer.innerHTML = '';
+    gates.forEach(g => {
+      if(g.kind === 'turn' && Array.isArray(g.poles)) {
+        g.poles.forEach(p => {
+          const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+          line.setAttribute('x1',p.x); line.setAttribute('y1',p.y1);
+          line.setAttribute('x2',p.x); line.setAttribute('y2',p.y2);
+          line.setAttribute('stroke', p.color === 'blue' ? '#0a84ff' : '#ff3b30');
+          line.setAttribute('stroke-width','4'); line.setAttribute('stroke-linecap','round');
+          line.style.filter = p.color === 'blue' ? 'drop-shadow(0 0 16px rgba(10,132,255,0.5))' : 'drop-shadow(0 0 16px rgba(255,59,48,0.5))';
+          gateLayer.appendChild(line);
+        });
+      }
+    });
+  } catch(e){}
+  const len = path.getTotalLength();
+  function update(){
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? h.scrollTop / max : 0;
+    const pt = path.getPointAtLength(len * p);
+    marker.setAttribute('transform', 'translate('+pt.x+','+pt.y+') rotate('+ (Math.atan2(pt.y,pt.x)*180/Math.PI) +')');
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
+</script>
