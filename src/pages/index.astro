@@ -1,16 +1,55 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
+<BaseLayout title="Luca Finnis-Bernard — Ski Portfolio" description="Alpine skiing, projects, and pursuits.">
+  <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <div class="max-w-3xl">
+      <p class="text-sm uppercase tracking-widest text-white/60 mb-6">Ski • Code • Design</p>
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[0.95]">
+        Pushing lines on and off the mountain
+      </h1>
+      <p class="mt-6 text-lg text-white/80 max-w-2xl">
+        A portfolio of alpine endeavors, technical projects, and creative work.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#work" class="px-6 py-3 rounded-full bg-white text-black text-sm font-medium hover:opacity-90">View work</a>
+        <a href="/about" class="px-6 py-3 rounded-full border border-white/30 text-sm hover:bg-white/5">About me</a>
+      </div>
+    </div>
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <section id="work" class="mx-auto max-w-6xl px-6 py-12 md:py-16">
+    <div class="flex items-end justify-between mb-10">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Selected work</h2>
+      <a href="/projects" class="text-sm text-white/70 hover:text-white">All projects →</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <article class="group relative overflow-hidden rounded-2xl border border-white/10">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop" alt="Alpine mountains" class="h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+          <p class="text-xs uppercase tracking-widest text-white/60">Ski</p>
+          <h3 class="mt-2 text-xl font-semibold">Alpine Lines</h3>
+          <p class="mt-1 text-sm text-white/70">A collection of freeride and alpine pursuits</p>
+        </div>
+      </article>
+      <article class="group relative overflow-hidden rounded-2xl border border-white/10">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop" alt="Code on screen" class="h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+          <p class="text-xs uppercase tracking-widest text-white/60">Code</p>
+          <h3 class="mt-2 text-xl font-semibold">Technical Projects</h3>
+          <p class="mt-1 text-sm text-white/70">Tools, scripts, and experiments</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" class="mx-auto max-w-6xl px-6 py-16">
+    <div class="rounded-3xl border border-white/10 p-8 md:p-12 bg-gradient-to-br from-white/5 to-transparent">
+      <div class="max-w-2xl">
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Let's build something together</h2>
+        <p class="mt-3 text-white/80">For collaborations, projects, or just to say hi.</p>
+        <a href="mailto:luca@example.com" class="mt-8 inline-block px-6 py-3 rounded-full bg-white text-black text-sm font-medium hover:opacity-90">Get in touch</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

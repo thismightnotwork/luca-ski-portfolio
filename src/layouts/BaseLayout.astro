@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+const { title = "Luca Finnis-Bernard", description = "Ski portfolio and projects." } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-black text-white antialiased">
+    <header class="fixed top-0 inset-x-0 z-50 bg-black/70 backdrop-blur border-b border-white/10">
+      <nav class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-sm tracking-widest uppercase">Luca Finnis-Bernard</a>
+        <div class="hidden md:flex gap-8 text-sm">
+          <a href="/#work" class="hover:opacity-80">Work</a>
+          <a href="/about" class="hover:opacity-80">About</a>
+          <a href="/#contact" class="hover:opacity-80">Contact</a>
+        </div>
+        <button class="md:hidden" aria-label="Menu">Menu</button>
+      </nav>
+    </header>
+    <main class="pt-20">
+      <slot />
+    </main>
+    <footer class="mt-24 border-t border-white/10">
+      <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-white/70">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} Luca Finnis-Bernard</p>
+          <div class="flex gap-6">
+            <a href="https://github.com/thismightnotwork" target="_blank" rel="noopener noreferrer" class="hover:text-white">GitHub</a>
+            <a href="https://www.instagram.com/luca_ski/" target="_blank" rel="noopener noreferrer" class="hover:text-white">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

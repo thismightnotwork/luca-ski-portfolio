@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Projects — Luca Finnis-Bernard" description="Selected projects.">
+  <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">Projects</h1>
+    <p class="mt-4 text-white/80 max-w-2xl">A curated selection of ski lines and technical projects.</p>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <article class="rounded-2xl border border-white/10 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2000&auto=format&fit=crop" alt="Mountain range" class="h-72 w-full object-cover" />
+        <div class="p-6">
+          <h2 class="text-xl font-semibold">Alpine Lines Archive</h2>
+          <p class="mt-2 text-white/70">Freeride documentation and route notes.</p>
+        </div>
+      </article>
+      <article class="rounded-2xl border border-white/10 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop" alt="Electronics and code" class="h-72 w-full object-cover" />
+        <div class="p-6">
+          <h2 class="text-xl font-semibold">Tools & Experiments</h2>
+          <p class="mt-2 text-white/70">Small utilities and web experiments.</p>
+        </div>
+      </article>
+    </div>
+    <div class="mt-10">
+      <a href="/" class="text-sm text-white/70 hover:text-white">← Back home</a>
+    </div>
+  </section>
+</BaseLayout>
