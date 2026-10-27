@@ -58,39 +58,41 @@ import ProgressBar from '../components/ProgressBar.astro';
         </div>
       </div>
     </section>
+
     <section class="relative py-20 lg:py-32 border-t border-white/[0.08] overflow-hidden">
       <div class="absolute inset-0">
-        <div class="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
       </div>
       <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 lg:mb-16">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10 lg:mb-12">
           <div>
             <div class="flex items-center gap-3 mb-4">
               <div class="flex gap-1.5">
                 <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
                 <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
               </div>
-              <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">Line • Rhythm • Commitment</span>
+              <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">Control the Line</span>
             </div>
-            <h2 class="text-4xl lg:text-6xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight">Carve the Line</h2>
+            <h2 class="text-4xl lg:text-6xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight mb-3">Slalom Mini Game</h2>
+            <p class="text-white/60">Use ← → or A/D to carve between red and blue gates. Hit clean gates to build speed.</p>
           </div>
-          <p class="text-sm text-white/40 max-w-md">Precision in slalom comes from finding the fastest line between the gates.</p>
-        </div>
-        <div class="relative h-[260px] sm:h-[320px] lg:h-[380px]" id="slalom-track">
-          <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"></div>
-          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full" id="slalom-gates"></div>
-          <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2" id="skier">
-            <div class="relative">
-              <div class="w-4 h-4 rounded-full bg-white shadow-[0_0_60px_rgba(255,255,255,0.9)]"></div>
-              <div class="absolute -inset-6 rounded-full border border-white/40 animate-ping"></div>
+          <div class="flex items-center gap-6">
+            <div>
+              <div class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 mb-1">Gates Hit</div>
+              <div class="text-4xl font-[family-name:var(--font-heading)] font-black" id="ski-score">0</div>
             </div>
           </div>
-          <div class="absolute top-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Start</div>
-          <div class="absolute bottom-4 right-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Finish</div>
         </div>
+        <div class="relative border border-white/15 bg-black/40 overflow-hidden">
+          <canvas id="ski-canvas" class="w-full h-[320px]"></canvas>
+          <div class="absolute top-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Slalom</div>
+        </div>
+        <p class="mt-4 text-xs text-white/30 text-center">Arrow keys or A/D to steer</p>
       </div>
-      <script is:inline src="/course.js"></script>
+      <script src="/skigame.js"></script>
     </section>
+
   </main>
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
