@@ -1,0 +1,6 @@
+name = "luca-gbski-proxy"
+main = "worker.js"
+compatibility_date = "2026-10-16"
+
+[vars]
+GBSKI_URL = "https://gbski.com/biography.php?id=42382"
