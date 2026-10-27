@@ -1,4 +1,4 @@
-// Top-down scrolling ski game
+// Coming down - gates come from bottom to top
 (function(){
   const canvas = document.getElementById('ski-canvas');
   if(!canvas) return;
@@ -25,28 +25,27 @@
     });
   });
   
-  const skier = {x: W/2, y: 60, vx: 0, radius: 6};
+  const skier = {x: W/2, y: H - 80, vx: 0, radius: 6};
   let gates = [];
   let gateId = 0;
   let score = 0;
   let speed = 0;
   let keys = {};
-  let cameraY = 0;
   
   function getConfig(){
-    if(discipline === 'slalom') return { spacing: 38, width: 58, baseSpeed: 3.2, turn: 0.16 };
-    if(discipline === 'gs') return { spacing: 52, width: 88, baseSpeed: 3.6, turn: 0.12 };
-    if(discipline === 'superg') return { spacing: 72, width: 110, baseSpeed: 4.0, turn: 0.09 };
-    if(discipline === 'downhill') return { spacing: 98, width: 138, baseSpeed: 4.8, turn: 0.07 };
-    return { spacing: 38, width: 58, baseSpeed: 3.2, turn: 0.16 };
+    if(discipline === 'slalom') return { spacing: 42, width: 56, baseSpeed: 3.0, turn: 0.18 };
+    if(discipline === 'gs') return { spacing: 58, width: 86, baseSpeed: 3.4, turn: 0.14 };
+    if(discipline === 'superg') return { spacing: 78, width: 108, baseSpeed: 3.8, turn: 0.11 };
+    if(discipline === 'downhill') return { spacing: 105, width: 136, baseSpeed: 4.6, turn: 0.09 };
+    return { spacing: 42, width: 56, baseSpeed: 3.0, turn: 0.18 };
   }
   
-  function createGate(y, red){
+  function createGate(yOffset, red){
     const cfg = getConfig();
-    const offset = (Math.sin(gateId * 0.9) * (W * 0.28));
+    const offset = Math.sin(gateId * 0.85) * (W * 0.26);
     gates.push({
       id: gateId++,
-      y: y,
+      y: yOffset,
       x: W/2 + offset,
       width: cfg.width,
       red: red,
@@ -60,12 +59,11 @@
     score = 0;
     speed = getConfig().baseSpeed;
     skier.x = W/2;
-    skier.y = 80;
+    skier.y = H - 80;
     skier.vx = 0;
-    cameraY = 0;
     const cfg = getConfig();
-    for(let i=0; i<25; i++) {
-      createGate(150 + i*cfg.spacing, i % 2 === 0);
+    for(let i=0; i<20; i++) {
+      createGate(-i * cfg.spacing - 100, i % 2 === 0);
     }
     document.getElementById('ski-score').textContent = score;
   }
@@ -79,34 +77,38 @@
     const cfg = getConfig();
     if(keys['ArrowLeft'] || keys['a'] || keys['A']) skier.vx -= cfg.turn;
     if(keys['ArrowRight'] || keys['d'] || keys['D']) skier.vx += cfg.turn;
-    skier.vx *= 0.85;
-    skier.vx = Math.max(-4.5, Math.min(4.5, skier.vx));
+    skier.vx *= 0.84;
+    skier.vx = Math.max(-4.2, Math.min(4.2, skier.vx));
     skier.x += skier.vx;
-    cameraY += speed;
     
-    if(skier.x < 30) skier.x = 30;
-    if(skier.x > W-30) skier.x = W-30;
+    // Gates move up toward skier (coming down)
+    gates.forEach(g => {
+      g.y += speed;
+    });
+    
+    if(skier.x < 28) skier.x = 28;
+    if(skier.x > W-28) skier.x = W-28;
     
     gates.forEach(g => {
-      const gy = g.y + cameraY;
-      if(!g.passed && gy > skier.y - 5 && gy < skier.y + 15){
+      if(!g.passed && g.y > skier.y - 12 && g.y < skier.y + 8){
         if(skier.x >= g.x - g.width/2 && skier.x <= g.x + g.width/2){
           g.passed = true;
           score++;
-          speed = Math.min(cfg.baseSpeed + 1.0, speed + 0.04);
+          speed = Math.min(cfg.baseSpeed + 0.9, speed + 0.035);
         }else{
           g.passed = true;
         }
       }
     });
     
-    if(gates.length > 0 && gates[gates.length-1].y + cameraY < H + 200){
+    // Add new gates at top
+    if(gates.length > 0 && gates[gates.length-1].y > -200){
       const last = gates[gates.length-1];
-      for(let i=0; i<5; i++){
-        createGate(last.y + cfg.spacing * (i+1), gateId % 2 === 0);
+      for(let i=0; i<4; i++){
+        createGate(last.y - cfg.spacing * (i+1), gateId % 2 === 0);
       }
     }
-    gates = gates.filter(g => g.y + cameraY > -100);
+    gates = gates.filter(g => g.y < H + 60);
     
     document.getElementById('ski-score').textContent = score;
   }
@@ -119,73 +121,67 @@
     ctx.strokeStyle = 'rgba(255,255,255,0.08)';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(W/2 - 90, 0);
-    ctx.lineTo(W/2 - 90, H);
-    ctx.moveTo(W/2 + 90, 0);
-    ctx.lineTo(W/2 + 90, H);
+    ctx.moveTo(W/2 - 88, 0);
+    ctx.lineTo(W/2 - 88, H);
+    ctx.moveTo(W/2 + 88, 0);
+    ctx.lineTo(W/2 + 88, H);
     ctx.stroke();
     
-    // Gates
+    // Gates coming from bottom
     gates.forEach(g => {
-      const gy = g.y + cameraY;
-      if(gy < -40 || gy > H+40) return;
+      if(g.y < -50 || g.y > H+30) return;
       const color = g.red ? '#ff3333' : '#4d9bff';
       ctx.strokeStyle = color;
       ctx.lineWidth = 4;
-      ctx.shadowBlur = 12;
+      ctx.shadowBlur = 14;
       ctx.shadowColor = color;
-      // Left pole
       ctx.beginPath();
-      ctx.moveTo(g.x - g.width/2, gy);
-      ctx.lineTo(g.x - g.width/2, gy - 32);
-      // Right pole
-      ctx.moveTo(g.x + g.width/2, gy);
-      ctx.lineTo(g.x + g.width/2, gy - 32);
+      ctx.moveTo(g.x - g.width/2, g.y);
+      ctx.lineTo(g.x - g.width/2, g.y - 34);
+      ctx.moveTo(g.x + g.width/2, g.y);
+      ctx.lineTo(g.x + g.width/2, g.y - 34);
       ctx.stroke();
       ctx.shadowBlur = 0;
-      // Flags
       ctx.fillStyle = color;
       ctx.beginPath();
-      ctx.moveTo(g.x - g.width/2, gy - 32);
-      ctx.lineTo(g.x - g.width/2 + 10, gy - 30);
-      ctx.lineTo(g.x - g.width/2, gy - 28);
+      ctx.moveTo(g.x - g.width/2, g.y - 34);
+      ctx.lineTo(g.x - g.width/2 + 11, g.y - 32);
+      ctx.lineTo(g.x - g.width/2, g.y - 30);
       ctx.fill();
       ctx.beginPath();
-      ctx.moveTo(g.x + g.width/2, gy - 32);
-      ctx.lineTo(g.x + g.width/2 - 10, gy - 30);
-      ctx.lineTo(g.x + g.width/2, gy - 28);
+      ctx.moveTo(g.x + g.width/2, g.y - 34);
+      ctx.lineTo(g.x + g.width/2 - 11, g.y - 32);
+      ctx.lineTo(g.x + g.width/2, g.y - 30);
       ctx.fill();
     });
     
-    // Skier
+    // Skier at bottom
     ctx.save();
     ctx.translate(skier.x, skier.y);
-    ctx.rotate(skier.vx * 0.08);
-    const g = ctx.createRadialGradient(0,0,0,0,0,9);
-    g.addColorStop(0, '#ffffff');
-    g.addColorStop(1, '#dddddd');
-    ctx.fillStyle = g;
-    ctx.shadowBlur = 18;
-    ctx.shadowColor = 'rgba(255,255,255,0.9)';
+    ctx.rotate(skier.vx * 0.1);
+    const grad = ctx.createRadialGradient(0,0,0,0,0,9);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(1, '#e0e0e0');
+    ctx.fillStyle = grad;
+    ctx.shadowBlur = 22;
+    ctx.shadowColor = 'rgba(255,255,255,0.95)';
     ctx.beginPath();
     ctx.arc(0,0, skier.radius, 0, Math.PI*2);
     ctx.fill();
     ctx.shadowBlur = 0;
-    // Skis
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(-5, 3);
-    ctx.lineTo(-8, 12);
+    ctx.lineTo(-8, 14);
     ctx.moveTo(5, 3);
-    ctx.lineTo(8, 12);
+    ctx.lineTo(8, 14);
     ctx.stroke();
     ctx.restore();
     
-    // Top indicator
-    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
     ctx.font = '10px IBM Plex Mono';
-    ctx.fillText('TOP', W/2 - 12, 15);
+    ctx.fillText('COMING DOWN', W/2 - 38, H - 10);
   }
   
   function loop(){
