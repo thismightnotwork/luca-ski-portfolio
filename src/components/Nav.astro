@@ -1,0 +1,97 @@
+<header class="fixed top-0 left-0 w-full z-[800] transition-all duration-700" id="site-nav">
+  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
+  <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <div class="flex items-center justify-between gap-6 py-6 transition-all duration-700" id="nav-inner">
+      <a href="/" class="group flex items-center gap-3">
+        <span class="font-[family-name:var(--font-display)] text-lg tracking-[0.4em] uppercase">LUCA<span class="text-red-500">.</span>FB</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-10">
+        <a href="/#about" class="relative text-sm font-semibold tracking-[0.16em] uppercase text-white/60 hover:text-white transition-colors py-2">
+          <span>About</span>
+          <span class="absolute left-0 -bottom-1 h-px w-full bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 origin-left transition-transform duration-500 hover:scale-x-100"></span>
+        </a>
+        <a href="/#skiing" class="relative text-sm font-semibold tracking-[0.16em] uppercase text-white/60 hover:text-white transition-colors py-2">
+          <span>Skiing</span>
+          <span class="absolute left-0 -bottom-1 h-px w-full bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 origin-left transition-transform duration-500 hover:scale-x-100"></span>
+        </a>
+        <a href="/#journey" class="relative text-sm font-semibold tracking-[0.16em] uppercase text-white/60 hover:text-white transition-colors py-2">
+          <span>Journey</span>
+          <span class="absolute left-0 -bottom-1 h-px w-full bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 origin-left transition-transform duration-500 hover:scale-x-100"></span>
+        </a>
+        <a href="/#gallery" class="relative text-sm font-semibold tracking-[0.16em] uppercase text-white/60 hover:text-white transition-colors py-2">
+          <span>Gallery</span>
+          <span class="absolute left-0 -bottom-1 h-px w-full bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 origin-left transition-transform duration-500 hover:scale-x-100"></span>
+        </a>
+        <a href="/#contact" class="relative text-sm font-semibold tracking-[0.16em] uppercase text-white/60 hover:text-white transition-colors py-2">
+          <span>Contact</span>
+          <span class="absolute left-0 -bottom-1 h-px w-full bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 origin-left transition-transform duration-500 hover:scale-x-100"></span>
+        </a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="/#contact" class="hidden md:inline-flex items-center gap-2 px-7 py-3 text-xs font-bold tracking-[0.18em] uppercase border border-white/20 hover:border-transparent relative overflow-hidden group">
+          <span class="relative z-10">Get in touch</span>
+          <span class="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+        </a>
+        <button class="lg:hidden w-12 h-12 border border-white/20 flex flex-col items-center justify-center gap-1.5" id="nav-toggle" aria-label="Open menu">
+          <span class="w-5 h-px bg-white"></span>
+          <span class="w-5 h-px bg-white"></span>
+          <span class="w-5 h-px bg-white"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="fixed inset-0 bg-black/90 backdrop-blur-xl z-[900] hidden items-center justify-center" id="mobile-menu">
+  <button class="absolute top-6 right-6 w-12 h-12 border border-white/20 flex items-center justify-center text-2xl" id="nav-close" aria-label="Close menu">×</button>
+  <nav class="flex flex-col items-center gap-8 text-center">
+    <a href="/#about" class="text-3xl font-[family-name:var(--font-heading)] font-bold tracking-tight">About</a>
+    <a href="/#skiing" class="text-3xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Skiing</a>
+    <a href="/#journey" class="text-3xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Journey</a>
+    <a href="/#gallery" class="text-3xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Gallery</a>
+    <a href="/#contact" class="text-3xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Contact</a>
+    <a href="/about" class="text-lg text-white/60">Full about page</a>
+  </nav>
+</div>
+
+<script is:inline>
+(function(){
+  const nav = document.getElementById('site-nav');
+  const inner = document.getElementById('nav-inner');
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const close = document.getElementById('nav-close');
+  const links = menu ? menu.querySelectorAll('a') : [];
+  
+  function onScroll(){
+    if(window.scrollY > 40){
+      nav.classList.add('bg-black/80','backdrop-blur-xl','border-b','border-white/10');
+      inner.classList.remove('py-6');
+      inner.classList.add('py-4');
+    }else{
+      nav.classList.remove('bg-black/80','backdrop-blur-xl','border-b','border-white/10');
+      inner.classList.add('py-6');
+      inner.classList.remove('py-4');
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  
+  function open(){
+    if(!menu) return;
+    menu.classList.remove('hidden');
+    menu.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+  function shut(){
+    if(!menu) return;
+    menu.classList.add('hidden');
+    menu.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+  if(toggle) toggle.addEventListener('click', open);
+  if(close) close.addEventListener('click', shut);
+  links.forEach(a => a.addEventListener('click', shut));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') shut(); });
+})();
+</script>

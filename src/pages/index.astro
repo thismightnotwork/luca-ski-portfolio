@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SlalomRail from '../components/SlalomRail.astro';
+import Nav from '../components/Nav.astro';
 ---
 ---
 <BaseLayout>
@@ -9,7 +10,8 @@ import SlalomRail from '../components/SlalomRail.astro';
     <div class="h-full bg-gradient-to-r from-red-500 to-blue-500 origin-left scale-x-0 transition-transform" id="progress"></div>
   </div>
 
-  <header class="fixed top-0 left-0 w-full z-[800] transition-all duration-500" id="nav">
+  <Nav />
+  <header class="fixed top-0 left-0 w-full z-[700] transition-all duration-500" id="nav">
     <div class="mx-auto max-w-[1400px] px-6 lg:px-10 flex items-center justify-between gap-6 py-5 transition-all duration-500" id="nav-inner">
       <a href="#home" class="font-[family-name:var(--font-display)] text-lg tracking-[0.35em] uppercase">LUCA<span class="text-red-500">.</span>FB</a>
       <nav class="hidden lg:flex gap-12">
