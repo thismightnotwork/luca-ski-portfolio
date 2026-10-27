@@ -8,36 +8,65 @@ import ProgressBar from '../components/ProgressBar.astro';
   <Navigation />
   <main id="main" class="pt-28 md:pt-36 pb-20 md:pb-24">
     <section class="relative overflow-hidden">
-      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-      <div class="absolute -top-60 right-[-30%] w-[80vw] h-[80vw] rounded-full bg-gradient-to-br from-red-500/12 to-blue-500/12 blur-3xl"></div>
+      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-500/20 to-transparent"></div>
+      <div class="absolute -top-80 right-[-40%] w-[100vw] h-[100vw] rounded-full bg-gradient-to-br from-red-500/15 via-blue-500/10 to-transparent blur-3xl"></div>
+      <div class="absolute top-1/3 left-[-20%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-tr from-blue-500/8 to-transparent blur-3xl"></div>
       <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
-        <div class="max-w-5xl mb-12 md:mb-16">
-          <div class="flex items-center gap-3 mb-6 md:mb-8">
-            <div class="flex gap-1.5">
-              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
-              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+        <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-16 items-center mb-16 md:mb-24">
+          <div>
+            <div class="flex items-center gap-3 mb-6 md:mb-8 animate-fade-in-up">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+              </div>
+              <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">Great Britain • U18 • Hemel Ski Race Club</span>
             </div>
-            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Alpine Ski Racer - BASI Level 2 Instructor</span>
+            <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.85] mb-6 md:mb-8 text-[14vw] sm:text-[12vw] lg:text-[9rem] xl:text-[11rem] animate-fade-in-up delay-100">FIND<br/>THE<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-blue-400">EDGE.</span></h1>
+            <p class="text-lg md:text-xl lg:text-2xl text-white/70 leading-relaxed max-w-3xl mb-10 animate-fade-in-up delay-200">British U18 alpine ski racer. BASI Ski UK Level 2 instructor at The Snow Centre and Knockhatch Ski School. Snow Shepherd Pro Deal athlete.</p>
+            <div class="flex flex-wrap gap-3 sm:gap-4 mb-12 animate-fade-in-up delay-300">
+              <a href="/skiing" class="relative inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
+                <span class="relative z-10">Race results</span>
+                <svg class="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+              </a>
+              <a href="/contact" class="inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/30 hover:border-white/60 hover:bg-white/5 transition-all">Get in touch</a>
+            </div>
           </div>
-          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.9] mb-8 md:mb-10 text-[12vw] sm:text-[9vw] lg:text-[8rem]">FIND THE<br/>EDGE.</h1>
-          <p class="text-lg md:text-xl lg:text-2xl text-white/70 leading-relaxed max-w-4xl">I'm Luca Finnis-Bernard - a British U18 alpine ski racer for Hemel Ski Race Club, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete.</p>
+          <figure class="relative animate-fade-in-up delay-400">
+            <div class="absolute -inset-4 bg-gradient-to-br from-red-500/40 via-transparent to-blue-500/40 blur-3xl opacity-60"></div>
+            <div class="relative border border-white/15 overflow-hidden group shadow-2xl">
+              <img src="/photos/Tignes.jpeg" alt="Luca Finnis-Bernard carving through alpine gates in Tignes" class="w-full aspect-[3/4] object-cover group-hover:scale-[1.03] transition-transform duration-1000" loading="eager" fetchpriority="high" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="w-2 h-2 bg-red-500"></span>
+                  <span class="w-2 h-2 bg-blue-500"></span>
+                </div>
+                <figcaption class="text-[10px] font-mono uppercase tracking-[0.24em] text-white/70">Tignes, France</figcaption>
+              </div>
+            </div>
+          </figure>
         </div>
+        <div class="max-w-5xl mb-12 md:mb-16">
         <div class="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 mb-16">
           <div class="space-y-6 text-white/70 leading-relaxed text-lg">
-            <p>I race for Hemel Ski Race Club (HSRC) and teach skiing at The Snow Centre in Hemel Hempstead and Knockhatch Ski School. I train at The Snow Centre and Knockhatch Ski School and get mountain-racing mileage in Tignes.</p>
+            <p>I race for Hemel Ski Race Club (HSRC). I teach skiing at The Snow Centre in Hemel Hempstead and Knockhatch Ski School. I train at The Snow Centre and Knockhatch Ski School and get mountain-racing mileage in Tignes.</p>
             <p>My focus is on precision, gate technique and line choice - applying the same principles in coaching that I use in race training. Every turn has intent.</p>
             <p>I'm on a Snow Shepherd Pro Deal, receiving 50% off Snow Shepherd products. I'm always looking for support from brands, businesses and people who want to be part of my racing journey.</p>
           </div>
-          <div class="border border-white/[0.08] bg-[#080a0f] p-8 lg:p-10">
-            <h2 class="text-2xl font-[family-name:var(--font-heading)] font-bold mb-8">Quick Facts</h2>
-            <ul class="divide-y divide-white/10">
-              <li class="flex justify-between py-4"><span class="text-white/50">Nationality</span><span class="font-semibold">Great Britain</span></li>
-              <li class="flex justify-between py-4"><span class="text-white/50">Category</span><span class="font-semibold">U18</span></li>
-              <li class="flex justify-between py-4"><span class="text-white/50">Disciplines</span><span class="font-semibold">Slalom &amp; Giant Slalom</span></li>
-              <li class="flex justify-between py-4"><span class="text-white/50">Race Club</span><span class="font-semibold">Hemel Ski Race Club</span></li>
-              <li class="flex justify-between py-4"><span class="text-white/50">Qualification</span><span class="font-semibold">BASI Ski UK Level 2</span></li>
-              <li class="flex justify-between py-4"><span class="text-white/50">Support</span><span class="font-semibold">Snow Shepherd Pro Deal</span></li>
-            </ul>
+          <div class="relative border border-white/[0.12] bg-gradient-to-b from-white/[0.02] to-transparent overflow-hidden">
+            <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
+            <div class="p-8 lg:p-10">
+              <h2 class="text-2xl font-[family-name:var(--font-heading)] font-bold mb-8">Quick Facts</h2>
+              <ul class="divide-y divide-white/10">
+                <li class="flex justify-between py-4"><span class="text-white/50">Nationality</span><span class="font-semibold">Great Britain</span></li>
+                <li class="flex justify-between py-4"><span class="text-white/50">Category</span><span class="font-semibold">U18</span></li>
+                <li class="flex justify-between py-4"><span class="text-white/50">Disciplines</span><span class="font-semibold">Slalom &amp; Giant Slalom</span></li>
+                <li class="flex justify-between py-4"><span class="text-white/50">Race Club</span><span class="font-semibold">Hemel Ski Race Club</span></li>
+                <li class="flex justify-between py-4"><span class="text-white/50">Qualification</span><span class="font-semibold">BASI Ski UK Level 2</span></li>
+                <li class="flex justify-between py-4"><span class="text-white/50">Support</span><span class="font-semibold">Snow Shepherd Pro Deal</span></li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="flex flex-wrap gap-3 sm:gap-4">
