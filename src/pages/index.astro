@@ -1,55 +1,299 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Luca Finnis-Bernard — Ski Portfolio" description="Alpine skiing, projects, and pursuits.">
-  <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-    <div class="max-w-3xl">
-      <p class="text-sm uppercase tracking-widest text-white/60 mb-6">Ski • Code • Design</p>
-      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[0.95]">
-        Pushing lines on and off the mountain
-      </h1>
-      <p class="mt-6 text-lg text-white/80 max-w-2xl">
-        A portfolio of alpine endeavors, technical projects, and creative work.
-      </p>
-      <div class="mt-10 flex flex-wrap gap-4">
-        <a href="#work" class="px-6 py-3 rounded-full bg-white text-black text-sm font-medium hover:opacity-90">View work</a>
-        <a href="/about" class="px-6 py-3 rounded-full border border-white/30 text-sm hover:bg-white/5">About me</a>
+<BaseLayout>
+  <div class="fixed top-0 left-0 w-full h-0.5 z-[900] bg-transparent">
+    <div class="h-full bg-gradient-to-r from-red-500 to-blue-500 origin-left scale-x-0 transition-transform" id="progress"></div>
+  </div>
+
+  <header class="fixed top-0 left-0 w-full z-[800] transition-all duration-500" id="nav">
+    <div class="mx-auto max-w-[1400px] px-6 lg:px-10 flex items-center justify-between gap-6 py-5 transition-all duration-500" id="nav-inner">
+      <a href="#home" class="font-[family-name:var(--font-display)] text-lg tracking-[0.35em] uppercase">LUCA<span class="text-red-500">.</span>FB</a>
+      <nav class="hidden lg:flex gap-12">
+        <a href="#about" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors relative group">About<span class="absolute -bottom-1 left-0 w-full h-px bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span></a>
+        <a href="#skiing" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors relative group">Skiing<span class="absolute -bottom-1 left-0 w-full h-px bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span></a>
+        <a href="#journey" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors relative group">Journey<span class="absolute -bottom-1 left-0 w-full h-px bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span></a>
+        <a href="#gallery" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors relative group">Gallery<span class="absolute -bottom-1 left-0 w-full h-px bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span></a>
+        <a href="#contact" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors relative group">Contact<span class="absolute -bottom-1 left-0 w-full h-px bg-gradient-to-r from-red-500 to-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span></a>
+      </nav>
+      <a href="#contact" class="hidden lg:inline-flex px-7 py-3 text-sm font-bold tracking-[0.12em] uppercase border border-white/20 hover:border-transparent relative overflow-hidden group">
+        <span class="relative z-10">Get in touch</span>
+        <span class="absolute inset-0 bg-gradient-to-r from-red-500 to-blue-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="relative pt-40 pb-32 lg:pt-64 lg:pb-48" id="home">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-40 bg-gradient-to-b from-transparent via-red-500 to-transparent"></div>
+      <div class="mx-auto max-w-[1400px] px-6 lg:px-10 grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-24 items-center">
+        <div>
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-8">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Great Britain · U18 · Slalom &amp; Giant Slalom
+          </p>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.88] mb-8">
+            FIND THE<br/>EDGE.<br/>COMMIT TO<br/>THE TURN.
+          </h1>
+          <p class="text-lg lg:text-xl text-white/70 max-w-2xl mb-12 leading-relaxed">
+            British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete racing for Hemel Ski Race Club. Always looking for support.
+          </p>
+          <div class="flex flex-wrap gap-4 mb-16">
+            <a href="#skiing" class="relative inline-flex px-9 py-4 text-sm font-bold tracking-[0.12em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
+              <span class="relative z-10">View race record</span>
+              <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+            </a>
+            <a href="#contact" class="inline-flex px-9 py-4 text-sm font-bold tracking-[0.12em] uppercase border border-white/20 hover:border-white/60 transition-colors">Get in touch</a>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+            <div class="bg-[#0a0d12] p-6">
+              <dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Race Club</dt>
+              <dd class="text-lg font-semibold">Hemel Ski Race Club</dd>
+            </div>
+            <div class="bg-[#0a0d12] p-6">
+              <dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Qualification</dt>
+              <dd class="text-lg font-semibold">BASI Ski UK Level 2</dd>
+            </div>
+            <div class="bg-[#0a0d12] p-6">
+              <dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Support</dt>
+              <dd class="text-lg font-semibold">Snow Shepherd Pro Deal</dd>
+            </div>
+            <div class="bg-[#0a0d12] p-6" data-best-result>
+              <dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Best Result</dt>
+              <dd class="text-lg font-semibold"><b>--</b></dd>
+            </div>
+            <div class="bg-[#0a0d12] p-6" data-podiums>
+              <dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Podiums</dt>
+              <dd class="text-lg font-semibold"><b>--</b></dd>
+            </div>
+          </div>
+        </div>
+        <figure class="relative">
+          <div class="absolute -inset-px bg-gradient-to-br from-red-500/40 via-transparent to-blue-500/40"></div>
+          <img src="/photos/Tignes.jpeg" alt="Luca Finnis-Bernard carving through gates in Tignes" class="relative w-full aspect-[3/4] object-cover" loading="eager" fetchpriority="high" />
+          <figcaption class="absolute bottom-6 left-6 text-xs font-mono uppercase tracking-[0.14em] text-white/60">Tignes, France</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="relative py-24 lg:py-40 border-t border-white/10" id="about">
+      <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div class="max-w-5xl mb-16 lg:mb-24">
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Profile
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase mb-8">Racing.<br/>Coaching.<br/>Progression.</h2>
+          <p class="text-lg lg:text-xl text-white/70 leading-relaxed max-w-4xl">
+            British U18 alpine ski racer and BASI Ski UK Level 2 instructor based in the UK. Training and racing across The Snow Centre and Snozone, with mountain racing experience in Tignes.
+          </p>
+        </div>
+        <div class="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24 items-start">
+          <figure class="relative">
+            <div class="absolute -inset-px bg-gradient-to-br from-red-500/60 via-transparent to-blue-500/60"></div>
+            <img src="/photos/Tignes%204.jpeg" alt="Luca Finnis-Bernard" class="relative w-full aspect-[4/5] object-cover" loading="lazy" />
+            <figcaption class="mt-4 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Hemel Ski Race Club · Snow Shepherd Pro Deal</figcaption>
+          </figure>
+          <div>
+            <blockquote class="text-2xl lg:text-4xl font-[family-name:var(--font-heading)] font-bold italic leading-tight border-l-2 border-gradient-to-b from-red-500 to-blue-500 pl-8 mb-10">
+              "Precision in every turn. Intent in every line."
+            </blockquote>
+            <div class="space-y-6 text-white/70 leading-relaxed mb-12">
+              <p>I race for Hemel Ski Race Club and instruct at The Snow Centre Hemel Hempstead and Knockhatch Adventure Park. My approach blends race technique with coaching fundamentals to build confidence and speed.</p>
+              <p>On a Snow Shepherd Pro Deal receiving 50% off Snow Shepherd products. Always open to partnerships with brands and businesses who want to be part of the racing journey.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-px bg-white/10 border border-white/10">
+              <div class="bg-[#0a0d12] p-6"><dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Nationality</dt><dd class="font-semibold">Great Britain</dd></div>
+              <div class="bg-[#0a0d12] p-6"><dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Category</dt><dd class="font-semibold">U18</dd></div>
+              <div class="bg-[#0a0d12] p-6"><dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Disciplines</dt><dd class="font-semibold">Slalom &amp; Giant Slalom</dd></div>
+              <div class="bg-[#0a0d12] p-6"><dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Race Club</dt><dd class="font-semibold">Hemel Ski Race Club</dd></div>
+              <div class="bg-[#0a0d12] p-6"><dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Qualification</dt><dd class="font-semibold">BASI Ski UK Level 2</dd></div>
+              <div class="bg-[#0a0d12] p-6"><dt class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 mb-2">Support</dt><dd class="font-semibold">Snow Shepherd Pro Deal — 50% off</dd></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative py-24 lg:py-40 border-t border-white/10" id="skiing">
+      <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div class="max-w-5xl mb-16 lg:mb-24">
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Race Record
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase mb-8">Results.</h2>
+          <p class="text-lg lg:text-xl text-white/70 leading-relaxed">11 races across slalom and giant slalom — 1 win, 7 podiums, 11 top-ten finishes.</p>
+        </div>
+
+        <div class="relative mb-16 overflow-hidden border border-white/10">
+          <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+          <div class="bg-gradient-to-b from-[#151a22] to-[#0a0d12] p-8 lg:p-12">
+            <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-10">
+              <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+              Career to date · Sourced from GBSki
+            </p>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
+              <div class="relative pt-6"><div class="absolute top-0 left-0 w-10 h-0.5 bg-gradient-to-r from-red-500 to-blue-500"></div><strong class="block text-5xl lg:text-7xl font-[family-name:var(--font-heading)] font-black tracking-tight tabular-nums">11</strong><span class="block mt-3 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Races</span></div>
+              <div class="relative pt-6"><div class="absolute top-0 left-0 w-10 h-0.5 bg-gradient-to-r from-red-500 to-blue-500"></div><strong class="block text-5xl lg:text-7xl font-[family-name:var(--font-heading)] font-black tracking-tight tabular-nums">1</strong><span class="block mt-3 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Win</span></div>
+              <div class="relative pt-6"><div class="absolute top-0 left-0 w-10 h-0.5 bg-gradient-to-r from-red-500 to-blue-500"></div><strong class="block text-5xl lg:text-7xl font-[family-name:var(--font-heading)] font-black tracking-tight tabular-nums">7</strong><span class="block mt-3 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Podiums</span></div>
+              <div class="relative pt-6"><div class="absolute top-0 left-0 w-10 h-0.5 bg-gradient-to-r from-red-500 to-blue-500"></div><strong class="block text-5xl lg:text-7xl font-[family-name:var(--font-heading)] font-black tracking-tight tabular-nums">11</strong><span class="block mt-3 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Top 10</span></div>
+              <div class="relative pt-6"><div class="absolute top-0 left-0 w-10 h-0.5 bg-red-500"></div><strong class="block text-5xl lg:text-7xl font-[family-name:var(--font-heading)] font-black tracking-tight tabular-nums text-red-500">8</strong><span class="block mt-3 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Slalom</span></div>
+              <div class="relative pt-6"><div class="absolute top-0 left-0 w-10 h-0.5 bg-blue-500"></div><strong class="block text-5xl lg:text-7xl font-[family-name:var(--font-heading)] font-black tracking-tight tabular-nums text-blue-400">3</strong><span class="block mt-3 text-xs font-mono uppercase tracking-[0.14em] text-white/40">Giant Slalom</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border border-white/10 bg-[#0a0d12] mb-24">
+          <button class="w-full flex items-center justify-between p-8 lg:p-10 text-left" id="results-toggle" aria-expanded="false" aria-controls="results-list">
+            <span class="text-xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold">View all race results</span>
+            <span class="text-4xl text-red-500 transition-transform" id="results-plus">+</span>
+          </button>
+          <div class="overflow-hidden max-h-0 transition-all duration-700" id="results-list">
+            <div class="px-8 lg:px-10 pb-8 lg:pb-10 overflow-x-auto">
+              <table class="w-full min-w-[800px]">
+                <thead>
+                  <tr class="border-b border-white/20">
+                    <th class="text-left text-xs font-mono uppercase tracking-[0.16em] text-white/40 pb-4">Place</th>
+                    <th class="text-left text-xs font-mono uppercase tracking-[0.16em] text-white/40 pb-4">Event</th>
+                    <th class="text-left text-xs font-mono uppercase tracking-[0.16em] text-white/40 pb-4">Discipline</th>
+                    <th class="text-left text-xs font-mono uppercase tracking-[0.16em] text-white/40 pb-4">Date</th>
+                    <th class="text-left text-xs font-mono uppercase tracking-[0.16em] text-white/40 pb-4">Category</th>
+                    <th class="text-left text-xs font-mono uppercase tracking-[0.16em] text-white/40 pb-4">Times</th>
+                  </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-24">
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Season 2025/26
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase mb-12">Training &amp; Activity</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-white/10 border border-white/10" id="season-stats"></div>
+          <p class="text-lg text-white/70 mt-10 leading-relaxed max-w-4xl">Dry-slope and snow training, race preparation, technical work, and mountain training in Tignes.</p>
+        </div>
+
+        <div>
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Equipment
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase mb-12">Current Setup</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10" id="equipment-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative py-24 lg:py-40 border-t border-white/10" id="journey">
+      <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div class="max-w-5xl mb-16 lg:mb-24">
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Progression
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase mb-8">The Journey So Far.</h2>
+          <p class="text-lg lg:text-xl text-white/70 leading-relaxed">Racing milestones and coaching progression built from confirmed dates and current roles.</p>
+        </div>
+        <div class="border border-white/10" id="journey-timeline"></div>
+      </div>
+    </section>
+
+    <section class="relative py-24 lg:py-40 border-t border-white/10" id="gallery">
+      <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div class="max-w-5xl mb-16 lg:mb-24">
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Gallery
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase">On The Hill.</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4" id="gallery-grid"></div>
+      </div>
+    </section>
+
+    <section class="relative py-24 lg:py-40 border-t border-white/10" id="contact">
+      <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+        <div class="max-w-5xl mb-16 lg:mb-24">
+          <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+            <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+            Get In Touch
+          </p>
+          <h2 class="font-[family-name:var(--font-display)] uppercase mb-8">Let's Talk Skiing.</h2>
+          <p class="text-lg lg:text-xl text-white/70 leading-relaxed max-w-4xl">
+            Always looking for support — product, kit, race-day content, coaching collaborations or partnerships.
+            Email <a href="mailto:contact@lucafinnisbernard.co.uk" class="underline underline-offset-4 hover:text-white">contact@lucafinnisbernard.co.uk</a> or reach out below.
+          </p>
+        </div>
+        <div class="grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-24">
+          <div>
+            <h3 class="text-2xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold mb-8">Follow Along</h3>
+            <div class="flex flex-col gap-px bg-white/10 border border-white/10 mb-8" id="socials"></div>
+            <div class="flex flex-col gap-3">
+              <a href="mailto:contact@lucafinnisbernard.co.uk" class="inline-flex px-8 py-4 text-sm font-bold tracking-[0.12em] uppercase border border-white/20 hover:border-white/60 transition-colors justify-center">Email me</a>
+              <a data-gb-ski href="#" target="_blank" rel="noopener noreferrer" class="inline-flex px-8 py-4 text-sm font-bold tracking-[0.12em] uppercase border border-white/20 hover:border-white/60 transition-colors justify-center">View GB Ski profile</a>
+              <a href="/about" class="inline-flex px-8 py-4 text-sm font-bold tracking-[0.12em] uppercase border border-white/20 hover:border-white/60 transition-colors justify-center">Full about page</a>
+            </div>
+          </div>
+          <form id="contact-form" class="border border-white/10 bg-[#0a0d12] p-8 lg:p-12 flex flex-col gap-6" novalidate>
+            <div class="flex flex-col gap-2">
+              <label for="name" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40">Name</label>
+              <input id="name" name="name" type="text" required autocomplete="name" class="bg-transparent border border-white/20 px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors" />
+              <p class="text-sm text-red-500 hidden" data-error="name"></p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="email" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40">Email</label>
+              <input id="email" name="email" type="email" required autocomplete="email" class="bg-transparent border border-white/20 px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors" />
+              <p class="text-sm text-red-500 hidden" data-error="email"></p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="message" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40">Message</label>
+              <textarea id="message" name="message" rows="6" required class="bg-transparent border border-white/20 px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors resize-y"></textarea>
+              <p class="text-sm text-red-500 hidden" data-error="message"></p>
+            </div>
+            <button class="relative inline-flex px-9 py-4 text-sm font-bold tracking-[0.12em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group justify-center" type="submit">
+              <span class="relative z-10">Send message</span>
+              <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+            </button>
+            <div id="form-status" class="hidden p-4 border border-white/20 text-sm"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-gradient-to-b from-[#050607] to-black py-12 lg:py-16">
+    <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+      <div class="flex flex-col lg:flex-row justify-between gap-10 mb-10">
+        <div>
+          <p class="font-[family-name:var(--font-display)] text-xl tracking-[0.35em] uppercase mb-4">LUCA<span class="text-red-500">.</span>FB</p>
+          <p class="text-white/60 max-w-md">Alpine ski racer and BASI Ski UK Level 2 instructor. Precision on every turn.</p>
+        </div>
+        <ul class="flex flex-wrap gap-6 lg:gap-10">
+          <li><a href="#about" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">About</a></li>
+          <li><a href="#skiing" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">Skiing</a></li>
+          <li><a href="#journey" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">Journey</a></li>
+          <li><a href="#gallery" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">Gallery</a></li>
+          <li><a href="#contact" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">Contact</a></li>
+          <li><a href="/about" class="text-xs font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">Full about</a></li>
+        </ul>
+      </div>
+      <p class="text-xs font-mono uppercase tracking-[0.1em] text-white/30 mb-6">Google Fonts &amp; Formspree · No cookies set</p>
+      <div class="flex items-center justify-between pt-6 border-t border-white/10">
+        <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard. All rights reserved.</p>
+        <button id="back-to-top" class="w-12 h-12 border border-white/20 hover:border-white/60 flex items-center justify-center transition-colors" aria-label="Back to top">↑</button>
       </div>
     </div>
-  </section>
+  </footer>
 
-  <section id="work" class="mx-auto max-w-6xl px-6 py-12 md:py-16">
-    <div class="flex items-end justify-between mb-10">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Selected work</h2>
-      <a href="/projects" class="text-sm text-white/70 hover:text-white">All projects →</a>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <article class="group relative overflow-hidden rounded-2xl border border-white/10">
-        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop" alt="Alpine mountains" class="h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-          <p class="text-xs uppercase tracking-widest text-white/60">Ski</p>
-          <h3 class="mt-2 text-xl font-semibold">Alpine Lines</h3>
-          <p class="mt-1 text-sm text-white/70">A collection of freeride and alpine pursuits</p>
-        </div>
-      </article>
-      <article class="group relative overflow-hidden rounded-2xl border border-white/10">
-        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop" alt="Code on screen" class="h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-          <p class="text-xs uppercase tracking-widest text-white/60">Code</p>
-          <h3 class="mt-2 text-xl font-semibold">Technical Projects</h3>
-          <p class="mt-1 text-sm text-white/70">Tools, scripts, and experiments</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section id="contact" class="mx-auto max-w-6xl px-6 py-16">
-    <div class="rounded-3xl border border-white/10 p-8 md:p-12 bg-gradient-to-br from-white/5 to-transparent">
-      <div class="max-w-2xl">
-        <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Let's build something together</h2>
-        <p class="mt-3 text-white/80">For collaborations, projects, or just to say hi.</p>
-        <a href="mailto:luca@example.com" class="mt-8 inline-block px-6 py-3 rounded-full bg-white text-black text-sm font-medium hover:opacity-90">Get in touch</a>
-      </div>
-    </div>
-  </section>
+  <script is:inline src="/data.js"></script>
+  <script is:inline src="/course.js"></script>
+  <script is:inline src="/app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </BaseLayout>

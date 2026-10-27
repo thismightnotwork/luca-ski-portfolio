@@ -1,19 +1,58 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="About — Luca Finnis-Bernard" description="About Luca Finnis-Bernard.">
-  <section class="mx-auto max-w-4xl px-6 py-16 md:py-24">
-    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">About</h1>
-    <div class="mt-8 space-y-6 text-lg text-white/80 leading-relaxed">
-      <p>
-        I'm Luca Finnis-Bernard — skier, builder, and creative. This portfolio is a space for alpine pursuits and technical work.
-      </p>
-      <p>
-        I care about clean lines, precision, and building things that feel intentional.
-      </p>
+<BaseLayout title="About — Luca Finnis-Bernard" description="About Luca Finnis-Bernard, British U18 alpine ski racer and BASI Ski UK Level 2 instructor.">
+  <header class="fixed top-0 left-0 w-full z-[800] bg-black/80 backdrop-blur-xl border-b border-white/10">
+    <div class="mx-auto max-w-[1400px] px-6 lg:px-10 flex items-center justify-between gap-6 py-5">
+      <a href="/" class="font-[family-name:var(--font-display)] text-lg tracking-[0.35em] uppercase">LUCA<span class="text-red-500">.</span>FB</a>
+      <nav class="hidden lg:flex gap-12">
+        <a href="/" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors">Home</a>
+        <a href="/#skiing" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors">Skiing</a>
+        <a href="/#gallery" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors">Gallery</a>
+        <a href="/#contact" class="text-sm font-semibold tracking-[0.12em] uppercase text-white/60 hover:text-white transition-colors">Contact</a>
+      </nav>
+      <a href="/#contact" class="hidden lg:inline-flex px-7 py-3 text-sm font-bold tracking-[0.12em] uppercase border border-white/20">Get in touch</a>
     </div>
-    <div class="mt-10">
-      <a href="/" class="text-sm text-white/70 hover:text-white">← Back home</a>
+  </header>
+
+  <main class="pt-40 pb-32">
+    <div class="mx-auto max-w-[1400px] px-6 lg:px-10">
+      <div class="max-w-6xl mb-16 lg:mb-24">
+        <p class="flex items-center gap-3 text-xs font-mono uppercase tracking-[0.18em] text-white/40 mb-6">
+          <span class="flex gap-1.5"><span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)]"></span><span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_20%,100%_80%,0_100%)] -ml-1.5"></span></span>
+          About
+        </p>
+        <h1 class="font-[family-name:var(--font-display)] uppercase mb-10">Racing, Coaching<br/>&amp; Progression.</h1>
+        <p class="text-xl lg:text-2xl text-white/70 leading-relaxed max-w-5xl">
+          I'm Luca Finnis-Bernard — a British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete based in the UK.
+        </p>
+      </div>
+      <div class="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-24 mb-16">
+        <div class="space-y-6 text-white/70 leading-relaxed text-lg">
+          <p>I race for Hemel Ski Race Club (HSRC) and teach skiing at The Snow Centre in Hemel Hempstead and Knockhatch Adventure Park. My training combines dry-slope and snow-based race preparation in the UK with mountain-racing mileage in Tignes.</p>
+          <p>My focus is on precision, gate technique and line choice — applying the same principles in coaching that I use in race training. Every turn has intent.</p>
+          <p>I'm on a Snow Shepherd Pro Deal, which gives me 50% off Snow Shepherd products. I'm always looking for support from brands, businesses and people who want to be part of my racing journey.</p>
+        </div>
+        <div class="border border-white/10 bg-[#0a0d12] p-8 lg:p-12">
+          <h2 class="text-2xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold mb-8">Quick Facts</h2>
+          <ul class="space-y-4">
+            <li class="flex justify-between pb-4 border-b border-white/10"><span class="text-white/60">Nationality</span><span class="font-semibold">Great Britain</span></li>
+            <li class="flex justify-between pb-4 border-b border-white/10"><span class="text-white/60">Category</span><span class="font-semibold">U18</span></li>
+            <li class="flex justify-between pb-4 border-b border-white/10"><span class="text-white/60">Disciplines</span><span class="font-semibold">Slalom &amp; Giant Slalom</span></li>
+            <li class="flex justify-between pb-4 border-b border-white/10"><span class="text-white/60">Race Club</span><span class="font-semibold">Hemel Ski Race Club</span></li>
+            <li class="flex justify-between pb-4 border-b border-white/10"><span class="text-white/60">Qualification</span><span class="font-semibold">BASI Ski UK Level 2</span></li>
+            <li class="flex justify-between"><span class="text-white/60">Support</span><span class="font-semibold">Snow Shepherd Pro Deal</span></li>
+          </ul>
+        </div>
+      </div>
+      <a href="/" class="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-[0.14em] text-white/40 hover:text-white transition-colors">← Back to home</a>
     </div>
-  </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-black py-12">
+    <div class="mx-auto max-w-[1400px] px-6 lg:px-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.35em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© {new Date().getFullYear()} Luca Finnis-Bernard. All rights reserved.</p>
+    </div>
+  </footer>
 </BaseLayout>

@@ -1,0 +1,46 @@
+{
+  "updated": "2026-10-27T18:38:26.534Z",
+  "count": 8,
+  "photos": [
+    {
+      "file": "Hemel 2.jpeg",
+      "src": "photos/Hemel 2.jpeg",
+      "caption": "Luca Finnis-Bernard, Hemel Hempstead"
+    },
+    {
+      "file": "Hemel 3.jpeg",
+      "src": "photos/Hemel 3.jpeg",
+      "caption": "Luca Finnis-Bernard, Hemel Hempstead"
+    },
+    {
+      "file": "Hemel 4.jpeg",
+      "src": "photos/Hemel 4.jpeg",
+      "caption": "Luca Finnis-Bernard, Hemel Hempstead"
+    },
+    {
+      "file": "Hemel.jpeg",
+      "src": "photos/Hemel.jpeg",
+      "caption": "Luca Finnis-Bernard, Hemel Hempstead"
+    },
+    {
+      "file": "MK.jpeg",
+      "src": "photos/MK.jpeg",
+      "caption": "Luca Finnis-Bernard, Milton Keynes"
+    },
+    {
+      "file": "Tignes 2.jpeg",
+      "src": "photos/Tignes 2.jpeg",
+      "caption": "Luca Finnis-Bernard, Tignes"
+    },
+    {
+      "file": "Tignes 4.jpeg",
+      "src": "photos/Tignes 4.jpeg",
+      "caption": "Luca Finnis-Bernard, Tignes"
+    },
+    {
+      "file": "Tignes.jpeg",
+      "src": "photos/Tignes.jpeg",
+      "caption": "Luca Finnis-Bernard, Tignes"
+    }
+  ]
+}

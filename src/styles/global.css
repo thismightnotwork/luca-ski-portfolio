@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Archivo Black", system-ui, sans-serif;
+  --font-heading: "Archivo", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  
+  --color-bg: #050607;
+  --color-bg-2: #0a0d12;
+  --color-bg-3: #10141a;
+  --color-ink: #f7f9fc;
+  --color-ink-2: #d7dde6;
+  --color-ink-3: #9aa5b5;
+  --color-muted: #6b778a;
+  --color-red: #ff3b30;
+  --color-blue: #0a84ff;
+  --color-line: rgba(154,165,181,.18);
+  --color-line-strong: rgba(154,165,181,.32);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: radial-gradient(ellipse 120% 80% at 50% 0%, #151a22 0%, var(--color-bg) 50%);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
