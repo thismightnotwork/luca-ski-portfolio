@@ -2,193 +2,60 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import ProgressBar from '../components/ProgressBar.astro';
-import RaceResults from '../components/RaceResults.astro';
 ---
 <BaseLayout>
   <ProgressBar />
   <Navigation />
-  
-  <main id="main">
-    <section class="relative pt-36 pb-24 lg:pt-48 lg:pb-40" id="home">
-      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+  <main id="main" class="pt-36 pb-24">
+    <section class="relative">
       <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div class="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-20 items-center">
-          <div>
-            <div class="flex items-center gap-3 mb-10">
-              <div class="flex gap-1.5">
-                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
-                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
-              </div>
-              <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Great Britain · U18 · Slalom & Giant Slalom</span>
-            </div>
-            <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.88] tracking-tight mb-8">
-              FIND THE<br/>EDGE.<br/>COMMIT TO<br/>THE TURN.
-            </h1>
-            <p class="text-lg lg:text-xl text-white/70 max-w-2xl leading-relaxed mb-12">
-              British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete racing for Hemel Ski Race Club. Always looking for support.
-            </p>
-            <div class="flex flex-wrap gap-4 mb-16">
-              <a href="#skiing" class="relative inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
-                <span class="relative z-10">View race record</span>
-                <svg class="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
-              </a>
-              <a href="#contact" class="inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all duration-500">
-                <span>Get in touch</span>
-                <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-            </div>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.08] border border-white/[0.08]">
-              <div class="bg-[#080a0f] p-6"><dt class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/35 mb-2">Race Club</dt><dd class="text-base font-semibold">Hemel Ski Race Club</dd></div>
-              <div class="bg-[#080a0f] p-6"><dt class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/35 mb-2">Qualification</dt><dd class="text-base font-semibold">BASI Ski UK Level 2</dd></div>
-              <div class="bg-[#080a0f] p-6"><dt class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/35 mb-2">Support</dt><dd class="text-base font-semibold">Snow Shepherd Pro Deal</dd></div>
-              <div class="bg-[#080a0f] p-6" data-best-result><dt class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/35 mb-2">Best Result</dt><dd class="text-base font-semibold"><b>--</b></dd></div>
-              <div class="bg-[#080a0f] p-6" data-podiums><dt class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/35 mb-2">Podiums</dt><dd class="text-base font-semibold"><b>--</b></dd></div>
-              <div class="bg-[#080a0f] p-6"><dt class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/35 mb-2">Category</dt><dd class="text-base font-semibold">U18</dd></div>
-            </div>
-          </div>
-          <figure class="relative">
-            <div class="absolute -inset-px bg-gradient-to-br from-red-500/30 via-transparent to-blue-500/30"></div>
-            <img src="/photos/Tignes.jpeg" alt="Luca Finnis-Bernard carving through alpine gates in Tignes" class="relative w-full aspect-[3/4] object-cover" loading="eager" fetchpriority="high" />
-            <figcaption class="absolute bottom-6 left-6 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Tignes, France</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative py-24 lg:py-36 border-t border-white/[0.08]" id="about">
-      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div class="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24 items-start">
-          <div>
-            <div class="flex items-center gap-3 mb-8">
-              <div class="flex gap-1.5">
-                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
-                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
-              </div>
-              <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Profile</span>
-            </div>
-            <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-10">Racing.<br/>Coaching.<br/>Progression.</h2>
-            <p class="text-lg lg:text-xl text-white/70 leading-relaxed mb-10">
-              British U18 alpine ski racer and BASI Ski UK Level 2 instructor. Training and racing across The Snow Centre and Snozone, with mountain racing experience in Tignes.
-            </p>
-            <a href="/about" class="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.24em] uppercase text-white/60 hover:text-white transition-colors group">
-              <span>Full profile</span>
-              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-          <figure class="relative">
-            <div class="absolute -inset-px bg-gradient-to-br from-red-500/25 via-transparent to-blue-500/25"></div>
-            <img src="/photos/Tignes%204.jpeg" alt="Luca Finnis-Bernard alpine ski racer" class="relative w-full aspect-[4/5] object-cover" loading="lazy" />
-            <figcaption class="absolute bottom-6 left-6 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Hemel Ski Race Club · Snow Shepherd Pro Deal</figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative py-24 lg:py-36 border-t border-white/[0.08]" id="journey">
-      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div class="max-w-4xl mb-16">
+        <div class="max-w-5xl mb-16">
           <div class="flex items-center gap-3 mb-8">
             <div class="flex gap-1.5">
               <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
               <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
             </div>
-            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Progression</span>
+            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">About</span>
           </div>
-          <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">The Journey So Far.</h2>
-          <p class="text-lg text-white/70 leading-relaxed">Racing milestones and coaching progression built from confirmed dates and current roles.</p>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-10">Racing, Coaching<br/>&amp; Progression.</h1>
+          <p class="text-xl lg:text-2xl text-white/70 leading-relaxed">I'm Luca Finnis-Bernard — a British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete based in the UK.</p>
         </div>
-        <div class="border border-white/[0.08]" id="journey-list"></div>
-      </div>
-    </section>
-
-    <section class="relative py-24 lg:py-36 border-t border-white/[0.08]" id="gallery">
-      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div class="max-w-4xl mb-16">
-          <div class="flex items-center gap-3 mb-8">
-            <div class="flex gap-1.5">
-              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
-              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
-            </div>
-            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Gallery</span>
+        <div class="grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 mb-16">
+          <div class="space-y-6 text-white/70 leading-relaxed text-lg">
+            <p>I race for Hemel Ski Race Club (HSRC) and teach skiing at The Snow Centre in Hemel Hempstead and Knockhatch Adventure Park. My training combines dry-slope and snow-based race preparation in the UK with mountain-racing mileage in Tignes.</p>
+            <p>My focus is on precision, gate technique and line choice — applying the same principles in coaching that I use in race training. Every turn has intent.</p>
+            <p>I'm on a Snow Shepherd Pro Deal, receiving 50% off Snow Shepherd products. I'm always looking for support from brands, businesses and people who want to be part of my racing journey.</p>
           </div>
-          <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.92]">On The Hill.</h2>
+          <div class="border border-white/[0.08] bg-[#080a0f] p-8 lg:p-10">
+            <h2 class="text-2xl font-[family-name:var(--font-heading)] font-bold mb-8">Quick Facts</h2>
+            <ul class="divide-y divide-white/10">
+              <li class="flex justify-between py-4"><span class="text-white/50">Nationality</span><span class="font-semibold">Great Britain</span></li>
+              <li class="flex justify-between py-4"><span class="text-white/50">Category</span><span class="font-semibold">U18</span></li>
+              <li class="flex justify-between py-4"><span class="text-white/50">Disciplines</span><span class="font-semibold">Slalom &amp; Giant Slalom</span></li>
+              <li class="flex justify-between py-4"><span class="text-white/50">Race Club</span><span class="font-semibold">Hemel Ski Race Club</span></li>
+              <li class="flex justify-between py-4"><span class="text-white/50">Qualification</span><span class="font-semibold">BASI Ski UK Level 2</span></li>
+              <li class="flex justify-between py-4"><span class="text-white/50">Support</span><span class="font-semibold">Snow Shepherd Pro Deal</span></li>
+            </ul>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3" id="gallery-grid"></div>
-      </div>
-    </section>
-
-    <section class="relative py-24 lg:py-36 border-t border-white/[0.08]" id="contact">
-      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
-        <div class="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-24">
-          <div>
-            <div class="flex items-center gap-3 mb-8">
-              <div class="flex gap-1.5">
-                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
-                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
-              </div>
-              <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Get In Touch</span>
-            </div>
-            <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-8">Let's Talk Skiing.</h2>
-            <p class="text-lg text-white/70 leading-relaxed mb-12">
-              Always looking for support — product, kit, race-day content, coaching collaborations or partnerships.
-              Email <a href="mailto:contact@lucafinnisbernard.co.uk" class="underline underline-offset-4 hover:text-white">contact@lucafinnisbernard.co.uk</a>
-            </p>
-            <div class="flex flex-col gap-px bg-white/[0.08] border border-white/[0.08] mb-8" id="social-links"></div>
-            <div class="flex flex-wrap gap-3">
-              <a href="mailto:contact@lucafinnisbernard.co.uk" class="inline-flex px-8 py-3.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Email me</a>
-              <a data-gb-ski href="#" target="_blank" rel="noopener noreferrer" class="inline-flex px-8 py-3.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">GB Ski profile</a>
-              <a href="/about" class="inline-flex px-8 py-3.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Full about</a>
-            </div>
-          </div>
-          <form id="contact-form" class="border border-white/[0.08] bg-[#080a0f] p-8 lg:p-10 flex flex-col gap-6" novalidate>
-            <div class="flex flex-col gap-2">
-              <label for="name" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Name</label>
-              <input id="name" name="name" type="text" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors" />
-              <p class="text-sm text-red-500 hidden" data-err="name"></p>
-            </div>
-            <div class="flex flex-col gap-2">
-              <label for="email" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Email</label>
-              <input id="email" name="email" type="email" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors" />
-              <p class="text-sm text-red-500 hidden" data-err="email"></p>
-            </div>
-            <div class="flex flex-col gap-2">
-              <label for="message" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Message</label>
-              <textarea id="message" name="message" rows="6" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors resize-y"></textarea>
-              <p class="text-sm text-red-500 hidden" data-err="message"></p>
-            </div>
-            <button class="relative inline-flex items-center justify-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group" type="submit">
-              <span class="relative z-10">Send message</span>
-              <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
-            </button>
-            <div id="form-msg" class="hidden p-4 border border-white/15 text-sm"></div>
-          </form>
+        <div class="flex flex-wrap gap-4">
+          <a href="/skiing" class="relative inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
+            <span class="relative z-10">Race results</span>
+            <svg class="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+          </a>
+          <a href="/journey" class="inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Journey</a>
+          <a href="/gallery" class="inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Gallery</a>
+          <a href="/contact" class="inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Contact</a>
         </div>
       </div>
     </section>
   </main>
-
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
       <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
       <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
     </div>
   </footer>
-
-  <div class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[1100]" id="lightbox">
-    <button class="absolute top-6 right-6 w-12 h-12 border border-white/15 flex items-center justify-center" id="lb-close">×</button>
-    <button class="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 border border-white/15 flex items-center justify-center" id="lb-prev">←</button>
-    <button class="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 border border-white/15 flex items-center justify-center" id="lb-next">→</button>
-    <div class="max-w-5xl px-6">
-      <img src="" alt="" class="max-h-[80vh] mx-auto" id="lb-img" />
-      <p class="text-center mt-4 text-sm text-white/50" id="lb-cap"></p>
-    </div>
-  </div>
-
-  <script is:inline src="/data.js"></script>
-  <script is:inline src="/course.js"></script>
-  <script is:inline src="/app.js"></script>
-  <script is:inline>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </BaseLayout>

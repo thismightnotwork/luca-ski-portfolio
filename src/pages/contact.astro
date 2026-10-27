@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+---
+<BaseLayout title="Contact — Luca Finnis-Bernard" description="Get in touch for support, partnerships or coaching.">
+  <ProgressBar />
+  <Navigation />
+  <main class="pt-36 pb-24">
+    <section class="relative">
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div class="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-24">
+          <div>
+            <div class="flex items-center gap-3 mb-8">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+              </div>
+              <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Get In Touch</span>
+            </div>
+            <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-8">Let's Talk Skiing.</h1>
+            <p class="text-lg text-white/70 leading-relaxed mb-12">
+              Always looking for support — product, kit, race-day content, coaching collaborations or partnerships.
+              Email <a href="mailto:contact@lucafinnisbernard.co.uk" class="underline underline-offset-4 hover:text-white">contact@lucafinnisbernard.co.uk</a>
+            </p>
+            <div class="flex flex-col gap-px bg-white/[0.08] border border-white/[0.08] mb-8" id="social-links"></div>
+            <div class="flex flex-wrap gap-3">
+              <a href="mailto:contact@lucafinnisbernard.co.uk" class="inline-flex px-8 py-3.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Email me</a>
+              <a data-gb-ski href="#" target="_blank" rel="noopener noreferrer" class="inline-flex px-8 py-3.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">GB Ski profile</a>
+            </div>
+          </div>
+          <form id="contact-form" class="border border-white/[0.08] bg-[#080a0f] p-8 lg:p-10 flex flex-col gap-6" novalidate>
+            <div class="flex flex-col gap-2">
+              <label for="name" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Name</label>
+              <input id="name" name="name" type="text" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors" />
+              <p class="text-sm text-red-500 hidden" data-err="name"></p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="email" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Email</label>
+              <input id="email" name="email" type="email" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors" />
+              <p class="text-sm text-red-500 hidden" data-err="email"></p>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="message" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Message</label>
+              <textarea id="message" name="message" rows="6" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors resize-y"></textarea>
+              <p class="text-sm text-red-500 hidden" data-err="message"></p>
+            </div>
+            <button class="relative inline-flex items-center justify-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group" type="submit">
+              <span class="relative z-10">Send message</span>
+              <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+            </button>
+            <div id="form-msg" class="hidden p-4 border border-white/15 text-sm"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <script is:inline src="/data.js"></script>
+  <script is:inline src="/app.js"></script>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>

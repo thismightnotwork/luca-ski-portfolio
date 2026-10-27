@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+---
+<BaseLayout title="Journey — Luca Finnis-Bernard" description="Racing milestones and coaching progression.">
+  <ProgressBar />
+  <Navigation />
+  <main class="pt-36 pb-24">
+    <section class="relative">
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div class="max-w-4xl mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Progression</span>
+          </div>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">The Journey So Far.</h1>
+          <p class="text-lg text-white/70 leading-relaxed">Racing milestones and coaching progression built from confirmed dates and current roles.</p>
+        </div>
+        <div class="border border-white/[0.08]" id="journey-list"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <script is:inline src="/data.js"></script>
+  <script is:inline src="/app.js"></script>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>

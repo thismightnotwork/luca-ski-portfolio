@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+import RaceResults from '../components/RaceResults.astro';
+---
+<BaseLayout title="Skiing — Luca Finnis-Bernard" description="Race results, highlights and skiing record for Luca Finnis-Bernard.">
+  <ProgressBar />
+  <Navigation />
+  <main class="pt-36 pb-24">
+    <RaceResults />
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>
