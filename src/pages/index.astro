@@ -63,52 +63,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 
 
 
-    <section class="relative py-20 lg:py-32 border-t border-white/[0.08] overflow-hidden">
-      <div class="absolute inset-0">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-      </div>
-      <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
-        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-12">
-          <div>
-            <div class="flex items-center gap-3 mb-4">
-              <div class="flex gap-1.5">
-                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
-                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
-              </div>
-              <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">Control the Line</span>
-            </div>
-            <h2 class="text-4xl lg:text-6xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight mb-3">Race Down the Course</h2>
-            <p class="text-white/60 max-w-2xl">Ski from bottom to top as gates come at you. Carve between red and blue gates.</p>
-          </div>
-          <div class="flex flex-wrap items-center gap-2">
-            <button class="ski-mode active px-5 py-2 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/30 hover:border-white/60 transition-all" data-mode="slalom">Slalom</button>
-            <button class="ski-mode px-5 py-2 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all" data-mode="gs">GS</button>
-            <button class="ski-mode px-5 py-2 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all" data-mode="superg">Super G</button>
-            <button class="ski-mode px-5 py-2 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all" data-mode="downhill">Downhill</button>
-          </div>
-        </div>
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">
-            <span class="flex items-center gap-2"><span class="w-2 h-2 bg-red-500"></span> Red Gate</span>
-            <span class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500"></span> Blue Gate</span>
-          </div>
-          <div class="text-right">
-            <div class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 mb-1">Gates</div>
-            <div class="text-4xl font-[family-name:var(--font-heading)] font-black" id="ski-score">0</div>
-          </div>
-        </div>
-        <div class="relative border border-white/20 bg-gradient-to-b from-[#040608] to-[#020304] overflow-hidden shadow-2xl">
-          <canvas id="ski-canvas" class="w-full h-[420px]"></canvas>
-          <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-[10px] font-mono uppercase tracking-[0.22em] text-white/25">Start Here</div>
-        </div>
-        <p class="mt-4 text-xs text-white/40 text-center">← → or A/D to carve</p>
-        <style>
-          .ski-mode.active { background: linear-gradient(to right, rgba(239,68,68,0.9), rgba(59,130,246,0.9)); border-color: rgba(255,255,255,0.6); }
-        </style>
-      </div>
-      <script is:inline src="/skigame.js"></script>
-    </section>
+
 
 
 
