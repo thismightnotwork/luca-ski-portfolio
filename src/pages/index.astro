@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import ProgressBar from '../components/ProgressBar.astro';
+import RaceResults from '../components/RaceResults.astro';
 ---
 <BaseLayout>
   <ProgressBar />
@@ -84,7 +85,8 @@ import ProgressBar from '../components/ProgressBar.astro';
       </div>
     </section>
 
-    <section class="relative py-24 lg:py-36 border-t border-white/[0.08]" id="skiing">
+    <RaceResults />
+    <section class="relative py-24 lg:py-36 border-t border-white/[0.08]" id="skiing-stats">
       <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
         <div class="max-w-4xl mb-16 lg:mb-20">
           <div class="flex items-center gap-3 mb-8">
