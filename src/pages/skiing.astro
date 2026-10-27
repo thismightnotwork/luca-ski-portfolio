@@ -9,17 +9,18 @@ import RaceResults from '../components/RaceResults.astro';
   <Navigation />
   <main id="main" class="pt-28 md:pt-36 pb-20 md:pb-24">
     <RaceResults />
-    <section class="relative mt-16">
-      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+    <section class="relative mt-20 overflow-hidden">
+      <div class="absolute -top-40 left-[-20%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-red-500/10 to-transparent blur-3xl"></div>
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
         <div class="max-w-4xl mb-12">
           <div class="flex items-center gap-3 mb-8">
             <div class="flex gap-1.5">
               <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
               <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
             </div>
-            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">On The Hill</span>
+            <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">On The Hill</span>
           </div>
-          <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">Moments.</h2>
+          <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.9] mb-6 text-5xl lg:text-7xl">MOMENTS.</h2>
           <p class="text-lg text-white/70 leading-relaxed">A few shots from training and racing.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3">

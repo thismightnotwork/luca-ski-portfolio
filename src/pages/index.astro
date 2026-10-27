@@ -57,7 +57,41 @@ import ProgressBar from '../components/ProgressBar.astro';
           <a href="/gallery" class="inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">Gallery</a>
         </div>
       </div>
-    </section>  </main>
+    </section>
+    <section class="relative py-20 lg:py-32 border-t border-white/[0.08] overflow-hidden">
+      <div class="absolute inset-0">
+        <div class="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"></div>
+      </div>
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 lg:mb-16">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+                <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+              </div>
+              <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">Line • Rhythm • Commitment</span>
+            </div>
+            <h2 class="text-4xl lg:text-6xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight">Carve the Line</h2>
+          </div>
+          <p class="text-sm text-white/40 max-w-md">Precision in slalom comes from finding the fastest line between the gates.</p>
+        </div>
+        <div class="relative h-[260px] sm:h-[320px] lg:h-[380px]" id="slalom-track">
+          <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"></div>
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full" id="slalom-gates"></div>
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2" id="skier">
+            <div class="relative">
+              <div class="w-4 h-4 rounded-full bg-white shadow-[0_0_60px_rgba(255,255,255,0.9)]"></div>
+              <div class="absolute -inset-6 rounded-full border border-white/40 animate-ping"></div>
+            </div>
+          </div>
+          <div class="absolute top-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Start</div>
+          <div class="absolute bottom-4 right-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Finish</div>
+        </div>
+      </div>
+      <script is:inline src="/course.js"></script>
+    </section>
+  </main>
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
       <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
