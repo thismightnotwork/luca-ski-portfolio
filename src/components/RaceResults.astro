@@ -12,7 +12,7 @@
       <p class="text-lg text-white/70 leading-relaxed">18 recorded results across slalom, giant slalom and combined events. Sourced from <a href="https://gbski.com/biography.php?id=42382" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-white">GBSki</a>.</p>
     </div>
 
-    <div class="relative mb-16 border border-white/[0.08] overflow-hidden">
+    <div class="relative mb-12 border border-white/[0.08] overflow-hidden">
       <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
       <div class="bg-gradient-to-b from-white/[0.015] to-transparent p-8 lg:p-12">
         <p class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40 mb-10">Career highlights</p>
@@ -25,61 +25,16 @@
       </div>
     </div>
 
-    <div class="border border-white/[0.08]">
-      <div class="flex items-center justify-between p-6 lg:p-8 border-b border-white/[0.08]">
-        <div>
-          <h3 class="text-xl lg:text-2xl font-[family-name:var(--font-heading)] font-bold mb-1">Full Results</h3>
-          <p class="text-sm text-white/40">All recorded races</p>
-        </div>
-        <div class="hidden md:flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">
-          <span class="w-2 h-2 bg-red-500"></span> SL
-          <span class="w-2 h-2 bg-blue-500 ml-4"></span> GS
-        </div>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full min-w-[1000px]">
-          <thead>
-            <tr class="border-b border-white/[0.08]">
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Date</th>
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Event</th>
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Venue</th>
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Discipline</th>
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Category</th>
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Place</th>
-              <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Time</th>
-            </tr>
-          </thead>
-          <tbody id="race-table-body"></tbody>
-        </table>
-      </div>
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="/results" class="relative inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
+        <span class="relative z-10">View all results</span>
+        <svg class="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+      </a>
+      <a href="https://gbski.com/biography.php?id=42382" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all">
+        <span>GBSki profile</span>
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </div>
 </section>
-
-<script is:inline>
-(async function(){
-  const body = document.getElementById('race-table-body');
-  if(!body) return;
-  try {
-    const res = await fetch('/data/gbski.json?v=' + Date.now());
-    const data = await res.json();
-    const races = (data.races || []).slice().sort((a,b) => b.date.localeCompare(a.date));
-    races.forEach(r => {
-      const tr = document.createElement('tr');
-      tr.className = 'border-b border-white/[0.06] hover:bg-white/[0.01] transition-colors';
-      const disc = (r.discipline || '').toUpperCase();
-      const dot = disc.includes('SL') && !disc.includes('GS') ? 'bg-red-500' : disc.includes('GS') ? 'bg-blue-500' : 'bg-white/40';
-      tr.innerHTML = `
-        <td class="px-6 lg:px-8 py-5 text-sm tabular-nums text-white/70">${r.date || ''}</td>
-        <td class="px-6 lg:px-8 py-5"><div class="font-medium">${r.event || ''}</div></td>
-        <td class="px-6 lg:px-8 py-5 text-sm text-white/60">${r.venue || ''}</td>
-        <td class="px-6 lg:px-8 py-5"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full ${dot}"></span><span class="text-sm">${r.discipline || '-'}</span></div></td>
-        <td class="px-6 lg:px-8 py-5 text-sm text-white/60">${r.category || '-'}</td>
-        <td class="px-6 lg:px-8 py-5"><span class="font-semibold">${r.place || '-'}</span></td>
-        <td class="px-6 lg:px-8 py-5 text-sm tabular-nums text-white/60">${r.time || (r.times && r.times[0]) || '-'}</td>
-      `;
-      body.appendChild(tr);
-    });
-  } catch(e) {}
-})();
-</script>

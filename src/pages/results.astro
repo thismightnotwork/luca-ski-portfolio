@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+---
+<BaseLayout title="Race Results — Luca Finnis-Bernard" description="Full race results for Luca Finnis-Bernard, sourced from GBSki.">
+  <ProgressBar />
+  <Navigation />
+  <main class="pt-36 pb-24">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+      <div class="max-w-4xl mb-12">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="flex gap-1.5">
+            <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+            <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+          </div>
+          <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Race Record</span>
+        </div>
+        <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">Full Results</h1>
+        <p class="text-lg text-white/70 leading-relaxed">Complete race history sourced from <a href="https://gbski.com/biography.php?id=42382" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-white">GBSki</a>.</p>
+      </div>
+      <div class="border border-white/[0.08] mb-10">
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[1100px]">
+            <thead>
+              <tr class="border-b border-white/[0.08]">
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Date</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Event</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Venue</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Discipline</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Category</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Place</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Time</th>
+                <th class="text-left text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 px-6 lg:px-8 py-4">Points</th>
+              </tr>
+            </thead>
+            <tbody id="results-full"></tbody>
+          </table>
+        </div>
+      </div>
+      <a href="/#skiing" class="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 hover:text-white transition-colors">← Back to skiing</a>
+    </div>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <script is:inline>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    (async function(){
+      const body = document.getElementById('results-full');
+      if(!body) return;
+      try {
+        const res = await fetch('/data/gbski.json?v=' + Date.now());
+        const data = await res.json();
+        const races = (data.races || []).slice().sort((a,b) => b.date.localeCompare(a.date));
+        races.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.className = 'border-b border-white/[0.06] hover:bg-white/[0.01] transition-colors';
+          const disc = (r.discipline || '').toUpperCase();
+          const dot = disc.includes('SL') && !disc.includes('GS') ? 'bg-red-500' : disc.includes('GS') ? 'bg-blue-500' : 'bg-white/40';
+          tr.innerHTML = `
+            <td class="px-6 lg:px-8 py-4 text-sm tabular-nums text-white/70">${r.date || ''}</td>
+            <td class="px-6 lg:px-8 py-4"><div class="font-medium">${r.event || ''}</div></td>
+            <td class="px-6 lg:px-8 py-4 text-sm text-white/60">${r.venue || ''}</td>
+            <td class="px-6 lg:px-8 py-4"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full ${dot}"></span><span class="text-sm">${r.discipline || '-'}</span></div></td>
+            <td class="px-6 lg:px-8 py-4 text-sm text-white/60">${r.category || '-'}</td>
+            <td class="px-6 lg:px-8 py-4 font-semibold">${r.place || '-'}</td>
+            <td class="px-6 lg:px-8 py-4 text-sm tabular-nums text-white/60">${r.time || (r.times && r.times[0]) || '-'}</td>
+            <td class="px-6 lg:px-8 py-4 text-sm tabular-nums text-white/60">${r.points || r.resultPoints || '-'}</td>
+          `;
+          body.appendChild(tr);
+        });
+      } catch(e){}
+    })();
+  </script>
+</BaseLayout>
