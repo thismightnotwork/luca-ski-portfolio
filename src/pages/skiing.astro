@@ -9,6 +9,45 @@ import RaceResults from '../components/RaceResults.astro';
   <Navigation />
   <main class="pt-36 pb-24">
     <RaceResults />
+    <section class="relative mt-16">
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div class="max-w-4xl mb-12">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">On The Hill</span>
+          </div>
+          <h2 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">Moments.</h2>
+          <p class="text-lg text-white/70 leading-relaxed">A few shots from training and racing.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3">
+          <figure class="relative lg:col-span-7 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Tignes.jpeg" alt="Luca Finnis-Bernard carving in Tignes" class="w-full aspect-[16/10] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Tignes</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-5 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/MK.jpeg" alt="Luca Finnis-Bernard at Milton Keynes" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Milton Keynes</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-5 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Hemel.jpeg" alt="Luca Finnis-Bernard at Hemel" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Hemel Hempstead</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-7 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Tignes%202.jpeg" alt="Luca Finnis-Bernard in Tignes gates" class="w-full aspect-[16/10] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Tignes</figcaption>
+          </figure>
+        </div>
+        <div class="mt-10">
+          <a href="/gallery" class="inline-flex items-center gap-3 text-[10px] font-bold tracking-[0.24em] uppercase text-white/60 hover:text-white transition-colors group">
+            <span>Full gallery</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
