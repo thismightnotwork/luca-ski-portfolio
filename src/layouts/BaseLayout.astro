@@ -1,43 +1,61 @@
 ---
 import '../styles/global.css';
-const { title = "Luca Finnis-Bernard", description = "Ski portfolio and projects." } = Astro.props;
+const { title = "Luca Finnis-Bernard | Alpine Ski Racer & BASI Level 2 Instructor", description = "British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete racing for Hemel Ski Race Club." } = Astro.props;
 ---
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#050607" />
+    <link rel="canonical" href="https://lucafinnisbernard.co.uk/" />
+    
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://lucafinnisbernard.co.uk/" />
+    <meta property="og:image" content="https://lucafinnisbernard.co.uk/photos/Tignes.jpeg" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://lucafinnisbernard.co.uk/photos/Tignes.jpeg" />
+    
+    <link rel="icon" type="image/png" href="/photos/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/photos/favicon.svg" />
+    <link rel="shortcut icon" href="/photos/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/photos/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Luca F-B" />
+    <link rel="manifest" href="/photos/site.webmanifest" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Luca Finnis-Bernard",
+      "nationality": "United Kingdom",
+      "url": "https://lucafinnisbernard.co.uk/",
+      "email": "mailto:contact@lucafinnisbernard.co.uk",
+      "jobTitle": "Alpine ski racer and BASI Ski UK Level 2 instructor",
+      "description": "British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete racing slalom and giant slalom for Hemel Ski Race Club.",
+      "memberOf": [{ "@type": "SportsOrganization", "name": "Hemel Ski Race Club" }],
+      "sameAs": [
+        "https://instagram.com/luca.fb_ski",
+        "https://tiktok.com/@luca.fb_ski",
+        "https://youtube.com/@luca.fb_ski",
+        "https://facebook.com/luca.fb_ski",
+        "https://strava.com/athletes/luca.fb_ski",
+        "https://gbski.com/biography.php?id=42382"
+      ]
+    })}></script>
   </head>
-  <body class="bg-black text-white antialiased">
-    <header class="fixed top-0 inset-x-0 z-50 bg-black/70 backdrop-blur border-b border-white/10">
-      <nav class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <a href="/" class="text-sm tracking-widest uppercase">Luca Finnis-Bernard</a>
-        <div class="hidden md:flex gap-8 text-sm">
-          <a href="/#work" class="hover:opacity-80">Work</a>
-          <a href="/about" class="hover:opacity-80">About</a>
-          <a href="/#contact" class="hover:opacity-80">Contact</a>
-        </div>
-        <button class="md:hidden" aria-label="Menu">Menu</button>
-      </nav>
-    </header>
-    <main class="pt-20">
-      <slot />
-    </main>
-    <footer class="mt-24 border-t border-white/10">
-      <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-white/70">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} Luca Finnis-Bernard</p>
-          <div class="flex gap-6">
-            <a href="https://github.com/thismightnotwork" target="_blank" rel="noopener noreferrer" class="hover:text-white">GitHub</a>
-            <a href="https://www.instagram.com/luca_ski/" target="_blank" rel="noopener noreferrer" class="hover:text-white">Instagram</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-white focus:text-black focus:px-6 focus:py-3 focus:text-sm focus:font-bold focus:tracking-[0.12em] focus:uppercase">Skip to content</a>
+    <slot />
   </body>
 </html>

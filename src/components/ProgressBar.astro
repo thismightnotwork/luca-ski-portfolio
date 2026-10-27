@@ -1,0 +1,17 @@
+<div class="fixed top-0 inset-x-0 h-[1px] z-[950]">
+  <div class="h-full bg-gradient-to-r from-red-500 via-blue-500 to-red-500 origin-left scale-x-0 transition-transform duration-150" id="scroll-progress"></div>
+</div>
+<script is:inline>
+(function(){
+  const bar = document.getElementById('scroll-progress');
+  if(!bar) return;
+  function update(){
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const p = max > 0 ? h.scrollTop / max : 0;
+    bar.style.transform = 'scaleX(' + Math.min(Math.max(p,0),1) + ')';
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
+</script>
