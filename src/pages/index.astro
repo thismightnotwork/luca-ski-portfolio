@@ -59,13 +59,14 @@ import ProgressBar from '../components/ProgressBar.astro';
       </div>
     </section>
 
+
     <section class="relative py-20 lg:py-32 border-t border-white/[0.08] overflow-hidden">
       <div class="absolute inset-0">
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
       </div>
       <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10 lg:mb-12">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 lg:mb-12">
           <div>
             <div class="flex items-center gap-3 mb-4">
               <div class="flex gap-1.5">
@@ -74,24 +75,37 @@ import ProgressBar from '../components/ProgressBar.astro';
               </div>
               <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">Control the Line</span>
             </div>
-            <h2 class="text-4xl lg:text-6xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight mb-3">Slalom Mini Game</h2>
-            <p class="text-white/60">Use ← → or A/D to carve between red and blue gates. Hit clean gates to build speed.</p>
+            <h2 class="text-4xl lg:text-6xl font-[family-name:var(--font-heading)] font-black uppercase tracking-tight mb-3">Race the Course</h2>
+            <p class="text-white/60 max-w-2xl">Pick a discipline and carve between the gates. Use arrow keys or A/D to steer.</p>
           </div>
-          <div class="flex items-center gap-6">
-            <div>
-              <div class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 mb-1">Gates Hit</div>
-              <div class="text-4xl font-[family-name:var(--font-heading)] font-black" id="ski-score">0</div>
-            </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button class="ski-mode active px-6 py-2.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/30 hover:border-white/60 transition-all" data-mode="slalom">Slalom</button>
+            <button class="ski-mode px-6 py-2.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all" data-mode="gs">Giant Slalom</button>
+            <button class="ski-mode px-6 py-2.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all" data-mode="superg">Super G</button>
+            <button class="ski-mode px-6 py-2.5 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/20 hover:border-white/40 transition-all" data-mode="downhill">Downhill</button>
           </div>
         </div>
-        <div class="relative border border-white/15 bg-black/40 overflow-hidden">
-          <canvas id="ski-canvas" class="w-full h-[320px]"></canvas>
-          <div class="absolute top-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Slalom</div>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">
+            <span class="w-2 h-2 bg-red-500"></span> Red Gate
+            <span class="w-2 h-2 bg-blue-500 ml-4"></span> Blue Gate
+          </div>
+          <div>
+            <div class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 mb-1 text-right">Gates Hit</div>
+            <div class="text-4xl font-[family-name:var(--font-heading)] font-black text-right" id="ski-score">0</div>
+          </div>
         </div>
-        <p class="mt-4 text-xs text-white/30 text-center">Arrow keys or A/D to steer</p>
+        <div class="relative border border-white/15 bg-gradient-to-b from-[#050607] to-[#030405] overflow-hidden shadow-2xl">
+          <canvas id="ski-canvas" class="w-full h-[340px]"></canvas>
+          <div class="absolute top-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/30">Live Run</div>
+        </div>
+        <style>
+          .ski-mode.active { background: linear-gradient(to right, rgba(239,68,68,0.8), rgba(59,130,246,0.8)); border-color: rgba(255,255,255,0.5); }
+        </style>
       </div>
       <script is:inline src="/skigame.js"></script>
     </section>
+
 
   </main>
   <footer class="border-t border-white/[0.08] py-10">
