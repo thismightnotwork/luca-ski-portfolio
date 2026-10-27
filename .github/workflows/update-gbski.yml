@@ -1,0 +1,47 @@
+name: Update GBSki race data
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Update GBSki data
+        env:
+          NODE_TLS_REJECT_UNAUTHORIZED: "0"
+        run: node scripts/update-gbski.mjs
+
+      - name: Upload GBSki debug HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gbski-debug
+          path: gbski-debug.html
+          if-no-files-found: warn
+
+      - name: Commit updated race data
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/gbski.json
+          if git diff --staged --quiet; then
+            echo "No GBSki changes to commit"
+          else
+            git commit -m "Update live GBSki race data"
+            git push
+          fi

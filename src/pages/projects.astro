@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Projects — Luca Finnis-Bernard" description="Selected work and projects.">
+  <section class="mx-auto max-w-7xl px-6 pt-16 pb-32 md:pt-32">
+    <p class="text-sm uppercase tracking-[0.4em] text-white/50 mb-8">Projects</p>
+    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[0.95]">Selected work</h1>
+    <p class="mt-6 text-lg text-white/70 max-w-2xl">A curated selection of alpine lines and digital projects.</p>
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <article class="group relative overflow-hidden rounded-3xl border border-white/10 aspect-[16/10]">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2400&auto=format&fit=crop" alt="Snowy mountain" class="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+        <div class="absolute inset-x-0 bottom-0 p-8">
+          <p class="text-xs uppercase tracking-[0.3em] text-white/50 mb-3">Alpine</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Alpine Lines</h2>
+          <p class="mt-2 text-white/70">Freeride documentation</p>
+        </div>
+      </article>
+      <article class="group relative overflow-hidden rounded-3xl border border-white/10 aspect-[16/10]">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2400&auto=format&fit=crop" alt="Computer screen with code" class="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+        <div class="absolute inset-x-0 bottom-0 p-8">
+          <p class="text-xs uppercase tracking-[0.3em] text-white/50 mb-3">Digital</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Tools &amp; Experiments</h2>
+          <p class="mt-2 text-white/70">Small utilities and interfaces</p>
+        </div>
+      </article>
+    </div>
+    <div class="mt-12">
+      <a href="/" class="text-sm text-white/60 hover:text-white transition-colors">← Back home</a>
+    </div>
+  </section>
+</BaseLayout>

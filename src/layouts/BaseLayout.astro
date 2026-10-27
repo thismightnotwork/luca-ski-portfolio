@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+const { title = "Luca Finnis-Bernard", description = "Alpine skiing, design, and code." } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  </head>
+  <body class="bg-black text-white antialiased">
+    <header class="fixed top-0 inset-x-0 z-50 bg-black/70 backdrop-blur border-b border-white/10">
+      <nav class="mx-auto max-w-7xl px-6 py-4 flex items="true" items-center justify-between">
+        <a href="/" class="text-sm tracking-[0.3em] uppercase">Luca Finnis-Bernard</a>
+        <div class="hidden md:flex gap-10 text-sm">
+          <a href="/#work" class="hover:opacity-80 transition-opacity">Work</a>
+          <a href="/about" class="hover:opacity-80 transition-opacity">About</a>
+          <a href="/#contact" class="hover:opacity-80 transition-opacity">Contact</a>
+        </div>
+      </nav>
+    </header>
+    <main class="pt-16">
+      <slot />
+    </main>
+    <footer class="mt-32 border-t border-white/10">
+      <div class="mx-auto max-w-7xl px-6 py-12">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <p class="text-sm text-white/60">© {new Date().getFullYear()} Luca Finnis-Bernard</p>
+          <div class="flex gap-8 text-sm text-white/60">
+            <a href="https://github.com/thismightnotwork" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">GitHub</a>
+            <a href="https://www.instagram.com/luca_ski/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
