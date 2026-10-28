@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+---
+<BaseLayout title="Journey - Luca Finnis-Bernard" description="Racing milestones and coaching progression.">
+  <ProgressBar />
+  <Navigation />
+  <main id="main" class="pt-28 md:pt-36 pb-20 md:pb-24">
+    <section class="relative">
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div class="max-w-4xl mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Progression</span>
+          </div>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">The Journey So Far.</h1>
+          <p class="text-lg text-white/70 leading-relaxed">Racing milestones and coaching progression built from confirmed dates and current roles.</p>
+        </div>
+        <div class="border border-white/[0.08] mb-16" id="journey-list"></div>
+        <div class="grid lg:grid-cols-2 gap-12">
+          <div class="border border-white/[0.08] p-8 lg:p-10 bg-[#080a0f]">
+            <h2 class="text-2xl font-[family-name:var(--font-heading)] font-bold mb-6">Racing</h2>
+            <p class="text-white/70 leading-relaxed">Competing for Hemel Ski Race Club across slalom and giant slalom, with race experience from UK dry slopes and snow in Tignes. Focused on building consistency, gate technique and race craft.</p>
+          </div>
+          <div class="border border-white/[0.08] p-8 lg:p-10 bg-[#080a0f]">
+            <h2 class="text-2xl font-[family-name:var(--font-heading)] font-bold mb-6">Coaching</h2>
+            <p class="text-white/70 leading-relaxed">BASI Ski UK Level 2 instructor teaching at The Snow Centre (Hemel Hempstead) and Knockhatch Ski School. Bringing race principles into recreational and development coaching.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <script is:inline src="/data.js"></script>
+  <script is:inline src="/app.js"></script>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>

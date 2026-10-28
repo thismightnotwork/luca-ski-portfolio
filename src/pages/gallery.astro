@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+---
+<BaseLayout title="Gallery - Luca Finnis-Bernard" description="Photos from the hill.">
+  <ProgressBar />
+  <Navigation />
+  <main id="main" class="pt-28 md:pt-36 pb-20 md:pb-24">
+    <section class="relative">
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div class="max-w-4xl mb-16">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Gallery</span>
+          </div>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">On The Hill.</h1>
+          <p class="text-lg text-white/70 leading-relaxed">Training, racing and mountain days.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3 mb-12" id="gallery-grid"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-3">
+          <figure class="relative lg:col-span-6 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Hemel%202.jpeg" alt="Luca Finnis-Bernard training at Hemel" class="w-full aspect-[16/10] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Hemel Hempstead</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-6 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Hemel%203.jpeg" alt="Luca Finnis-Bernard training at Hemel" class="w-full aspect-[16/10] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Hemel Hempstead</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-4 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Hemel%204.jpeg" alt="Luca Finnis-Bernard training at Hemel" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Hemel Hempstead</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-4 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/Tignes%204.jpeg" alt="Luca Finnis-Bernard in Tignes" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Tignes</figcaption>
+          </figure>
+          <figure class="relative lg:col-span-4 group overflow-hidden border border-white/[0.08]">
+            <img src="/photos/MK.jpeg" alt="Luca Finnis-Bernard at Milton Keynes" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-700" loading="lazy" />
+            <figcaption class="absolute bottom-4 left-4 text-[10px] font-mono uppercase tracking-[0.22em] text-white/50">Milton Keynes</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <div class="fixed inset-0 bg-black/95 hidden items-center justify-center z-[1100]" id="lightbox">
+    <button class="absolute top-6 right-6 w-12 h-12 border border-white/15 flex items-center justify-center" id="lb-close">×</button>
+    <button class="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 border border-white/15 flex items-center justify-center" id="lb-prev">←</button>
+    <button class="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 border border-white/15 flex items-center justify-center" id="lb-next">→</button>
+    <div class="max-w-5xl px-6">
+      <img src="" alt="" class="max-h-[80vh] mx-auto" id="lb-img" />
+      <p class="text-center mt-4 text-sm text-white/50" id="lb-cap"></p>
+    </div>
+  </div>
+  <script is:inline src="/data.js"></script>
+  <script is:inline src="/app.js"></script>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>
