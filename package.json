@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "fetch:instagram": "node scripts/fetch-instagram-stats-apify.mjs || node scripts/fetch-instagram-stats.mjs || true",
-    "prebuild": "npm run fetch:instagram || true"
+    "prebuild": "npm run fetch:instagram && npm run fetch:tiktok || true",
+    "fetch:tiktok": "node scripts/fetch-tiktok-stats.mjs || true"
   },
   "dependencies": {
     "astro": "^7.4.2"
