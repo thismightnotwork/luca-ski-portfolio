@@ -3,11 +3,6 @@ import path from 'path';
 
 const APIFY_TOKEN = process.env.APIFY_TOKEN;
 const INSTAGRAM_USERNAME = 'luca.fb_ski';
-const REEL_URLS = [
-  'https://www.instagram.com/reel/De-ZZVboXQR/',
-  'https://www.instagram.com/reel/DemibnZIrBN/',
-  'https://www.instagram.com/reel/DeY6onVo76f/'
-];
 
 async function fetchStats() {
   if (!APIFY_TOKEN) {
@@ -16,48 +11,46 @@ async function fetchStats() {
   }
 
   try {
-    // Use apify/instagram-scraper actor
-    const runRes = await fetch(`https://api.apify.com/v2/acts/apify~instagram-scraper/runs?token=${APIFY_TOKEN}`, {
+    // Fetch ALL posts from profile
+    const profileRunRes = await fetch(`https://api.apify.com/v2/acts/apify~instagram-scraper/runs?token=${APIFY_TOKEN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        directUrls: REEL_URLS,
+        directUrls: [`https://www.instagram.com/${INSTAGRAM_USERNAME}/`],
         resultsType: 'posts',
-        resultsLimit: 3,
+        resultsLimit: 100,
         addParentData: false
       })
     });
     
-    const run = await runRes.json();
-    const runId = run.data?.id;
+    const profileRun = await profileRunRes.json();
+    const profileRunId = profileRun.data?.id;
     
-    if (!runId) {
-      console.error('Failed to start Apify run:', run);
+    if (!profileRunId) {
+      console.error('Failed to start Apify run:', profileRun);
       return;
     }
     
-    // Wait for run to finish
-    let status = run.data.status;
-    while (status === 'READY' || status === 'RUNNING') {
-      await new Promise(r => setTimeout(r, 3000));
-      const statusRes = await fetch(`https://api.apify.com/v2/actor-runs/${runId}?token=${APIFY_TOKEN}`);
-      const statusData = await statusRes.json();
-      status = statusData.data.status;
-      console.log('Apify run status:', status);
+    let pStatus = profileRun.data.status;
+    while (pStatus === 'READY' || pStatus === 'RUNNING') {
+      await new Promise(r => setTimeout(r, 5000));
+      const pStatusRes = await fetch(`https://api.apify.com/v2/actor-runs/${profileRunId}?token=${APIFY_TOKEN}`);
+      const pStatusData = await pStatusRes.json();
+      pStatus = pStatusData.data.status;
+      console.log('Apify profile run status:', pStatus);
     }
     
-    if (status !== 'SUCCEEDED') {
-      console.error('Apify run failed:', status);
+    if (pStatus !== 'SUCCEEDED') {
+      console.error('Apify run failed:', pStatus);
       return;
     }
     
-    // Get results
-    const datasetId = run.data.defaultDatasetId;
-    const resultsRes = await fetch(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${APIFY_TOKEN}`);
-    const results = await resultsRes.json();
+    const pDatasetId = profileRun.data.defaultDatasetId;
+    const pResultsRes = await fetch(`https://api.apify.com/v2/datasets/${pDatasetId}/items?token=${APIFY_TOKEN}`);
+    const results = await pResultsRes.json();
     
-    // Fetch profile info separately
-    const profileRunRes = await fetch(`https://api.apify.com/v2/acts/apify~instagram-scraper/runs?token=${APIFY_TOKEN}`, {
+    // Also fetch profile details for follower count
+    const detailsRunRes = await fetch(`https://api.apify.com/v2/acts/apify~instagram-scraper/runs?token=${APIFY_TOKEN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -67,33 +60,46 @@ async function fetchStats() {
       })
     });
     
-    const profileRun = await profileRunRes.json();
-    const profileRunId = profileRun.data?.id;
+    const detailsRun = await detailsRunRes.json();
+    const detailsRunId = detailsRun.data?.id;
     let followers = null;
     
-    if (profileRunId) {
-      let pStatus = profileRun.data.status;
-      while (pStatus === 'READY' || pStatus === 'RUNNING') {
+    if (detailsRunId) {
+      let dStatus = detailsRun.data.status;
+      while (dStatus === 'READY' || dStatus === 'RUNNING') {
         await new Promise(r => setTimeout(r, 3000));
-        const pStatusRes = await fetch(`https://api.apify.com/v2/actor-runs/${profileRunId}?token=${APIFY_TOKEN}`);
-        const pStatusData = await pStatusRes.json();
-        pStatus = pStatusData.data.status;
+        const dStatusRes = await fetch(`https://api.apify.com/v2/actor-runs/${detailsRunId}?token=${APIFY_TOKEN}`);
+        const dStatusData = await dStatusRes.json();
+        dStatus = dStatusData.data.status;
       }
-      if (pStatus === 'SUCCEEDED') {
-        const pDatasetId = profileRun.data.defaultDatasetId;
-        const pResultsRes = await fetch(`https://api.apify.com/v2/datasets/${pDatasetId}/items?token=${APIFY_TOKEN}`);
-        const pResults = await pResultsRes.json();
-        followers = pResults[0]?.followersCount || pResults[0]?.followers || null;
+      if (dStatus === 'SUCCEEDED') {
+        const dDatasetId = detailsRun.data.defaultDatasetId;
+        const dResultsRes = await fetch(`https://api.apify.com/v2/datasets/${dDatasetId}/items?token=${APIFY_TOKEN}`);
+        const dResults = await dResultsRes.json();
+        followers = dResults[0]?.followersCount || dResults[0]?.followers || null;
       }
     }
     
     const reels = results.map(r => ({
-      id: r.shortCode || r.url?.match(/\/reel\/([^/]+)/)?.[1],
+      id: r.shortCode || r.url?.match(/\/(reel|p)\/([^/]+)/)?.[2],
+      url: r.url,
       likes: r.likesCount || r.likes || 0,
-      views: r.videoViewCount || r.videoViews || r.views || 0
-    }));
+      views: r.videoViewCount || r.videoViews || r.views || 0,
+      type: r.type
+    })).filter(r => r.id);
     
-    const stats = { followers, reels };
+    const totalLikes = reels.reduce((sum, r) => sum + (r.likes || 0), 0);
+    const totalViews = reels.reduce((sum, r) => sum + (r.views || 0), 0);
+    
+    const stats = { 
+      followers, 
+      reels,
+      totalLikes,
+      totalViews,
+      totalPosts: reels.length
+    };
+    
+    fs.mkdirSync(path.join(process.cwd(), 'data'), { recursive: true });
     fs.writeFileSync(
       path.join(process.cwd(), 'data/instagram-stats.json'),
       JSON.stringify(stats, null, 2)
