@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "fetch:instagram": "node scripts/fetch-instagram-stats-apify.mjs || node scripts/fetch-instagram-stats.mjs || true",
+    "prebuild": "npm run fetch:instagram || true"
   },
   "dependencies": {
     "astro": "^7.4.2"
