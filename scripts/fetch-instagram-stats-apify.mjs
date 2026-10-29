@@ -18,8 +18,9 @@ async function fetchStats() {
       body: JSON.stringify({
         directUrls: [`https://www.instagram.com/${INSTAGRAM_USERNAME}/`],
         resultsType: 'posts',
-        resultsLimit: 100,
-        addParentData: false
+        resultsLimit: 200,
+        addParentData: false,
+        searchType: 'hashtag'
       })
     });
     

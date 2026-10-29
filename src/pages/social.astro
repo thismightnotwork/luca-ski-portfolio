@@ -16,11 +16,19 @@ try {
   if (fs.existsSync(ttPath)) ttStats = JSON.parse(fs.readFileSync(ttPath, 'utf8'));
 } catch (e) {}
 
-const igTotalLikes = igStats?.totalLikes || igStats?.reels?.reduce((sum, r) => sum + (r.likes || 0), 0) || 0;
-const igTotalViews = igStats?.totalViews || igStats?.reels?.reduce((sum, r) => sum + (r.views || 0), 0) || 0;
-const ttTotalLikes = ttStats?.totalLikes || (5051 + 155 + 98);
-const ttTotalViews = ttStats?.totalViews || (183200 + 9504 + 6442);
-const ttFollowers = ttStats?.followers || 945;
+// Known reel stats as fallback
+const knownIgReels = [
+  { id: 'De-ZZVboXQR', likes: 0, views: 0 },
+  { id: 'DemibnZIrBN', likes: 0, views: 0 },
+  { id: 'DeY6onVo76f', likes: 0, views: 0 }
+];
+
+const igTotalLikes = igStats?.totalLikes || (igStats?.reels?.reduce((sum, r) => sum + (r.likes || 0), 0) || 0);
+const igTotalViews = igStats?.totalViews || (igStats?.reels?.reduce((sum, r) => sum + (r.views || 0), 0) || 0);
+
+const ttTotalLikes = ttStats?.totalLikes ?? (5051 + 155 + 98);
+const ttTotalViews = ttStats?.totalViews ?? (183200 + 9504 + 6442);
+const ttFollowers = ttStats?.followers ?? 945;
 ---
 <BaseLayout title="Social - Luca Finnis-Bernard" description="Follow Luca Finnis-Bernard on social media.">
   <ProgressBar />
