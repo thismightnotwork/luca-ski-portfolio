@@ -31,56 +31,26 @@ function extractNumbers(text) {
 async function tryUrlebird() {
   try {
     const html = await fetchWithHeaders('https://urlebird.com/user/luca.fb_ski/');
+    const followersMatch = html.match(/Followers[^\d]*([0-9,]+)/i);
+    const likesMatch = html.match(/Likes[^\d]*([0-9,]+)/i);
+    const viewsMatch = html.match(/Views[^\d]*([0-9,]+)/i);
     const nums = extractNumbers(html);
     const sorted = [...new Set(nums)].filter(n => n > 100).sort((a,b) => b-a);
-    if (sorted.length > 0) {
-      return {
-        followers: sorted.find(n => n > 500 && n < 10000) || null,
-        likes: sorted.find(n => n > 10000 && n < 100000) || sorted[1] || null,
-        views: sorted[0] > 100000 ? sorted[0] : null
-      };
-    }
-  } catch (e) {}
-  return null;
-}
-
-async function tryTtSave() {
-  try {
-    const html = await fetchWithHeaders('https://ttsave.app/en/profile/luca.fb_ski');
-    const nums = extractNumbers(html);
-    const sorted = [...new Set(nums)].filter(n => n > 100).sort((a,b) => b-a);
-    if (sorted.length > 0) {
-      return {
-        followers: sorted.find(n => n > 500 && n < 10000) || null,
-        likes: sorted.find(n => n > 10000 && n < 100000) || null,
-        views: sorted.find(n => n > 100000) || null
-      };
-    }
-  } catch (e) {}
-  return null;
-}
-
-async function tryDirect() {
-  try {
-    const html = await fetchWithHeaders('https://www.tiktok.com/@luca.fb_ski');
-    const nums = extractNumbers(html);
-    const sorted = [...new Set(nums)].filter(n => n > 100).sort((a,b) => b-a);
-    if (sorted.length > 0) {
-      return {
-        followers: sorted.find(n => n > 500 && n < 2000) || null,
-        likes: sorted.find(n => n > 10000) || null,
-        views: sorted.find(n => n > 100000) || null
-      };
-    }
+    
+    return {
+      followers: followersMatch ? parseInt(followersMatch[1].replace(/,/g, '')) : (sorted.find(n => n > 500 && n < 2000) || null),
+      likes: likesMatch ? parseInt(likesMatch[1].replace(/,/g, '')) : (sorted.find(n => n > 10000 && n < 100000) || sorted[1] || null),
+      views: viewsMatch ? parseInt(viewsMatch[1].replace(/,/g, '')) : (sorted.find(n => n > 1000000) || sorted[0] || null)
+    };
   } catch (e) {}
   return null;
 }
 
 async function main() {
-  let result = await tryUrlebird() || await tryTtSave() || await tryDirect();
+  let result = await tryUrlebird();
   
   if (!result) {
-    console.log('TikTok fetch failed, keeping existing');
+    console.log('TikTok fetch failed');
     return;
   }
   
@@ -92,9 +62,9 @@ async function main() {
   const totals = {
     ...existing,
     tiktok: {
-      likes: result.likes ?? existing.tiktok?.likes ?? 45000,
-      views: result.views ?? existing.tiktok?.views ?? 2000000,
-      followers: result.followers ?? existing.tiktok?.followers ?? 945,
+      likes: result.likes,
+      views: result.views,
+      followers: result.followers ?? existing.tiktok?.followers ?? null,
       updatedAt: new Date().toISOString()
     }
   };

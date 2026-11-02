@@ -36,9 +36,9 @@ async function fetchStats() {
     if (data.items?.[0]) {
       const stats = data.items[0].statistics;
       return {
-        subscribers: Number(stats.subscriberCount || 0),
-        views: Number(stats.viewCount || 0),
-        videos: Number(stats.videoCount || 0)
+        subscribers: stats.subscriberCount !== undefined ? Number(stats.subscriberCount) : null,
+        views: stats.viewCount !== undefined ? Number(stats.viewCount) : null,
+        videos: stats.videoCount !== undefined ? Number(stats.videoCount) : null
       };
     }
   } catch (e) {
