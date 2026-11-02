@@ -1,1 +1,21 @@
-{"instagram":{"likes":4760,"views":372779,"followers":null,"updatedAt":"2026-11-02T14:46:49.290Z"},"tiktok":{"likes":45000,"views":2000000,"followers":945,"updatedAt":"2026-11-02T15:00:00.000Z"},"youtube":{"subscribers":144,"views":312048,"videos":158,"updatedAt":"2026-11-02T14:59:33.768Z"},"lastUpdated":"2026-11-02T15:00:00.000Z"}
+{
+  "instagram": {
+    "likes": 4760,
+    "views": 372779,
+    "followers": null,
+    "updatedAt": "2026-11-02T14:46:49.290Z"
+  },
+  "tiktok": {
+    "likes": 87,
+    "views": null,
+    "followers": 945,
+    "updatedAt": "2026-11-02T15:05:49.100233Z"
+  },
+  "youtube": {
+    "subscribers": 144,
+    "views": 312048,
+    "videos": 158,
+    "updatedAt": "2026-11-02T14:59:33.768Z"
+  },
+  "lastUpdated": "2026-11-02T15:00:00.000Z"
+}
