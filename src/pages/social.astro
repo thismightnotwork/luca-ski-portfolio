@@ -21,12 +21,11 @@ try {
   if (fs.existsSync(stPath)) socialTotals = JSON.parse(fs.readFileSync(stPath, 'utf8'));
 } catch (e) {}
 
-const igTotalLikes = socialTotals?.instagram?.likes || igStats?.totalLikes || (igStats?.reels?.reduce((sum, r) => sum + (r.likes || 0), 0) || 5463);
-const igTotalViews = socialTotals?.instagram?.views || igStats?.totalViews || (igStats?.reels?.reduce((sum, r) => sum + (r.views || 0), 0) || 150000);
-
-const ttTotalLikes = socialTotals?.tiktok?.likes || ttStats?.totalLikes || 45000;
-const ttTotalViews = socialTotals?.tiktok?.views || ttStats?.totalViews || 2000000;
-const ttFollowers = socialTotals?.tiktok?.followers || ttStats?.followers || 945;
+const igTotalLikes = socialTotals?.instagram?.likes ?? igStats?.totalLikes ?? null;
+const igTotalViews = socialTotals?.instagram?.views ?? igStats?.totalViews ?? null;
+const ttTotalLikes = socialTotals?.tiktok?.likes ?? ttStats?.totalLikes ?? null;
+const ttTotalViews = socialTotals?.tiktok?.views ?? ttStats?.totalViews ?? null;
+const ttFollowers = socialTotals?.tiktok?.followers ?? ttStats?.followers ?? null;
 ---
 <BaseLayout title="Social - Luca Finnis-Bernard" description="Follow Luca Finnis-Bernard on social media.">
   <ProgressBar />
