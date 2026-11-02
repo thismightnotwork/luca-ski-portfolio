@@ -36,10 +36,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin site-rebuild || true
           git add data/social-totals.json data/instagram-stats.json data/tiktok-stats.json
           if git diff --staged --quiet; then
             echo "No social stats changes to commit"
           else
             git commit -m "Update social stats"
-            git push
+            git push origin HEAD:site-rebuild
           fi
