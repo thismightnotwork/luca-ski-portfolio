@@ -81,13 +81,17 @@ async function fetchStats() {
       }
     }
     
-    const reels = results.map(r => ({
-      id: r.shortCode || r.url?.match(/\/(reel|p)\/([^/]+)/)?.[2],
-      url: r.url,
-      likes: r.likesCount || r.likes || 0,
-      views: r.videoViewCount || r.videoViews || r.views || 0,
-      type: r.type
-    })).filter(r => r.id);
+    const reels = results.map(r => {
+      const views = r.videoPlayCount || r.playCount || r.videoViewCount || r.videoViews || r.viewsCount || r.viewCount || r.plays || r.view_count || r.viewedCount || r.play_count || 0;
+      const likes = r.likesCount || r.likes || r.likeCount || r.edge_liked_by?.count || r.edge_media_preview_like?.count || 0;
+      return {
+        id: r.shortCode || r.shortcode || r.code || r.id || r.url?.match(/\/(reel|p|tv)\/([^/]+)/)?.[2],
+        url: r.url,
+        likes,
+        views,
+        type: r.type
+      };
+    }).filter(r => r.id);
     
     const totalLikes = reels.reduce((sum, r) => sum + (r.likes || 0), 0);
     const totalViews = reels.reduce((sum, r) => sum + (r.views || 0), 0);

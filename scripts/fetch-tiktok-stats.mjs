@@ -48,9 +48,13 @@ async function fetchStats() {
     const resultsRes = await fetch(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${APIFY_TOKEN}`);
     const results = await resultsRes.json();
     
-    const totalLikes = results.reduce((sum, r) => sum + (r.diggCount || r.likes || r.stats?.diggCount || 0), 0);
-    const totalViews = results.reduce((sum, r) => sum + (r.playCount || r.views || r.stats?.playCount || 0), 0);
-    const followers = results[0]?.authorMeta?.fans || results[0]?.author?.fans || null;
+    let totalLikes = 0;
+    let totalViews = 0;
+    for (const r of results) {
+      totalLikes += Number(r.diggCount || r.likes || r.likeCount || r.stats?.diggCount || r.stats?.likes || r.authorStats?.heart || r.digg_count || 0);
+      totalViews += Number(r.playCount || r.videoPlayCount || r.views || r.viewCount || r.stats?.playCount || r.stats?.views || r.playCountV2 || r.play_count || r.videoViewCount || 0);
+    }
+    const followers = results[0]?.authorMeta?.fans || results[0]?.author?.fans || results[0]?.authorMeta?.followers || results[0]?.author?.followerCount || null;
     
     const stats = { followers, totalLikes, totalViews, totalPosts: results.length };
     fs.mkdirSync(path.join(process.cwd(), 'data'), { recursive: true });

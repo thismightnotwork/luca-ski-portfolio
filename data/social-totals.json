@@ -1,0 +1,21 @@
+{
+  "instagram": {
+    "likes": 4760,
+    "views": 372779,
+    "followers": null,
+    "updatedAt": "2026-11-02T14:46:49.290Z"
+  },
+  "tiktok": {
+    "likes": 76400,
+    "views": null,
+    "followers": 948,
+    "updatedAt": "2026-11-02T15:32:15.081929Z"
+  },
+  "youtube": {
+    "subscribers": 144,
+    "views": 312048,
+    "videos": 158,
+    "updatedAt": "2026-11-02T15:09:48.609Z"
+  },
+  "lastUpdated": "2026-11-02T15:09:48.644Z"
+}
