@@ -6,7 +6,7 @@ from datetime import datetime
 try:
     import cloudscraper
     scraper = cloudscraper.create_scraper()
-    resp = scraper.get('https://www.tiktok.com/@luca.fb_ski', headers={
+    resp = scraper.get('https://tiktokstalk.com/user/luca.fb_ski', headers={
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     })
     html = resp.text
@@ -15,16 +15,23 @@ try:
     likes = None
     views = None
     
-    # Try to get from user stats
-    m = re.search(r'"followerCount"\s*:\s*(\d+)', html)
-    if m: followers = int(m.group(1))
-    m = re.search(r'"heartCount"\s*:\s*(\d+)', html)
-    if m: likes = int(m.group(1))
+    m = re.search(r'Followers[^\d]*([\d,]+)', html, re.I)
+    if m: followers = int(m.group(1).replace(',', ''))
+    m = re.search(r'Likes[^\d]*([\d,]+)', html, re.I)
+    if m: likes = int(m.group(1).replace(',', ''))
+    m = re.search(r'Views[^\d]*([\d,]+)', html, re.I)
+    if m: views = int(m.group(1).replace(',', ''))
     
-    # Sum all play counts from any video data
-    all_plays = re.findall(r'"playCount"\s*:\s*(\d+)', html)
-    if all_plays:
-        views = sum(int(x) for x in all_plays)
+    if followers is None or likes is None or views is None:
+        # try direct
+        resp2 = scraper.get('https://www.tiktok.com/@luca.fb_ski')
+        html2 = resp2.text
+        if followers is None:
+            m = re.search(r'"followerCount"\s*:\s*(\d+)', html2)
+            if m: followers = int(m.group(1))
+        if likes is None:
+            m = re.search(r'"heartCount"\s*:\s*(\d+)', html2)
+            if m: likes = int(m.group(1))
     
     out_path = os.path.join(os.getcwd(), 'data', 'social-totals.json')
     existing = {}
