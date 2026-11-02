@@ -13,26 +13,18 @@ try:
     
     followers = None
     likes = None
+    views = None
     
-    # Look for the data in script tags
-    for m in re.finditer(r'<script[^>]+>(.+?)</script>', html, re.DOTALL):
-        content = m.group(1)
-        if 'followerCount' in content and 'heartCount' in content:
-            fm = re.search(r'"followerCount"\s*:\s*(\d+)', content)
-            if fm: followers = int(fm.group(1))
-            lm = re.search(r'"heartCount"\s*:\s*(\d+)', content)
-            if lm: likes = int(lm.group(1))
-            elif re.search(r'"heart"\s*:\s*(\d+)', content):
-                lm = re.search(r'"heart"\s*:\s*(\d+)', content)
-                if lm: likes = int(lm.group(1))
-            break
+    # Try to get from user stats
+    m = re.search(r'"followerCount"\s*:\s*(\d+)', html)
+    if m: followers = int(m.group(1))
+    m = re.search(r'"heartCount"\s*:\s*(\d+)', html)
+    if m: likes = int(m.group(1))
     
-    if followers is None:
-        m = re.search(r'"followerCount"\s*:\s*(\d+)', html)
-        if m: followers = int(m.group(1))
-    if likes is None:
-        m = re.search(r'"heartCount"\s*:\s*(\d+)', html)
-        if m: likes = int(m.group(1))
+    # Sum all play counts from any video data
+    all_plays = re.findall(r'"playCount"\s*:\s*(\d+)', html)
+    if all_plays:
+        views = sum(int(x) for x in all_plays)
     
     out_path = os.path.join(os.getcwd(), 'data', 'social-totals.json')
     existing = {}
@@ -45,8 +37,8 @@ try:
     totals = {
         **existing,
         'tiktok': {
-            'likes': likes,
-            'views': existing.get('tiktok', {}).get('views'),
+            'likes': likes if likes is not None else existing.get('tiktok', {}).get('likes'),
+            'views': views if views is not None else existing.get('tiktok', {}).get('views'),
             'followers': followers if followers is not None else existing.get('tiktok', {}).get('followers'),
             'updatedAt': datetime.utcnow().isoformat() + 'Z'
         }
