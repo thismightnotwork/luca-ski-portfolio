@@ -25,10 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Update social totals via Apify
+      - name: Update social totals
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: |
+          node scripts/fetch-social-manual.mjs || true
           npm run update:social || true
 
       - name: Commit updated social stats
