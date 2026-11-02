@@ -10,10 +10,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "fetch:instagram": "node scripts/fetch-instagram-stats-apify.mjs || node scripts/fetch-instagram-stats.mjs || true",
-    "prebuild": "npm run fetch:instagram && npm run fetch:tiktok || true",
-    "fetch:tiktok": "node scripts/fetch-tiktok-stats.mjs || true",
-    "update:social": "node scripts/update-social-totals.mjs || true"
+    "fetch:instagram": "node scripts/fetch-instagram-3rdparty.mjs || node scripts/fetch-instagram-stats-apify.mjs || true",
+    "fetch:tiktok": "node scripts/fetch-tiktok-display.mjs || node scripts/fetch-tiktok-stats.mjs || true",
+    "fetch:youtube": "node scripts/fetch-youtube-stats.mjs || true",
+    "update:social": "npm run fetch:tiktok && npm run fetch:instagram && npm run fetch:youtube && node scripts/aggregate-social.mjs || true",
+    "prebuild": "npm run fetch:instagram && npm run fetch:tiktok || true"
   },
   "dependencies": {
     "astro": "^7.4.2"
