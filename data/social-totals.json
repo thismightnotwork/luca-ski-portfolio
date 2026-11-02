@@ -6,16 +6,16 @@
     "updatedAt": "2026-11-02T14:46:49.290Z"
   },
   "tiktok": {
-    "likes": 87,
+    "likes": null,
     "views": null,
     "followers": 945,
-    "updatedAt": "2026-11-02T15:05:49.100233Z"
+    "updatedAt": "2026-11-02T15:09:47.191996Z"
   },
   "youtube": {
     "subscribers": 144,
     "views": 312048,
     "videos": 158,
-    "updatedAt": "2026-11-02T15:06:52.237Z"
+    "updatedAt": "2026-11-02T15:09:48.609Z"
   },
-  "lastUpdated": "2026-11-02T15:06:52.267Z"
+  "lastUpdated": "2026-11-02T15:09:48.644Z"
 }
