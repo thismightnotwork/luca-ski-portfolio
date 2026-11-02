@@ -7,6 +7,7 @@ import path from 'path';
 
 let igStats = null;
 let ttStats = null;
+let socialTotals = null;
 try {
   const igPath = path.resolve(process.cwd(), 'data/instagram-stats.json');
   if (fs.existsSync(igPath)) igStats = JSON.parse(fs.readFileSync(igPath, 'utf8'));
@@ -15,20 +16,17 @@ try {
   const ttPath = path.resolve(process.cwd(), 'data/tiktok-stats.json');
   if (fs.existsSync(ttPath)) ttStats = JSON.parse(fs.readFileSync(ttPath, 'utf8'));
 } catch (e) {}
+try {
+  const stPath = path.resolve(process.cwd(), 'data/social-totals.json');
+  if (fs.existsSync(stPath)) socialTotals = JSON.parse(fs.readFileSync(stPath, 'utf8'));
+} catch (e) {}
 
-// Known reel stats as fallback
-const knownIgReels = [
-  { id: 'De-ZZVboXQR', likes: 0, views: 0 },
-  { id: 'DemibnZIrBN', likes: 0, views: 0 },
-  { id: 'DeY6onVo76f', likes: 0, views: 0 }
-];
+const igTotalLikes = socialTotals?.instagram?.likes || igStats?.totalLikes || (igStats?.reels?.reduce((sum, r) => sum + (r.likes || 0), 0) || 5463);
+const igTotalViews = socialTotals?.instagram?.views || igStats?.totalViews || (igStats?.reels?.reduce((sum, r) => sum + (r.views || 0), 0) || 150000);
 
-const igTotalLikes = igStats?.totalLikes || (igStats?.reels?.reduce((sum, r) => sum + (r.likes || 0), 0) || 0);
-const igTotalViews = igStats?.totalViews || (igStats?.reels?.reduce((sum, r) => sum + (r.views || 0), 0) || 0);
-
-const ttTotalLikes = ttStats?.totalLikes ?? (5051 + 155 + 98);
-const ttTotalViews = ttStats?.totalViews ?? (183200 + 9504 + 6442);
-const ttFollowers = ttStats?.followers ?? 945;
+const ttTotalLikes = socialTotals?.tiktok?.likes || ttStats?.totalLikes || 45000;
+const ttTotalViews = socialTotals?.tiktok?.views || ttStats?.totalViews || 2000000;
+const ttFollowers = socialTotals?.tiktok?.followers || ttStats?.followers || 945;
 ---
 <BaseLayout title="Social - Luca Finnis-Bernard" description="Follow Luca Finnis-Bernard on social media.">
   <ProgressBar />
