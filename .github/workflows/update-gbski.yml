@@ -21,8 +21,6 @@ jobs:
           node-version: "20"
 
       - name: Update GBSki data
-        env:
-          NODE_TLS_REJECT_UNAUTHORIZED: "0"
         run: node scripts/update-gbski.mjs
 
       - name: Upload GBSki debug HTML

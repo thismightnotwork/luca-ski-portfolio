@@ -51,26 +51,31 @@ import ProgressBar from '../components/ProgressBar.astro';
             </div>
           </div>
           <form id="contact-form" class="border border-white/[0.08] bg-[#080a0f] p-8 lg:p-10 flex flex-col gap-6" novalidate>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="absolute opacity-0 pointer-events-none h-0 w-0" aria-hidden="true" />
             <div class="flex flex-col gap-2">
               <label for="name" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Name</label>
-              <input id="name" name="name" type="text" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors" />
-              <p class="text-sm text-red-500 hidden" data-err="name"></p>
+              <input id="name" name="name" type="text" required class="bg-transparent border border-white/15 px-4 py-3 focus:border-white/40 transition-colors" />
+              <p class="text-sm text-red-400 hidden" data-err="name" role="alert"></p>
             </div>
             <div class="flex flex-col gap-2">
               <label for="email" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Email</label>
-              <input id="email" name="email" type="email" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors" />
-              <p class="text-sm text-red-500 hidden" data-err="email"></p>
+              <input id="email" name="email" type="email" required class="bg-transparent border border-white/15 px-4 py-3 focus:border-white/40 transition-colors" />
+              <p class="text-sm text-red-400 hidden" data-err="email" role="alert"></p>
             </div>
             <div class="flex flex-col gap-2">
               <label for="message" class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/40">Message</label>
-              <textarea id="message" name="message" rows="6" required class="bg-transparent border border-white/15 px-4 py-3 focus:outline-none focus:border-white/40 transition-colors resize-y"></textarea>
-              <p class="text-sm text-red-500 hidden" data-err="message"></p>
+              <textarea id="message" name="message" rows="6" required class="bg-transparent border border-white/15 px-4 py-3 focus:border-white/40 transition-colors resize-y"></textarea>
+              <p class="text-sm text-red-400 hidden" data-err="message" role="alert"></p>
             </div>
+            <p class="text-xs text-white/40 leading-relaxed">
+              Your name, email and message are sent via Formspree so I can reply to you. No cookies, no analytics, no marketing.
+              <a href="/privacy" class="underline underline-offset-2 hover:text-white">Privacy policy</a>
+            </p>
             <button class="relative inline-flex items-center justify-center gap-3 px-10 py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group" type="submit">
               <span class="relative z-10">Send message</span>
               <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
             </button>
-            <div id="form-msg" class="hidden p-4 border border-white/15 text-sm"></div>
+            <div id="form-msg" class="hidden p-4 border border-white/15 text-sm" role="status" aria-live="polite"></div>
           </form>
         </div>
       </div>
@@ -79,7 +84,7 @@ import ProgressBar from '../components/ProgressBar.astro';
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
       <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
-      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard · <a href="/privacy" class="hover:text-white transition-colors">Privacy</a></p>
     </div>
   </footer>
   <script is:inline src="/data.js"></script>
