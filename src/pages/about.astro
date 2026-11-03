@@ -6,7 +6,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 <BaseLayout title="About - Luca Finnis-Bernard" description="About Luca Finnis-Bernard, British U18 alpine ski racer and BASI Ski UK Level 2 instructor.">
   <ProgressBar />
   <Navigation />
-  <main class="pt-36 pb-24">
+  <main id="main" class="pt-36 pb-24">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
       <div class="max-w-5xl mb-16">
         <div class="flex items-center gap-3 mb-8">
@@ -44,7 +44,7 @@ import ProgressBar from '../components/ProgressBar.astro';
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
       <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
-      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard · <a href="/privacy" class="hover:text-white transition-colors">Privacy</a></p>
     </div>
   </footer>
   <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>

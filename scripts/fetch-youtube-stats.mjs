@@ -1,11 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 
-const API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyDv5D31d74wrAr82MnRj81-RNwlMsJOHXc';
+const API_KEY = process.env.YOUTUBE_API_KEY;
 const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
 const OUT = path.join(process.cwd(), 'data', 'social-totals.json');
 
 async function fetchStats() {
+  if (!API_KEY) {
+    console.log('YouTube stats: YOUTUBE_API_KEY not set, skipping (scripts skip cleanly, see package.json)');
+    return null;
+  }
   try {
     let channelId = CHANNEL_ID;
     

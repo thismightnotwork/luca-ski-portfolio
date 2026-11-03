@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+---
+<BaseLayout title="Privacy Policy - Luca Finnis-Bernard" description="How Luca Finnis-Bernard's website collects, uses and protects your data.">
+  <ProgressBar />
+  <Navigation />
+  <main id="main" class="pt-28 md:pt-36 pb-20 md:pb-24">
+    <section class="relative">
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12">
+        <div class="max-w-4xl mb-12">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-[0.28em] text-white/40">Legal</span>
+          </div>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">Privacy Policy</h1>
+          <p class="text-lg text-white/70 leading-relaxed">How this site collects, uses and protects your data. Last updated: November 2026.</p>
+        </div>
+
+        <div class="max-w-4xl flex flex-col gap-px bg-white/[0.08] border border-white/[0.08] mb-16">
+          {[
+            {
+              h: "Who I am",
+              p: [
+                'This website is operated by Luca Finnis-Bernard ("I", "me"). You can contact me at <a href="mailto:contact@lucafinnisbernard.co.uk" class="underline underline-offset-2 hover:text-white">contact@lucafinnisbernard.co.uk</a> for anything related to your data or this policy.'
+              ]
+            },
+            {
+              h: "What data is collected",
+              p: [
+                'If you use the contact form I receive your <strong>name, email address and message</strong>. This is the only personal data the site itself collects.',
+                'This site does <strong>not use cookies</strong>, does not run advertising or analytics/tracking scripts, and does not build advertising profiles. Browsing the site does not require any personal data.'
+              ]
+            },
+            {
+              h: "Third-party services",
+              p: [
+                'The contact form is delivered through <strong>Formspree</strong>, which processes form submissions on my behalf so I can receive and reply to messages. When you submit the form, your name, email and message (and technically your IP address and browser information) pass through Formspree. Their own privacy notice is at formspree.io/legal/privacy-policy.',
+                'Fonts are loaded from <strong>Google Fonts</strong>. When pages load, your browser requests these fonts from Google, which sees your IP address. Google states it does not combine font requests with other Google services. If you prefer, you can block Google Fonts in your browser - all text will still display using standard system fonts.'
+              ]
+            },
+            {
+              h: "How I use your information",
+              p: [
+                'Your details are used <strong>only to reply to your message</strong>. My lawful basis is legitimate interest (art. 6(1)(f) UK GDPR) - responding to enquiries sent to me. I do not use your data for marketing, and I do not sell or share it with anyone else.'
+              ]
+            },
+            {
+              h: "How long it is kept",
+              p: [
+                'Messages I receive are kept only as long as needed to handle your enquiry and any follow-up, then deleted. Formspree may retain submissions according to its own retention policy.'
+              ]
+            },
+            {
+              h: "Children",
+              p: [
+                'As a U18 athlete, the site is managed with parental awareness. If you are a parent or guardian with a concern about a photo, result or message relating to a child, contact me (or use the email above) and it will be dealt with promptly.'
+              ]
+            },
+            {
+              h: "Your rights",
+              p: [
+                'Under the UK GDPR and the Data Protection Act 2018 you can ask me to access, correct, delete, restrict or object to the processing of your personal data, or request a copy of it. Email <a href="mailto:contact@lucafinnisbernard.co.uk" class="underline underline-offset-2 hover:text-white">contact@lucafinnisbernard.co.uk</a> and I will respond within one month.',
+                'You also have the right to complain to the <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-white">Information Commissioner\'s Office (ICO)</a>, the UK data protection regulator.'
+              ]
+            },
+            {
+              h: "Changes to this policy",
+              p: [
+                'If the site starts using cookies, analytics or additional third-party services, this policy will be updated and the notice shown before or when those features activate.'
+              ]
+            }
+          ].map((item) => (
+            <article class="bg-[#080a0f] p-6 lg:p-8">
+              <h2 class="text-xl font-[family-name:var(--font-heading)] font-bold mb-3">{item.h}</h2>
+              {item.p.map((para) => (
+                <p class="text-white/70 leading-relaxed" set:html={para} />
+              ))}
+            </article>
+          ))}
+        </div>
+
+        <a href="/" class="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 hover:text-white transition-colors">← Back home</a>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+    </div>
+  </footer>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>

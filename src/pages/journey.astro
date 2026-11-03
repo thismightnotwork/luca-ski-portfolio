@@ -2,6 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import ProgressBar from '../components/ProgressBar.astro';
+
+const journey = [
+  { date: "Ongoing", title: "BASI Ski UK Level 2 instructor", category: "Instruction", description: "Teaching skiing at The Snow Centre, Hemel Hempstead, and Knockhatch Adventure Park, applying race-technique fundamentals to every lesson." },
+  { date: "Ongoing", title: "Hemel Ski Race Club racer", category: "Racing", description: "Racing slalom and giant slalom for HSRC, training on dry slope and snow with a focus on gate technique and line precision." },
+  { date: "Jun 2025", title: "Season opener, first win", category: "Racing", description: "Opened the 2025/26 record with a 1st place giant slalom finish and back-to-back podiums at the ERSA Summer League in Milton Keynes and Hemel Hempstead." },
+  { date: "Jul 2025", title: "Club National racing", category: "Racing", description: "Raced the ERSA and Hemel Club Nationals, with a 2nd-place category result at Snozone MK and further top-five category finishes at Hemel." },
+  { date: "Sep 2025", title: "Championship season", category: "Racing", description: "Third place at the Hemel Championships and fourth in U18 at the ERSA Championship in Milton Keynes." },
+  { date: "2025/26", title: "Mountain training camp, Tignes", category: "Training", description: "A dedicated snow-training camp in Tignes, adding mountain-racing mileage to a season built mostly on UK dry slope and indoor snow." },
+  { date: "Jun to Jul 2026", title: "Strong summer racing block", category: "Racing", description: "Multiple U18 podiums and top-four finishes at the ERSA Summer League, followed by the ERSA and Hemel Club Nationals." },
+  { date: "Ongoing", title: "Snow Shepherd Pro Deal", category: "Support", description: "On a Snow Shepherd Pro Deal, receiving 50% off Snow Shepherd products for training, racing and instructing." }
+];
 ---
 <BaseLayout title="Journey - Luca Finnis-Bernard" description="Racing milestones and coaching progression.">
   <ProgressBar />
@@ -20,7 +31,20 @@ import ProgressBar from '../components/ProgressBar.astro';
           <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.92] mb-6">The Journey So Far.</h1>
           <p class="text-lg text-white/70 leading-relaxed">Racing milestones and coaching progression built from confirmed dates and current roles.</p>
         </div>
-        <div class="border border-white/[0.08] mb-16" id="journey-list"></div>
+        <ul class="flex flex-col gap-px bg-white/[0.08] border border-white/[0.08] mb-16" id="journey-list">
+          {journey.map((j) => (
+            <li class="bg-[#080a0f] p-6 lg:p-8 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-10">
+              <span class="text-[10px] font-mono uppercase tracking-[0.22em] text-white/50 sm:w-36 shrink-0 pt-1">{j.date}</span>
+              <div>
+                <div class="flex flex-wrap items-center gap-3 mb-1.5">
+                  <h3 class="text-lg font-[family-name:var(--font-heading)] font-bold">{j.title}</h3>
+                  <span class="text-[9px] font-mono uppercase tracking-[0.2em] text-white/50 border border-white/10 px-2 py-0.5">{j.category}</span>
+                </div>
+                <p class="text-white/70 leading-relaxed">{j.description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
         <div class="grid lg:grid-cols-2 gap-12">
           <div class="border border-white/[0.08] p-8 lg:p-10 bg-[#080a0f]">
             <h2 class="text-2xl font-[family-name:var(--font-heading)] font-bold mb-6">Racing</h2>
@@ -37,7 +61,7 @@ import ProgressBar from '../components/ProgressBar.astro';
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
       <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
-      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard · <a href="/privacy" class="hover:text-white transition-colors">Privacy</a></p>
     </div>
   </footer>
   <script is:inline src="/data.js"></script>
