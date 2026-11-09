@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+
+const SNOWPATH_URL = 'https://snowpath.lucafinnisbernard.co.uk/';
+
+const features = [
+  { title: "Personalised pathways", text: "Ski racing, freestyle, freeride, snowboarding and instructor development - each with structured units, drills, plans and milestones." },
+  { title: "Graded quizzes & unlock chain", text: "Units unlock in order as athletes pass server-graded quizzes: 70% to pass, 80% on milestones, unlimited retakes." },
+  { title: "Clubs, groups & coaches", text: "Head coaches run clubs and groups, assign coaches, share plans and track attendance, with approval workflows built in." },
+  { title: "Course Builder", text: "Design slalom and GS courses on a scaled plan, store them in your club library and share simplified views with athletes." },
+  { title: "Safeguarding first", text: "Private medical notes, guarded messaging between minors and coaches, and audited admin actions across the platform." }
+];
+
+const roles = [
+  {
+    title: "Athletes",
+    points: [
+      "Follow a structured pathway with units that unlock as you pass quizzes",
+      "RSVP to sessions, log training and track goals and streaks",
+      "Push reminders before sessions, instant notice of cancellations",
+      "Works installed on your home screen, even with patchy mountain signal"
+    ]
+  },
+  {
+    title: "Coaches",
+    points: [
+      "Plan sessions, take attendance on the hill and post announcements",
+      "Fork pathway units into your own version and assign them to athletes",
+      "Share training plans with a squad and see who's actually opened them",
+      "Design slalom and GS courses in the Course Builder and share them"
+    ]
+  },
+  {
+    title: "Clubs",
+    points: [
+      "Groups, coaches, approvals and club-wide communication in one system",
+      "Under-18 safeguarding built in: guarded messaging, private medical notes",
+      "Every admin action is written to an audit log",
+      "Members join with a code you control - no public sign-ups into your club"
+    ]
+  }
+];
+
+const stats = [
+  { value: "8", label: "Training pathways" },
+  { value: "108", label: "Units, graded quiz by quiz" },
+  { value: "6", label: "Role types supported" },
+  { value: "Free", label: "While in beta" }
+];
+---
+<BaseLayout title="SnowPath - Training platform for ski & snowboard clubs" description="SnowPath - a mobile-first training platform built for ski and snowboard clubs: personalised athlete pathways, coach tooling, a course builder and safeguarding-first club admin. Free while in beta.">
+  <ProgressBar />
+  <Navigation />
+  <main id="main" class="pt-28 md:pt-36 pb-20 md:pb-24">
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-500/20 to-transparent"></div>
+      <div class="absolute -top-80 right-[-40%] w-[100vw] h-[100vw] rounded-full bg-gradient-to-br from-red-500/15 via-blue-500/10 to-transparent blur-3xl"></div>
+      <div class="mx-auto max-w-[1440px] px-6 lg:px-12 relative">
+        <div class="max-w-5xl mb-12 md:mb-16">
+          <div class="flex items-center gap-3 mb-6 md:mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-[0.32em] text-white/50">My project · Free while in beta</span>
+          </div>
+          <h1 class="font-[family-name:var(--font-display)] uppercase leading-[0.9] mb-8 md:mb-10 text-[11vw] sm:text-[8vw] lg:text-[6.5rem]">SNOW<span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-blue-400">PATH.</span></h1>
+          <p class="text-lg md:text-xl lg:text-2xl text-white/70 leading-relaxed max-w-4xl mb-10">The training pathway your club runs on. First gates to race day - personalised pathways for athletes, a proper toolkit for coaches, and the admin a club needs, in one mobile-first app.</p>
+          <div class="flex flex-wrap gap-3 sm:gap-4">
+            <a href={SNOWPATH_URL} target="_blank" rel="noopener noreferrer" class="relative inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
+              <span class="relative z-10">Open SnowPath</span>
+              <svg class="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+            </a>
+            <a href="/contact" class="inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 text-[10px] font-bold tracking-[0.24em] uppercase border border-white/30 hover:border-white/60 hover:bg-white/5 transition-all">Ask me about it</a>
+          </div>
+        </div>
+
+        <div class="max-w-4xl mb-16">
+          <p class="text-lg text-white/70 leading-relaxed mb-4">SnowPath is a platform I built for ski and snowboard clubs: a training-system alternative to the calendar, chat group and spreadsheet - schedules, attendance, announcements, plans, safety and course design in one place.</p>
+          <p class="text-lg text-white/70 leading-relaxed">It's designed around real coaching workflows, race-season logistics and safeguarding - not a generic booking tool.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+          {stats.map((s) => (
+            <div class="border border-white/[0.12] p-6">
+              <div class="text-2xl font-[family-name:var(--font-heading)] font-black mb-2">{s.value}</div>
+              <div class="text-[10px] font-mono uppercase tracking-[0.18em] text-white/50">{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mb-20">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <h2 class="text-2xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold">Everything a club needs</h2>
+          </div>
+          <ul class="flex flex-col gap-px bg-white/[0.08] border border-white/[0.08] max-w-4xl">
+            {features.map((f, i) => (
+              <li class="bg-[#080a0f] p-6 lg:p-8 flex gap-6 lg:gap-10">
+                <span class="text-xs font-mono text-white/30 pt-1 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 class="text-lg font-[family-name:var(--font-heading)] font-bold mb-1.5">{f.title}</h3>
+                  <p class="text-white/70 leading-relaxed">{f.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mb-20">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="flex gap-1.5">
+              <span class="w-2.5 h-4 border-2 border-red-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)]"></span>
+              <span class="w-2.5 h-4 border-2 border-blue-500 [clip-path:polygon(0_0,100%_25%,100%_75%,0_100%)] -ml-1.5"></span>
+            </div>
+            <h2 class="text-2xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold">Made for everyone on the team</h2>
+          </div>
+          <div class="grid lg:grid-cols-3 gap-6">
+            {roles.map((r) => (
+              <article class="border border-white/[0.08] p-8 bg-[#080a0f]">
+                <h3 class="text-xl font-[family-name:var(--font-heading)] font-bold mb-6">{r.title}</h3>
+                <ul class="flex flex-col gap-4">
+                  {r.points.map((p) => (
+                    <li class="flex gap-3 text-white/70 leading-relaxed">
+                      <span class="mt-2 w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+          <p class="mt-6 max-w-4xl text-sm text-white/50 leading-relaxed">Plus linked parent and guardian accounts for schedules, travel and consent - with medical notes kept private - and platform-level oversight for multi-club operators.</p>
+        </div>
+
+        <div class="border border-white/[0.12] bg-gradient-to-b from-white/[0.02] to-transparent p-8 lg:p-12 max-w-4xl mb-4">
+          <h2 class="text-2xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold mb-4">Start free</h2>
+          <p class="text-white/70 leading-relaxed max-w-3xl mb-8">SnowPath is free while in beta - no card, no paid tier hiding features. It runs in any modern browser and can be installed to your home screen for session reminders and offline schedules.</p>
+          <a href={SNOWPATH_URL} target="_blank" rel="noopener noreferrer" class="relative inline-flex items-center gap-3 px-8 sm:px-10 py-3.5 sm:py-4 text-[10px] font-bold tracking-[0.24em] uppercase bg-gradient-to-r from-red-500 to-red-600 overflow-hidden group">
+            <span class="relative z-10">Open SnowPath</span>
+            <svg class="relative z-10 w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></span>
+          </a>
+          <p class="mt-8 text-xs text-white/40 leading-relaxed">SnowPath is educational training content and club administration - not a substitute for qualified coaching or medical advice. On-snow decisions and athlete safety remain with qualified coaches.</p>
+        </div>
+
+        <a href="/" class="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.22em] text-white/40 hover:text-white transition-colors">← Back home</a>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-white/[0.08] py-10">
+    <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+      <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard · <a href="/privacy" class="hover:text-white transition-colors">Privacy</a></p>
+    </div>
+  </footer>
+  <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</BaseLayout>
