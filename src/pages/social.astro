@@ -155,7 +155,7 @@ const ytViews = socialTotals?.youtube?.views ?? null;
         <div class="mb-16">
           <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl lg:text-3xl font-[family-name:var(--font-heading)] font-bold">TikTok</h2>
-            <a href="https://tiktok.com/@luca.fb_ski" target="_blank" rel="noopener noreferrer" class="text-[10px] font-bold tracking-[0.24em] uppercase text-white/60 hover:text-white transition-colors">@luca.fb_ski • {ttFollowers.toLocaleString()} followers →</a>
+            <a href="https://tiktok.com/@luca.fb_ski" target="_blank" rel="noopener noreferrer" class="text-[10px] font-bold tracking-[0.24em] uppercase text-white/60 hover:text-white transition-colors">@luca.fb_ski{ttFollowers != null && <span> • {ttFollowers.toLocaleString()} followers</span>} →</a>
           </div>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <a href="https://www.tiktok.com/@luca.fb_ski/video/7682125034890071329" target="_blank" rel="noopener noreferrer" class="group relative border border-white/[0.12] overflow-hidden hover:border-white/40 transition-all">
@@ -247,7 +247,7 @@ const ytViews = socialTotals?.youtube?.views ?? null;
   <footer class="border-t border-white/[0.08] py-10">
     <div class="mx-auto max-w-[1440px] px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6">
       <p class="font-[family-name:var(--font-display)] tracking-[0.42em] uppercase">LUCA<span class="text-red-500">.</span>FB</p>
-      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard</p>
+      <p class="text-sm text-white/40">© <span id="year"></span> Luca Finnis-Bernard · <a href="/privacy" class="hover:text-white transition-colors">Privacy</a></p>
     </div>
   </footer>
   <script is:inline>document.getElementById('year').textContent = new Date().getFullYear();</script>

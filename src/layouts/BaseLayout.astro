@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 const { title = "Luca Finnis-Bernard | Alpine Ski Racer & BASI Level 2 Instructor", description = "British U18 alpine ski racer, BASI Ski UK Level 2 instructor and Snow Shepherd Pro Deal athlete racing for Hemel Ski Race Club." } = Astro.props;
+const route = Astro.url.pathname.replace(/\/+$/, "");
+const canonical = `https://lucafinnisbernard.co.uk${route === "" ? "/" : route + "/"}`;
 ---
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -10,15 +12,15 @@ const { title = "Luca Finnis-Bernard | Alpine Ski Racer & BASI Level 2 Instructo
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#050607" />
-    <link rel="canonical" href="https://lucafinnisbernard.co.uk/" />
+    <link rel="canonical" href={canonical} />
     
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content="https://lucafinnisbernard.co.uk/" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:image" content="https://lucafinnisbernard.co.uk/photos/Tignes.jpeg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="724" />
+    <meta property="og:image:height" content="1086" />
     <meta property="og:site_name" content="Luca Finnis-Bernard" />
     
     <meta name="twitter:card" content="summary_large_image" />

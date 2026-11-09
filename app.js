@@ -163,6 +163,15 @@
     return div.innerHTML;
   }
 
+  function escapeAttr(str) {
+    return String(str == null ? "" : str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   (function resultsToggle() {
     const btn = document.getElementById("results-toggle");
     const list = document.getElementById("results-list");
@@ -218,33 +227,38 @@
     if (!grid) return;
     const lightbox = document.getElementById("lightbox");
     const lbImg = lightbox.querySelector("img");
-    const lbCap = lightbox.querySelector(".lightbox-caption");
-    const lbClose = lightbox.querySelector(".lightbox-close");
-    const lbPrev = lightbox.querySelector(".lightbox-prev");
-    const lbNext = lightbox.querySelector(".lightbox-next");
+    const lbCap = lightbox.querySelector("#lb-cap") || lightbox.querySelector(".lightbox-caption");
+    const lbClose = lightbox.querySelector("#lb-close") || lightbox.querySelector(".lightbox-close");
+    const lbPrev = lightbox.querySelector("#lb-prev") || lightbox.querySelector(".lightbox-prev");
+    const lbNext = lightbox.querySelector("#lb-next") || lightbox.querySelector(".lightbox-next");
     let items = [];
     let idx = 0;
+    let lastTrigger = null;
 
-    function open(i) {
+    function open(i, trigger) {
       idx = i;
+      lastTrigger = trigger || null;
       const it = items[idx];
       lbImg.src = it.src;
       lbImg.alt = it.alt || it.name || "";
-      lbCap.textContent = it.alt || it.name || "";
+      if (lbCap) lbCap.textContent = it.alt || it.name || "";
       lightbox.classList.add("is-open");
       document.body.style.overflow = "hidden";
+      if (lbClose) lbClose.focus();
     }
     function close() {
       lightbox.classList.remove("is-open");
       document.body.style.overflow = "";
       lbImg.src = "";
+      if (lbImg) lbImg.removeAttribute("src");
+      if (lastTrigger) { lastTrigger.focus(); lastTrigger = null; }
     }
     function nav(dir) {
       idx = (idx + dir + items.length) % items.length;
       const it = items[idx];
       lbImg.src = it.src;
       lbImg.alt = it.alt || it.name || "";
-      lbCap.textContent = it.alt || it.name || "";
+      if (lbCap) lbCap.textContent = it.alt || it.name || "";
     }
     if (lbClose) lbClose.addEventListener("click", close);
     if (lbPrev) lbPrev.addEventListener("click", () => nav(-1));
@@ -261,29 +275,20 @@
       fetch(src + "?cache=" + Date.now(), { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
         .then((data) => {
-          if (Array.isArray(data) && data.length) {
-            items = data.map((f) => ({ src: "photos/" + encodeURIComponent(f).replace(/%2F/g, "/"), name: f, alt: f.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") }));
+          const raw = Array.isArray(data)
+            ? data
+            : (data && Array.isArray(data.photos) ? data.photos : []);
+          if (raw.length) {
+            items = raw.map((entry) => {
+              const file = typeof entry === "string" ? entry : (entry.file || entry.name || "");
+              const srcPath = typeof entry === "object" && entry.src ? entry.src : "photos/" + file;
+              const src = "photos/" + encodeURIComponent(String(srcPath).replace(/^photos\//, "")).replace(/%2F/g, "/");
+              const alt = typeof entry === "object" && (entry.caption || entry.alt) ? (entry.caption || entry.alt) : file.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
+              return { src: src, name: file, alt: alt };
+            });
             render();
             return;
           }
-          throw new Error();
-        })
-        .catch(() => fallback());
-    }
-
-    function fallback() {
-      fetch("https://api.github.com/repos/thismightnotwork/luca-ski-portfolio/contents/photos?ref=main", { cache: "no-store" })
-        .then((r) => (r.ok ? r.json() : Promise.reject()))
-        .then((list) => {
-          if (!Array.isArray(list)) throw new Error();
-          const exts = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"];
-          const bad = ["favicon", "apple-touch", "web-app-manifest", "site.webmanifest"];
-          items = list
-            .filter((f) => f.type === "file")
-            .filter((f) => exts.some((e) => f.name.toLowerCase().endsWith(e)))
-            .filter((f) => !bad.some((b) => f.name.toLowerCase().includes(b)))
-            .map((f) => ({ src: f.download_url, name: f.name, alt: f.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") }));
-          if (items.length) { render(); return; }
           throw new Error();
         })
         .catch(() => showError());
@@ -292,12 +297,17 @@
     function render() {
       grid.innerHTML = "";
       items.forEach((it, i) => {
+        const fig = document.createElement("figure");
         const btn = document.createElement("button");
         btn.className = "gallery-tile";
-        btn.setAttribute("aria-label", "View photo");
-        btn.innerHTML = '<div class="gallery-skeleton"></div><img data-src="' + escapeHtml(it.src) + '" alt="' + escapeHtml(it.alt) + '" loading="lazy"><figcaption>' + escapeHtml(it.alt) + '</figcaption>';
-        btn.addEventListener("click", () => open(i));
-        grid.appendChild(btn);
+        btn.setAttribute("aria-label", it.alt ? "View photo: " + it.alt : "View photo");
+        btn.innerHTML = '<div class="gallery-skeleton"></div><img data-src="' + escapeAttr(it.src) + '" alt="' + escapeAttr(it.alt) + '" loading="lazy">';
+        btn.addEventListener("click", () => open(i, btn));
+        const cap = document.createElement("figcaption");
+        cap.textContent = it.alt;
+        fig.appendChild(btn);
+        fig.appendChild(cap);
+        grid.appendChild(fig);
       });
       lazy();
     }
@@ -323,7 +333,7 @@
     }
 
     function showError() {
-      grid.innerHTML = '<div class="gallery-error"><strong>Gallery unavailable</strong><p>Photos could not be loaded. Please check the photos folder or try again.</p><a href="#" onclick="location.reload();return false;">Reload page</a></div>';
+      grid.innerHTML = '<div class="gallery-error"><strong>Gallery unavailable</strong><p>Photos could not be loaded. Please try again later.</p></div>';
     }
 
     load("photos/manifest.json");
@@ -332,19 +342,44 @@
   (function form() {
     const form = document.getElementById("contact-form");
     if (!form) return;
-    const status = document.getElementById("form-status");
+    const legacyStatus = document.getElementById("form-status");
+    const status = legacyStatus || document.getElementById("form-msg");
+    const tailwindMode = !legacyStatus && !!status;
     const endpoint = (typeof SITE_CONFIG !== "undefined" && SITE_CONFIG.formEndpoint) ? SITE_CONFIG.formEndpoint : "";
+
+    function showStatus(msg, kind) {
+      if (!status) return;
+      if (tailwindMode) {
+        const palette = kind === "error"
+          ? "border-red-500/40 bg-red-500/10 text-white/90"
+          : kind === "success"
+            ? "border-white/15 bg-white/5 text-white/90"
+            : "border-white/15";
+        status.className = "p-4 border text-sm " + palette;
+        status.innerHTML = msg;
+      } else {
+        const cls = kind === "error" ? "form-status is-visible error"
+          : kind === "success" ? "form-status is-visible success"
+            : "form-status is-visible info";
+        status.className = cls;
+        status.innerHTML = msg;
+      }
+    }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      form.querySelectorAll("[data-err]").forEach((err) => { err.classList.add("hidden"); err.textContent = ""; });
+      form.querySelectorAll("[aria-invalid]").forEach((i) => i.removeAttribute("aria-invalid"));
       form.querySelectorAll(".form-group").forEach((g) => g.classList.remove("has-error"));
       form.querySelectorAll(".form-error").forEach((err) => { err.classList.remove("is-visible"); err.textContent = ""; });
-      if (status) { status.className = "form-status"; status.textContent = ""; }
+      if (tailwindMode && status) { status.classList.add("hidden"); status.textContent = ""; }
+      else if (status) { status.className = "form-status"; status.textContent = ""; }
 
       const data = new FormData(form);
       const name = (data.get("name") || "").toString().trim();
       const email = (data.get("email") || "").toString().trim();
       const message = (data.get("message") || "").toString().trim();
+      const gotcha = (data.get("_gotcha") || "").toString();
       let valid = true;
       if (!name) { showErr("name", "Please enter your name"); valid = false; }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr("email", "Please enter a valid email"); valid = false; }
@@ -352,10 +387,7 @@
       if (!valid) return;
 
       if (!endpoint) {
-        if (status) {
-          status.className = "form-status is-visible info";
-          status.innerHTML = "Direct sending isn't configured yet. Email <a href=\"mailto:contact@lucafinnisbernard.co.uk\">contact@lucafinnisbernard.co.uk</a> or reach out via social media.";
-        }
+        showStatus("Direct sending isn't configured yet. Email <a href=\"mailto:contact@lucafinnisbernard.co.uk\" class=\"underline underline-offset-2\">contact@lucafinnisbernard.co.uk</a> or reach out via social media.", "info");
         return;
       }
 
@@ -368,14 +400,15 @@
           headers: { "Accept": "application/json" },
           body: data
         });
-        if (res.ok) {
+        const payload = await res.json().catch(() => ({}));
+        if (res.ok && (payload.ok !== false)) {
           form.reset();
-          if (status) { status.className = "form-status is-visible success"; status.textContent = "Message sent successfully. I'll get back to you soon."; }
+          showStatus('Message sent successfully. I\'ll get back to you soon.');
         } else {
-          throw new Error();
+          showStatus((payload.errors && payload.errors[0] && payload.errors[0].message) || "Something went wrong. Please email <a href=\"mailto:contact@lucafinnisbernard.co.uk\" class=\"underline underline-offset-2\">contact@lucafinnisbernard.co.uk</a> instead.", "error");
         }
       } catch {
-        if (status) { status.className = "form-status is-visible error"; status.textContent = "Something went wrong. Please email contact@lucafinnisbernard.co.uk instead."; }
+        showStatus("Something went wrong. Please email <a href=\"mailto:contact@lucafinnisbernard.co.uk\" class=\"underline underline-offset-2\">contact@lucafinnisbernard.co.uk</a> instead.", "error");
       } finally {
         if (btn) { btn.disabled = false; btn.innerHTML = "<span>Send message</span>"; }
       }
@@ -383,11 +416,18 @@
 
     function showErr(id, msg) {
       const input = document.getElementById(id);
+      if (!input) return;
       const group = input.closest(".form-group");
-      const err = group.querySelector(".form-error");
-      group.classList.add("has-error");
-      err.textContent = msg;
-      err.classList.add("is-visible");
+      const err = group && group.querySelector(".form-error")
+        ? group.querySelector(".form-error")
+        : form.querySelector('[data-err="' + id + '"]');
+      if (group && group.classList) group.classList.add("has-error");
+      if (err) {
+        err.textContent = msg;
+        err.classList.remove("hidden");
+        err.classList.add("is-visible");
+      }
+      input.setAttribute("aria-invalid", "true");
     }
   })();
 

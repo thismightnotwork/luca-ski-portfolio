@@ -2,14 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lucafinnisbernard.co.uk/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-11-03</lastmod>
   </url>
   <url>
-    <loc>https://lucafinnisbernard.co.uk/about.html</loc>
-    <lastmod>2026-08-19</lastmod>
+    <loc>https://lucafinnisbernard.co.uk/about</loc>
+    <lastmod>2026-11-03</lastmod>
   </url>
   <url>
-    <loc>https://lucafinnisbernard.co.uk/about.md</loc>
-    <lastmod>2026-08-19</lastmod>
+    <loc>https://lucafinnisbernard.co.uk/skiing</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/results</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/journey</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/gallery</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/social</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/snowpath</loc>
+    <lastmod>2026-11-09</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/contact</loc>
+    <lastmod>2026-11-03</lastmod>
+  </url>
+  <url>
+    <loc>https://lucafinnisbernard.co.uk/privacy</loc>
+    <lastmod>2026-11-03</lastmod>
   </url>
 </urlset>
